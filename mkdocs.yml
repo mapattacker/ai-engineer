@@ -1,0 +1,15 @@
+site_name: AI Engineer Guide
+theme:
+    name: 'material'
+    palette:
+        primary: 'purple'
+
+nav:
+    - Introduction: introduction.md
+    - Virtual Environment: virtual_env.md
+
+repo_name: mapattacker/ai-engineer
+repo_url: https://github.com/mapattacker/ai-engineer
+
+markdown_extensions:
+    - codehilite
