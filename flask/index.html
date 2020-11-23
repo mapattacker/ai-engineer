@@ -10,18 +10,18 @@
       
       
       
-      <link rel="shortcut icon" href="assets/images/favicon.png">
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-5.2.3">
     
     
       
-        <title>AI Engineer Guide</title>
+        <title>Flask - AI Engineer Guide</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.6e35a1a6.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.6e35a1a6.min.css">
       
-        <link rel="stylesheet" href="assets/stylesheets/palette.a46bcfb3.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.a46bcfb3.min.css">
       
       
         
@@ -57,7 +57,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#so-you-wana-be-an-ai-engineer" class="md-skip">
+        <a href="#simple-flask-app" class="md-skip">
           Skip to content
         </a>
       
@@ -68,7 +68,7 @@
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid" aria-label="Header">
-    <a href="." title="AI Engineer Guide" class="md-header-nav__button md-logo" aria-label="AI Engineer Guide">
+    <a href=".." title="AI Engineer Guide" class="md-header-nav__button md-logo" aria-label="AI Engineer Guide">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -85,7 +85,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Introduction
+              Flask
             
           </span>
         </div>
@@ -155,7 +155,7 @@
                   <div class="md-sidebar__inner">
                     <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="AI Engineer Guide" class="md-nav__button md-logo" aria-label="AI Engineer Guide">
+    <a href=".." title="AI Engineer Guide" class="md-nav__button md-logo" aria-label="AI Engineer Guide">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -183,6 +183,30 @@
       
       
 
+
+  <li class="md-nav__item">
+    <a href=".." title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../virtual_env/" title="Virtual Environment" class="md-nav__link">
+      Virtual Environment
+    </a>
+  </li>
+
+    
+      
+      
+      
+
   
 
 
@@ -193,34 +217,10 @@
       
     
     
-    <a href="." title="Introduction" class="md-nav__link md-nav__link--active">
-      Introduction
-    </a>
-    
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="virtual_env/" title="Virtual Environment" class="md-nav__link">
-      Virtual Environment
-    </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="flask/" title="Flask" class="md-nav__link">
+    <a href="./" title="Flask" class="md-nav__link md-nav__link--active">
       Flask
     </a>
+    
   </li>
 
     
@@ -251,7 +251,7 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/index.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/flask.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
@@ -259,25 +259,61 @@
                   
                 
                 
-                <h1 id="so-you-wana-be-an-ai-engineer">So You Wana Be an AI Engineer?</h1>
-<p>Ok, I think most people do not want to be an AI Engineer. </p>
-<hr>
+                <p>Flask is a micro web framework written in Python. It is easy and fast to implement. How is it relevant to AI? Sometimes, it might be necessary to run models in the a server or cloud, and the only way is to wrap the model in a web application. </p>
+<p>The input containing the data for predicting &amp; the model parameters, aka <code>Request</code> will be send to this API containing the model which does the prediction, and the <code>Response</code> containing the results will be returned. Flask is the most popular library for such a task.</p>
+<h1 id="simple-flask-app">Simple Flask App</h1>
+<p>Below is a simple flask app to serve an ML model's prediction. Assuming this app is named <code>serve_http.py</code>, we can launch this flask app locally via <code>python serve_http.py</code>. The API can be accessed via <code>http://localhost:5000/</code>.</p>
+<div class="codehilite"><pre><span></span><code><span class="sd">&quot;&quot;&quot;flask app for model prediction&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span>
 
-<p>Being an <strong>AI Scientist</strong> is more sexy &amp; is always at the front &amp; center of all the bosses, with smooches for executing seemingly difficult but yet copied from the latest SOTA open-sourced models. But who cares, the model works, the attention &amp; prestige is nice, &amp; hey, they have PhDs even though their theses, more often than not, has nothing to do with AI.</p>
-<hr>
+<span class="kn">from</span> <span class="nn">predict</span> <span class="kn">import</span> <span class="n">detectObj</span>
+<span class="kn">from</span> <span class="nn">utils_serve</span> <span class="kn">import</span> <span class="n">array2json</span><span class="p">,</span> <span class="n">from_base64</span>
 
-<p><strong>AI Engineers</strong> though, are the unsung heros. They understand modelling, they understand engineering, and heck, they know how to do almost anything! Database, web development, cloud engineering, application testing, deployment, and certainly how to train a SOTA model from an open-sourced repository too. Imagine a small data science team or during a crisis period, will they hire/retain an AI Scientist? Or an AI Engineer? The good thing is, you can always change your job role as AI Scientist anytime! Can't say that for the former. <img alt="😉" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/1f609.svg" title=":wink:" /></p>
-<p>Besides their full stack technical capabilities, good AI Engineers also need to have certain attributes. </p>
-<ul>
-<li>An incredible intolerance for slobby work</li>
-<li>Great organizational abilities</li>
-<li>A demand for reproductible work with strong documentation. </li>
-</ul>
-<p>Such a wide range of expertise is difficult to find, so a company who values AI Engineers will not devalue them in terms of compensation.</p>
-<hr>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<p>Still not convinced? Well, I would say that I have seen a number of AI Scientists starting to learn more engineering aspects of AI. Heck, even they secretly aspire to be an AI Engineer, though they still want to wear their scientists hats. <img alt="😀" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/1f600.svg" title=":grinning:" /></p>
-<p>Now that I'm done with the rambling, if you are ready to hop on the bandwagon, let's start with some basics.</p>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">get_predictions</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Returns pred output in json&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">req_json</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">json</span>
+
+        <span class="c1"># get image array</span>
+        <span class="n">encodedImage</span> <span class="o">=</span> <span class="n">req_json</span><span class="p">[</span><span class="s2">&quot;requests&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;image&quot;</span><span class="p">][</span><span class="s2">&quot;content&quot;</span><span class="p">]</span>
+        <span class="n">decodedImage</span> <span class="o">=</span> <span class="n">from_base64</span><span class="p">(</span><span class="n">encodedImage</span><span class="p">)</span>
+
+        <span class="c1"># get input arguments</span>
+        <span class="n">features</span> <span class="o">=</span> <span class="n">req_json</span><span class="p">[</span><span class="s2">&quot;requests&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;features&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">min_height</span> <span class="o">=</span> <span class="n">features</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;min_height&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="mf">0.03</span>
+        <span class="n">min_width</span> <span class="o">=</span> <span class="n">features</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;min_width&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="mf">0.03</span>
+        <span class="n">maxResults</span> <span class="o">=</span> <span class="n">features</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;maxResults&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">20</span>
+        <span class="n">score_th</span> <span class="o">=</span> <span class="n">features</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;score_th&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="mf">0.3</span>
+        <span class="n">nms_iou</span> <span class="o">=</span> <span class="n">features</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nms_iou&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="mf">0.4</span>
+
+        <span class="c1"># get pred-output</span>
+        <span class="n">pred_bbox</span> <span class="o">=</span> <span class="n">detectObj</span><span class="p">(</span>
+            <span class="n">decodedImage</span><span class="p">,</span> <span class="n">min_height</span><span class="p">,</span> <span class="n">min_width</span><span class="p">,</span> <span class="n">maxResults</span><span class="p">,</span> <span class="n">score_th</span><span class="p">,</span> <span class="n">nms_iou</span>
+        <span class="p">)</span>
+
+        <span class="c1"># format to response json output</span>
+        <span class="n">json_output</span> <span class="o">=</span> <span class="n">array2json</span><span class="p">(</span><span class="n">pred_bbox</span><span class="p">,</span> <span class="n">class_mapper</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">json_output</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</code></pre></div>
+
+
+<h1 id="gunicorn">Gunicorn</h1>
+<p>Flask as a server is meant for development, as it tries to remind you everytime you launch it. It has very limited parameters to manage the server, wrappers are available to connect Flask to a feature rich web server. <a href="https://gunicorn.org">Gunicorn</a> is one of the most popular, and also probably the easiest to use.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># gunicorn -w 2 flaskscript:flaskapp</span>
+<span class="c1"># it uses port 8000 by default, but we can change it</span>
+gunicorn --bind <span class="m">0</span>.0.0.0:5000 -w <span class="m">2</span> serve_http:app
+</code></pre></div>
                 
               
               
@@ -296,20 +332,20 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-        
-          <a href="virtual_env/" title="Virtual Environment" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../virtual_env/" title="Virtual Environment" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
-                  Next
+                  Previous
                 </span>
                 Virtual Environment
               </div>
             </div>
-            <div class="md-footer-nav__button md-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-            </div>
           </a>
+        
         
       </nav>
     </div>
@@ -330,15 +366,15 @@
       
     </div>
     
-      <script src="assets/javascripts/vendor.d710d30a.min.js"></script>
-      <script src="assets/javascripts/bundle.a45f732b.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      <script src="../assets/javascripts/vendor.d710d30a.min.js"></script>
+      <script src="../assets/javascripts/bundle.a45f732b.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
       
       <script>
         app = initialize({
-          base: ".",
+          base: "..",
           features: [],
           search: Object.assign({
-            worker: "assets/javascripts/worker/search.c03f0417.min.js"
+            worker: "../assets/javascripts/worker/search.c03f0417.min.js"
           }, typeof search !== "undefined" && search)
         })
       </script>
