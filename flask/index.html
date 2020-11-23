@@ -386,7 +386,7 @@
 
 
 <h2 id="gunicorn">Gunicorn</h2>
-<p>Flask as a server is meant for development, as it tries to remind you everytime you launch it. It has very limited parameters to manage the server, wrappers are available to connect Flask to a feature rich web server. <a href="https://gunicorn.org">Gunicorn</a> is one of the most popular, and also probably the easiest to use.</p>
+<p>Flask as a server is meant for development, as it tries to remind you everytime you launch it. It has very limited parameters to manage the server, but luckily wrappers are available to connect Flask to a feature rich web server. <a href="https://gunicorn.org">Gunicorn</a> is one of the most popular, and also probably the easiest to use.</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># gunicorn -w 2 flaskscript:flaskapp</span>
 <span class="c1"># it uses port 8000 by default, but we can change it</span>
 gunicorn --bind <span class="m">0</span>.0.0.0:5000 -w <span class="m">2</span> serve_http:app
