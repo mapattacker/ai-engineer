@@ -57,7 +57,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#simple-flask-app" class="md-skip">
+        <a href="#flask" class="md-skip">
           Skip to content
         </a>
       
@@ -217,9 +217,49 @@
       
     
     
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Flask
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
+        </span>
+      </label>
+    
     <a href="./" title="Flask" class="md-nav__link md-nav__link--active">
       Flask
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#simple-flask-app" class="md-nav__link">
+    Simple Flask App
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gunicorn" class="md-nav__link">
+    Gunicorn
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
     
   </li>
 
@@ -241,6 +281,30 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#simple-flask-app" class="md-nav__link">
+    Simple Flask App
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gunicorn" class="md-nav__link">
+    Gunicorn
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -259,9 +323,10 @@
                   
                 
                 
-                <p>Flask is a micro web framework written in Python. It is easy and fast to implement. How is it relevant to AI? Sometimes, it might be necessary to run models in the a server or cloud, and the only way is to wrap the model in a web application. </p>
+                <h1 id="flask">Flask</h1>
+<p>Flask is a micro web framework written in Python. It is easy and fast to implement. How is it relevant to AI? Sometimes, it might be necessary to run models in the a server or cloud, and the only way is to wrap the model in a web application. </p>
 <p>The input containing the data for predicting &amp; the model parameters, aka <code>Request</code> will be send to this API containing the model which does the prediction, and the <code>Response</code> containing the results will be returned. Flask is the most popular library for such a task.</p>
-<h1 id="simple-flask-app">Simple Flask App</h1>
+<h2 id="simple-flask-app">Simple Flask App</h2>
 <p>Below is a simple flask app to serve an ML model's prediction. Assuming this app is named <code>serve_http.py</code>, we can launch this flask app locally via <code>python serve_http.py</code>. The API can be accessed via <code>http://localhost:5000/</code>.</p>
 <div class="codehilite"><pre><span></span><code><span class="sd">&quot;&quot;&quot;flask app for model prediction&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span>
@@ -308,7 +373,7 @@
 </code></pre></div>
 
 
-<h1 id="gunicorn">Gunicorn</h1>
+<h2 id="gunicorn">Gunicorn</h2>
 <p>Flask as a server is meant for development, as it tries to remind you everytime you launch it. It has very limited parameters to manage the server, wrappers are available to connect Flask to a feature rich web server. <a href="https://gunicorn.org">Gunicorn</a> is one of the most popular, and also probably the easiest to use.</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># gunicorn -w 2 flaskscript:flaskapp</span>
 <span class="c1"># it uses port 8000 by default, but we can change it</span>
