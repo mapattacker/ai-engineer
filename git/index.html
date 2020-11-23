@@ -15,7 +15,7 @@
     
     
       
-        <title>Virtual Environment - AI Engineer Guide</title>
+        <title>Git - AI Engineer Guide</title>
       
     
     
@@ -57,7 +57,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#virtual-environment" class="md-skip">
+        <a href="#git" class="md-skip">
           Skip to content
         </a>
       
@@ -85,7 +85,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Virtual Environment
+              Git
             
           </span>
         </div>
@@ -195,6 +195,18 @@
       
       
 
+
+  <li class="md-nav__item">
+    <a href="../virtual_env/" title="Virtual Environment" class="md-nav__link">
+      Virtual Environment
+    </a>
+  </li>
+
+    
+      
+      
+      
+
   
 
 
@@ -206,14 +218,14 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Virtual Environment
+        Git
         <span class="md-nav__icon md-icon">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
         </span>
       </label>
     
-    <a href="./" title="Virtual Environment" class="md-nav__link md-nav__link--active">
-      Virtual Environment
+    <a href="./" title="Git" class="md-nav__link md-nav__link--active">
+      Git
     </a>
     
       
@@ -232,15 +244,29 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#anaconda" class="md-nav__link">
-    Anaconda
+  <a href="#check-code" class="md-nav__link">
+    Check Code
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#venv" class="md-nav__link">
-    VENV
+  <a href="#commit-code" class="md-nav__link">
+    Commit Code
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#branches" class="md-nav__link">
+    Branches
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#merge-request" class="md-nav__link">
+    Merge Request
   </a>
   
 </li>
@@ -249,18 +275,6 @@
   
 </nav>
     
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="../git/" title="Git" class="md-nav__link">
-      Git
-    </a>
   </li>
 
     
@@ -302,15 +316,29 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#anaconda" class="md-nav__link">
-    Anaconda
+  <a href="#check-code" class="md-nav__link">
+    Check Code
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#venv" class="md-nav__link">
-    VENV
+  <a href="#commit-code" class="md-nav__link">
+    Commit Code
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#branches" class="md-nav__link">
+    Branches
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#merge-request" class="md-nav__link">
+    Merge Request
   </a>
   
 </li>
@@ -327,7 +355,7 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/virtual_env.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/git.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
@@ -335,28 +363,40 @@
                   
                 
                 
-                <h1 id="virtual-environment">Virtual Environment</h1>
-<p>Every project has a different set of requirements &amp; different sets of python packages might be required to support it. The versions of each package can differ or break with each python or dependent packages versions update, so it is important to isolate every project within an enclosed virtual environment.</p>
-<h2 id="anaconda">Anaconda</h2>
-<p><a href="https://www.anaconda.com">Anaconda</a> is a python installation that bundles all essential packages for a data science project, hence by default most people will have this installed. It comes with its own virtual environment. Here are the basic commands to create &amp; remove.</p>
-<div class="codehilite"><pre><span></span><code>conda create -n &lt;yourenvname&gt; <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.7
-pip install -r requirements.txt
-conda activate &lt;yourenvname&gt;
-conda deactivate
-
-conda env list
-conda env remove -n &lt;yourenvname&gt;
+                <h1 id="git">Git</h1>
+<p>Git is the most popular source code version control system. Popular software development hosts like Github, Gitlab, Bitbucket all uses git.</p>
+<h2 id="check-code">Check Code</h2>
+<div class="codehilite"><pre><span></span><code><span class="c1"># check for any changes for all files</span>
+git status
+<span class="c1"># check for code changes in a file</span>
+git diff &lt;filename&gt;
 </code></pre></div>
 
 
-<h2 id="venv">VENV</h2>
-<p>venv is my next favourite, as it is a default library shipped with python, and very easy to setup. The libraries will be installed in the directory you are in, so remember to add the folder in <code>.gitignore</code>. To remove the libraries, just delete the folder that was created.</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> &lt;projectfolder&gt;
-python -m venv &lt;name&gt;
-<span class="nb">source</span> &lt;name&gt;/bin/activate
-pip install -r requirements.txt
-deactivate
+<h2 id="commit-code">Commit Code</h2>
+<p>To commit your code, we first add the file or all files in a folder, followed by a commit msg, and then push to the remote (hosting service like github).</p>
+<p>It is essential to commit small code changes to prevent the repository owner from being overwhelmed when validating your code.</p>
+<div class="codehilite"><pre><span></span><code>git add &lt;fileOrfolder&gt;
+git commit -m <span class="s2">&quot;your commit msg&quot;</span>
+git push
 </code></pre></div>
+
+
+<h2 id="branches">Branches</h2>
+<p>Branches plays a key role in git. This allows multiple users to coordinate in a project, which each working on a separate branch. As a rule of thumb, we do not push any codes directly to the master branch. The owner of the repository will usually disable this option.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># check which branch you are at</span>
+git branch
+<span class="c1"># pull updates from remote</span>
+git fetch
+<span class="c1"># change to dev branch</span>
+git checkout dev
+<span class="c1"># create a new local branch</span>
+git checkout -b &lt;featurename&gt;
+</code></pre></div>
+
+
+<h2 id="merge-request">Merge Request</h2>
+<p>Also known as Pull Request, this is an option in e.g., Github GUI, to merge the code from one branch to another, e.g. dev to master. The branch owner will validate the code changes, give comments, and accept/reject the request.</p>
                 
               
               
@@ -375,7 +415,7 @@ deactivate
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href=".." title="Introduction" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../virtual_env/" title="Virtual Environment" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -384,19 +424,19 @@ deactivate
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Introduction
+                Virtual Environment
               </div>
             </div>
           </a>
         
         
-          <a href="../git/" title="Git" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../flask/" title="Flask" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Git
+                Flask
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
