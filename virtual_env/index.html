@@ -341,7 +341,7 @@
 <h2 id="virtual-environment">Virtual Environment</h2>
 <p>Every project has a different set of requirements &amp; different sets of python packages might be required to support it. The versions of each package can differ or break with each python or dependent packages versions update, so it is important to isolate every project within an enclosed virtual environment.</p>
 <h3 id="anaconda">Anaconda</h3>
-<p><a href="https://anaconda.org">Anaconda</a> is a python installation that bundles all essential packages for a data science project, hence by default most people will have this installed. It comes with its own virtual environment. Here are the basic commands to create &amp; remove.</p>
+<p><a href="https://www.anaconda.com">Anaconda</a> is a python installation that bundles all essential packages for a data science project, hence by default most people will have this installed. It comes with its own virtual environment. Here are the basic commands to create &amp; remove.</p>
 <div class="codehilite"><pre><span></span><code>conda create -n &lt;yourenvname&gt; <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.7
 pip install -r requirements.txt
 conda activate &lt;yourenvname&gt;
@@ -353,8 +353,7 @@ conda env remove -n &lt;yourenvname&gt;
 
 
 <h3 id="venv">VENV</h3>
-<p>venv is my next favourite, as it is a default library shipped with python, and very easy to setup. The libraries will be installed in the directory you are in, so remember to add the folder in <code>.gitignore</code>.
-To remove the libraries, just delete the folder that was created.</p>
+<p>venv is my next favourite, as it is a default library shipped with python, and very easy to setup. The libraries will be installed in the directory you are in, so remember to add the folder in <code>.gitignore</code>. To remove the libraries, just delete the folder that was created.</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">cd</span> &lt;projectfolder&gt;
 python -m venv &lt;name&gt;
 <span class="nb">source</span> &lt;name&gt;/bin/activate
