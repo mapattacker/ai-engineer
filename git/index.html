@@ -244,8 +244,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#check-code" class="md-nav__link">
-    Check Code
+  <a href="#branches" class="md-nav__link">
+    Branches
   </a>
   
 </li>
@@ -253,13 +253,6 @@
         <li class="md-nav__item">
   <a href="#commit-code" class="md-nav__link">
     Commit Code
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#branches" class="md-nav__link">
-    Branches
   </a>
   
 </li>
@@ -316,8 +309,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#check-code" class="md-nav__link">
-    Check Code
+  <a href="#branches" class="md-nav__link">
+    Branches
   </a>
   
 </li>
@@ -325,13 +318,6 @@
         <li class="md-nav__item">
   <a href="#commit-code" class="md-nav__link">
     Commit Code
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#branches" class="md-nav__link">
-    Branches
   </a>
   
 </li>
@@ -364,24 +350,19 @@
                 
                 
                 <h1 id="git">Git</h1>
-<p>Git is the most popular source code version control system. Popular software development hosts like Github, Gitlab, Bitbucket all uses git.</p>
-<h2 id="check-code">Check Code</h2>
-<div class="codehilite"><pre><span></span><code><span class="c1"># check for any changes for all files</span>
-git status
-<span class="c1"># check for code changes in a file</span>
-git diff &lt;filename&gt;
-</code></pre></div>
-
-
-<h2 id="commit-code">Commit Code</h2>
-<p>To commit your code, we first add the file or all files in a folder, followed by a commit msg, and then push to the remote (hosting service like github).</p>
-<p>It is essential to commit small code changes to prevent the repository owner from being overwhelmed when validating your code.</p>
-<div class="codehilite"><pre><span></span><code>git add &lt;fileOrfolder&gt;
-git commit -m <span class="s2">&quot;your commit msg&quot;</span>
-git push
-</code></pre></div>
-
-
+<p>Git is the most popular source code version control system. Popular software development hosts like Github, Gitlab, Bitbucket all uses git. It is essential for two main purposes:</p>
+<ol>
+<li><strong>Verion Control</strong>: allows rollback of code</li>
+<li><strong>Branches</strong>: allows different components to be developed concurrently and merged to a single branch later</li>
+</ol>
+<p>The process works roughly like this:</p>
+<ol>
+<li>Create a new branch</li>
+<li>Work on a new feature</li>
+<li>Commit &amp; push a small component</li>
+<li>Send a merge request to e.g. dev branch</li>
+<li>Reviewer approve code</li>
+</ol>
 <h2 id="branches">Branches</h2>
 <p>Branches plays a key role in git. This allows multiple users to coordinate in a project, which each working on a separate branch. As a rule of thumb, we do not push any codes directly to the master branch. The owner of the repository will usually disable this option.</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># check which branch you are at</span>
@@ -395,6 +376,25 @@ git checkout -b &lt;featurename&gt;
 </code></pre></div>
 
 
+<h2 id="commit-code">Commit Code</h2>
+<p>Prior to commit our code, we should check the changes we made.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># check for any changes for all files</span>
+git status
+<span class="c1"># check for code changes in a file</span>
+git diff &lt;filename&gt;
+</code></pre></div>
+
+
+<p>To commit your code, we first add the file or all files in a folder, followed by a commit msg, and then push to the remote (hosting service like github).</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># in case there are new commits in the dev branch</span>
+git merge &lt;branchtomergelater&gt;
+git add &lt;fileOrfolder&gt;
+git commit -m <span class="s2">&quot;your commit msg&quot;</span>
+git push
+</code></pre></div>
+
+
+<p>It is essential to commit small, bite size code changes to prevent the reviewer from being overwhelmed when validating your code during a merge request.</p>
 <h2 id="merge-request">Merge Request</h2>
 <p>Also known as Pull Request, this is an option in e.g., Github GUI, to merge the code from one branch to another, e.g. dev to master. The branch owner will validate the code changes, give comments, and accept/reject the request.</p>
                 
