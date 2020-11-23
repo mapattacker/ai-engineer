@@ -5,7 +5,7 @@ theme:
         primary: 'purple'
 
 nav:
-    - Introduction: introduction.md
+    - Introduction: index.md
     - Virtual Environment: virtual_env.md
 
 repo_name: mapattacker/ai-engineer
