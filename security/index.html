@@ -56,6 +56,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#security-scans" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -222,12 +227,126 @@
   </li>
 
     
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Security
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
+        </span>
+      </label>
+    
+    <a href="./" title="Security" class="md-nav__link md-nav__link--active">
+      Security
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#source-code-scan" class="md-nav__link">
+    Source Code Scan
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependency-scan" class="md-nav__link">
+    Dependency Scan
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#secrets-scan" class="md-nav__link">
+    Secrets Scan
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
   </ul>
 </nav>
                   </div>
                 </div>
               </div>
             
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#source-code-scan" class="md-nav__link">
+    Source Code Scan
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependency-scan" class="md-nav__link">
+    Dependency Scan
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#secrets-scan" class="md-nav__link">
+    Secrets Scan
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
             
           
           <div class="md-content">
@@ -242,9 +361,45 @@
                   
                 
                 
-                  <h1>Security</h1>
-                
-                
+                <h1 id="security-scans">Security Scans</h1>
+<p>If your work moves to production, you will definitely want to ensure that you have done your part to identify &amp; resolve any security vulnerabilities present in the source code. We can use various open-sourced libraries to help out.</p>
+<h2 id="source-code-scan">Source Code Scan</h2>
+<p>Also known as Static Application Security Test (SAST), the most popular python src scanning is <a href="https://bandit.readthedocs.io/en/latest/">bandit</a>. Each vulnerability detected is classified by their severity &amp; confidence level.</p>
+<ul>
+<li>Installation: <code>pip install bandit</code></li>
+<li>Single File: <code>bandit your_file.py</code></li>
+<li>Directory: <code>bandit -r ~/your_repos/project</code></li>
+<li>Display only High Severities: <code>bandit -r ~/your_repos/project -lll</code></li>
+<li>Json Output: <code>bandit --format json --recursive project/ -l --output bandit.json</code></li>
+<li>Skip Certain Vulnerabilities, by placing <code>.bandit</code> file at directory to check</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="k">[bandit]</span>
+<span class="na">skips: B104,B101</span>
+</code></pre></div>
+
+
+<p>Here is a bash script to detect the presence of high vulnerabilities.</p>
+<div class="codehilite"><pre><span></span><code>bandit -r ../<span class="nv">$module</span> -lll
+bandit --format json --recursive ../<span class="nv">$module</span> --output bandit.json
+<span class="nv">high_count</span><span class="o">=</span><span class="k">$(</span>cat bandit.json <span class="p">|</span> jq <span class="s1">&#39;[.results [] | select(.issue_severity==&quot;HIGH&quot;)]&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;. | length&#39;</span><span class="k">)</span>
+</code></pre></div>
+
+
+<h2 id="dependency-scan">Dependency Scan</h2>
+<p>This scans for vulnerabilities in python libraries. <a href="https://github.com/pyupio/safety">safety</a> is decent open-sourced library with the free database being updated once a month. However, it does not classify vulnerabilities by severity levels.</p>
+<ul>
+<li>Installation: <code>pip install safety</code></li>
+<li>Check installed packages in VM: <code>safety check</code></li>
+<li>Check requirements.txt, does not include dependencies: <code>safety check -r requirements.txt</code></li>
+<li>Full Report: <code>safety check --full-report</code></li>
+<li>Json Output: <code>safety check --json --output insecure_report.json</code></li>
+</ul>
+<h2 id="secrets-scan">Secrets Scan</h2>
+<p><a href="https://github.com/Yelp/detect-secrets">detect-secrets</a> scans for the presence of a variety of secrets &amp; passwords. It creates a json output, with the key "results" filled if any secrets are detected.</p>
+<ul>
+<li>Installation: <code>pip install detect-secrets</code></li>
+<li>Directory: <code>detect-secrets scan directory/*</code></li>
+</ul>
                 
               
               
@@ -259,6 +414,27 @@
       
         
 <footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../flask/" title="Flask" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Flask
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
