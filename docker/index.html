@@ -471,7 +471,7 @@
 <p>Ah... the new world of microservices. Docker is the company that stands at the forefront of modular applications, also known as microservices, where each of them can &amp; usually communicate via APIs. This "container" service is wildly popular, because it is OS-agnostic &amp; resource light, with the only dependency is that docker needs to be installed.</p>
 <p>Some facts:</p>
 <ul>
-<li>All Docker images are linux-based</li>
+<li>All Docker images are linux, usually either alpine or debian</li>
 <li>Docker is not the only container service available, but the most widely used</li>
 </ul>
 <h2 id="basics">Basics</h2>
@@ -566,7 +566,13 @@ sudo docker ps -a
 
 
 <h3 id="clean">Clean</h3>
-<p>Each iteration of rebuilding and relaunching of containers will create a lot of intermediate images, and stopped containers. These can occupy a lot of space, so it is important to remove these unused items from time to time.</p>
+<p>To manually remove a container or image, used the below commands. Add <code>-f</code> to forcefully remove if the container is still running.</p>
+<div class="codehilite"><pre><span></span><code>sudo docker rm &lt;container-id/name&gt;
+sudo docker rmi &lt;image-id/name&gt;
+</code></pre></div>
+
+
+<p>Each iteration of rebuilding and relaunching of containers will create a lot of intermediate images, and stopped containers. These can occupy a lot of space, so using <code>prune</code> can remove all these obsolete items at one go.</p>
 <div class="codehilite"><pre><span></span><code>sudo docker image prune
 sudo docker container prune
 sudo docker system prune
