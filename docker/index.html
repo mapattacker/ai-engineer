@@ -572,9 +572,13 @@ sudo docker system prune
 
 
 <h3 id="debug">Debug</h3>
-<div class="codehilite"><pre><span></span><code>sudo docker <span class="nb">exec</span> -it &lt;container name/id&gt; bash
+<p>We can check the console logs of the Flask app by opening up docker logs in live mode using <code>-f</code>.</p>
+<div class="codehilite"><pre><span></span><code>sudo docker logs -f container_name
+</code></pre></div>
 
-sudo docker logs -f container_name
+
+<p>At times, we might need to check what is inside the container.</p>
+<div class="codehilite"><pre><span></span><code>sudo docker <span class="nb">exec</span> -it &lt;container name/id&gt; bash
 </code></pre></div>
                 
               
