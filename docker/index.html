@@ -268,6 +268,30 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basics" class="md-nav__link">
+    Basics
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dockerfile" class="md-nav__link">
+    Dockerfile
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -287,6 +311,47 @@
                 
                 
                 <h1 id="docker">Docker</h1>
+<p>Ah... the new world of microservices. Docker is the company that stands at the forefront of modular applications, also known as microservices, where each of them can &amp; usually communicate via APIs. This "container" service is wildly popular, because it is OS-agnostic &amp; resource light, with the only dependency is that docker needs to be installed.</p>
+<p>Some facts:
+ * All Docker images are linux-based
+ * Docker is not the only container service available, but the most widely used</p>
+<h2 id="basics">Basics</h2>
+<p>There are various <code>nouns</code> that are important in the Docker world.</p>
+<ul>
+<li><strong>Image</strong>: Installed version of an application</li>
+<li><strong>Container</strong>: Launched instance of an application from an image</li>
+<li><strong>Container Registry</strong>: a hosting platform to store your images. E.g. Docker Container Registry (DCR), AWS Elastic Container Registry (ECR)</li>
+<li><strong>Dockerfile</strong>: A file containing instructions to build an image</li>
+</ul>
+<p>There are various <code>verbs</code> that are important in the Docker world.</p>
+<ul>
+<li><strong>build</strong>: Copy &amp; install necessary packages &amp; scripts to create an image</li>
+<li><strong>run</strong>: Launch a container from an image</li>
+<li><strong>rm</strong> or <strong>rmi</strong>: remove a container or image respectively</li>
+<li><strong>prune</strong>: clear obsolete images, containers or network</li>
+</ul>
+<h2 id="dockerfile">Dockerfile</h2>
+<p>The <code>Dockerfile</code> is the essence of Docker, where it contains instructions on how to build an image. There are four main instructions:</p>
+<ul>
+<li><code>FROM</code>: base image to build on</li>
+<li><code>RUN</code>: install dependencies</li>
+<li><code>COPY</code>: copy files &amp; scripts </li>
+<li><code>CMD</code> or <code>ENTRYPOINT</code>: command to launch the application</li>
+</ul>
+<p>Each line in the Dockerfile is cached in memory by sequence, so that a rebuilding of image will not need to start from the beginning but the last line where there are changes. Therefore it is always important to always (copy and) install the dependencies first before copying over the rest of the source codes, as shown below.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">FROM</span> <span class="s">python:3.7</span>
+
+<span class="k">RUN</span> apt-get update
+<span class="k">RUN</span> apt-get install ffmpeg libsm6 libxext6 -y
+
+<span class="k">COPY</span> requirements-serve.txt .
+<span class="k">RUN</span> pip install --upgrade pip
+<span class="k">RUN</span> pip install -r requirements-serve.txt
+
+<span class="k">COPY</span> . .
+
+<span class="k">ENTRYPOINT</span> <span class="p">[</span> <span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="s2">&quot;-u&quot;</span><span class="p">,</span> <span class="s2">&quot;serve_http.py&quot;</span> <span class="p">]</span>
+</code></pre></div>
                 
               
               
