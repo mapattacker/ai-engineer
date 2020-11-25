@@ -7,9 +7,17 @@ theme:
 nav:
     - Introduction: index.md
     - Virtual Environment: virtual_env.md
+    - Code Version Control: git.md
+    - Code Standards: code-standards.md
+    - Security: security.md
+    - Flask: flask.md
+    - Docker: docker.md
 
 repo_name: mapattacker/ai-engineer
 repo_url: https://github.com/mapattacker/ai-engineer
 
 markdown_extensions:
     - codehilite
+    - pymdownx.emoji:
+        emoji_index: !!python/name:materialx.emoji.twemoji
+        emoji_generator: !!python/name:materialx.emoji.to_svg
