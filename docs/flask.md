@@ -140,4 +140,4 @@ if __name__ == "__main__":
 
 ### Postman
 
-![](https://github.com/mapattacker/computer-vision-python/raw/master/images/postman.png)
+![](https://github.com/mapattacker/ai-engineer/blob/master/images/postman.png)
