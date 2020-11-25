@@ -348,6 +348,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#network" class="md-nav__link">
+    Network
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -438,6 +445,13 @@
           <li class="md-nav__item">
   <a href="#debug" class="md-nav__link">
     Debug
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#network" class="md-nav__link">
+    Network
   </a>
   
 </li>
@@ -588,6 +602,17 @@ sudo docker system prune
 <p>At times, we might need to check what is inside the container.</p>
 <div class="codehilite"><pre><span></span><code>sudo docker <span class="nb">exec</span> -it &lt;container name/id&gt; bash
 </code></pre></div>
+
+
+<h3 id="network">Network</h3>
+<p>For different containers to communicate to each other, we need to set a fixed network as the IP will change with each instance. We can do so by creating a network and setting it in when the container is launched.</p>
+<div class="codehilite"><pre><span></span><code>docker network create &lt;name&gt;
+docker run -d --network &lt;name&gt; --name<span class="o">=</span>&lt;containera&gt; &lt;imagea&gt;
+docker run -d --network &lt;name&gt; --name<span class="o">=</span>&lt;containerb&gt; &lt;imageb&gt;
+</code></pre></div>
+
+
+<p>Alternatively, we can launch the containers together using docker-compose, and they will automatically be in the same network.</p>
                 
               
               
