@@ -516,19 +516,59 @@
 </ul>
 <h2 id="basics">Basics</h2>
 <p>There are various <code>nouns</code> that are important in the Docker world.</p>
-<ul>
-<li><strong>Image</strong>: Installed version of an application</li>
-<li><strong>Container</strong>: Launched instance of an application from an image</li>
-<li><strong>Container Registry</strong>: a hosting platform to store your images. E.g. Docker Container Registry (DCR), AWS Elastic Container Registry (ECR)</li>
-<li><strong>Dockerfile</strong>: A file containing instructions to build an image</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>Noun</th>
+<th>Desc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Image</td>
+<td>Installed version of an application</td>
+</tr>
+<tr>
+<td>Container</td>
+<td>Launched instance of an application from an image</td>
+</tr>
+<tr>
+<td>Container Registry</td>
+<td>a hosting platform to store your images. E.g. Docker Container Registry (DCR), AWS Elastic Container Registry (ECR)</td>
+</tr>
+<tr>
+<td>Dockerfile</td>
+<td>A file containing instructions to build an image</td>
+</tr>
+</tbody>
+</table>
 <p>Also, these are the various <code>verbs</code> that are important in the Docker world.</p>
-<ul>
-<li><strong>build</strong>: Copy &amp; install necessary packages &amp; scripts to create an image</li>
-<li><strong>run</strong>: Launch a container from an image</li>
-<li><strong>rm</strong> or <strong>rmi</strong>: remove a container or image respectively</li>
-<li><strong>prune</strong>: clear obsolete images, containers or network</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>Verb</th>
+<th>Desc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>build</td>
+<td>Copy &amp; install necessary packages &amp; scripts to create an image</td>
+</tr>
+<tr>
+<td>run</td>
+<td>Launch a container from an image</td>
+</tr>
+<tr>
+<td>rm or rmi</td>
+<td>remove a container or image respectively</td>
+</tr>
+<tr>
+<td>prune</td>
+<td>clear obsolete images, containers or network</td>
+</tr>
+</tbody>
+</table>
 <h2 id="dockerfile">Dockerfile</h2>
 <p>The <code>Dockerfile</code> is the essence of Docker, where it contains instructions on how to build an image. There are four main instructions:</p>
 <ul>
