@@ -326,8 +326,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#basics" class="md-nav__link">
-    Basics
+  <a href="#how-to-use" class="md-nav__link">
+    How to Use
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commands" class="md-nav__link">
+    Commands
   </a>
   
 </li>
@@ -392,8 +399,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#basics" class="md-nav__link">
-    Basics
+  <a href="#how-to-use" class="md-nav__link">
+    How to Use
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commands" class="md-nav__link">
+    Commands
   </a>
   
 </li>
@@ -438,7 +452,7 @@
 <p><a href="https://github.com/Miserlou/Zappa">Zappa</a> is a popular python library used to automatically launch python lambda functions &amp; api-gateways.</p>
 <h3 id="venv">VENV</h3>
 <p>Your application/function needs a virtual environment with all the relevant python libraries installed in the root. See the <a href="https://mapattacker.github.io/ai-engineer/virtual_env/">Virtual Environment</a> example on how to use venv for this. Before zappa deployment, ensure that the venv is activated and the app works.</p>
-<h3 id="basics">Basics</h3>
+<h3 id="how-to-use">How to Use</h3>
 <p>After installing zappa, we init it at the root of your function, which will create a default zappa_settings.json. </p>
 <div class="codehilite"><pre><span></span><code>pip install zappa
 zappa init
@@ -472,6 +486,8 @@ zappa init
 <li>API gateway to this lambda is setup</li>
 </ul>
 <p>We might encounter errors along the way; to view the logs, we can use <code>zappa tail</code>, which extract the tail logs from AWS CloudWatch.</p>
+<p>If we are using other frameworks to upload our lambda, e.g. <a href="https://www.serverless.com">Serverless</a>, we can also use zappa to zip the code only.</p>
+<h3 id="commands">Commands</h3>
 <table>
 <thead>
 <tr>
@@ -510,7 +526,6 @@ zappa init
 </tr>
 </tbody>
 </table>
-<p>If we are using other frameworks to upload our lambda, e.g. <a href="https://www.serverless.com">Serverless</a>, we can also use zappa to zip the code only.</p>
                 
               
               
