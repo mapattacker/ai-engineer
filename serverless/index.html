@@ -427,9 +427,13 @@
 <p>Serverless does not mean that are no servers, but rather, refers to a server that will spin up only when required, and shut down when the job is done. Such an architecure has potential to save a lot costs.</p>
 <p>Of course, the requirement for serverless is that the job should be something that is light, and not required to run 24/7.</p>
 <p>This can be an AI microservice, or intermediate functions, e.g. taking data from S3 &gt; process the data &gt; send to AI microservice.</p>
+<hr>
+
 <h2 id="lambda-api-gateway">Lambda &amp; API Gateway</h2>
 <p>In AWS, the serverless architecture is done using a lambda function, with an accompanying API gateway (if required), which generates an API URL for the function. The gateway can also control access through an API token, and have rate limits.</p>
 <p>It is also important to note that the lambda function can only have a size of <strong>50 Mb</strong>, If required, certain blobs can be stored in S3 and lambda can access from there. It also have a default runtime of 30sec, and can be increase to a maximum of <strong>15 mins</strong>.</p>
+<hr>
+
 <h2 id="zappa">Zappa</h2>
 <p><a href="https://github.com/Miserlou/Zappa">Zappa</a> is a popular python library used to automatically launch python lambda functions &amp; api-gateways.</p>
 <h3 id="venv">VENV</h3>
@@ -504,6 +508,7 @@ zappa init
 </tr>
 </tbody>
 </table>
+<p>If we are using other frameworks to upload our lambda, e.g. <a href="https://www.serverless.com">Serverless</a>, we can also use zappa to zip the code only.</p>
                 
               
               
