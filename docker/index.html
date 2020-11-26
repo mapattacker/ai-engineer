@@ -571,12 +571,32 @@
 </table>
 <h2 id="dockerfile">Dockerfile</h2>
 <p>The <code>Dockerfile</code> is the essence of Docker, where it contains instructions on how to build an image. There are four main instructions:</p>
-<ul>
-<li><code>FROM</code>: base image to build on, pulled from Docker Container Registry</li>
-<li><code>RUN</code>: install dependencies</li>
-<li><code>COPY</code>: copy files &amp; scripts </li>
-<li><code>CMD</code> or <code>ENTRYPOINT</code>: command to launch the application</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>CMD</th>
+<th>Desc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FROM</code></td>
+<td>base image to build on, pulled from Docker Container Registry</td>
+</tr>
+<tr>
+<td><code>RUN</code></td>
+<td>install dependencies</td>
+</tr>
+<tr>
+<td><code>COPY</code></td>
+<td>copy files &amp; scripts</td>
+</tr>
+<tr>
+<td><code>CMD</code> or <code>ENTRYPOINT</code></td>
+<td>command to launch the application</td>
+</tr>
+</tbody>
+</table>
 <p>Each line in the Dockerfile is cached in memory by sequence, so that a rebuilding of image will not need to start from the beginning but the last line where there are changes. Therefore it is always important to always (copy and) install the dependencies first before copying over the rest of the source codes, as shown below.</p>
 <div class="codehilite"><pre><span></span><code><span class="k">FROM</span> <span class="s">python:3.7</span>
 
