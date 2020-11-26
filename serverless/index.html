@@ -463,12 +463,14 @@ zappa init
 </code></pre></div>
 
 
-<p>Then, we will deploy it to the cloud, by stating the stage. Behind the scenes, it does all these:
- * New user policy is created for lambda execution
- * Zappa will do some wrapping of your code &amp; libraries, then package it as a zip
- * The zip will be uploaded to an S3 bucket stated in zappa_settings.json
- * Lambda will recieve the zip from S3 and launch the application
- * API gateway to this lambda is setup</p>
+<p>Then, we will deploy it to the cloud, by stating the stage. Behind the scenes, it does all these:</p>
+<ul>
+<li>New user policy is created for lambda execution</li>
+<li>Zappa will do some wrapping of your code &amp; libraries, then package it as a zip</li>
+<li>The zip will be uploaded to an S3 bucket stated in zappa_settings.json</li>
+<li>Lambda will recieve the zip from S3 and launch the application</li>
+<li>API gateway to this lambda is setup</li>
+</ul>
 <p>We might encounter errors along the way; to view the logs, we can use <code>zappa tail</code>, which extract the tail logs from AWS CloudWatch.</p>
 <table>
 <thead>
