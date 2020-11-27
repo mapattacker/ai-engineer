@@ -277,8 +277,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#add-data-to-s3" class="md-nav__link">
-    Add Data to S3
+  <a href="#push-data-to-s3" class="md-nav__link">
+    Push Data to S3
   </a>
   
 </li>
@@ -291,8 +291,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#retrieve-data" class="md-nav__link">
-    Retrieve Data
+  <a href="#retrieve-data-from-s3" class="md-nav__link">
+    Retrieve Data from S3
   </a>
   
 </li>
@@ -418,8 +418,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#add-data-to-s3" class="md-nav__link">
-    Add Data to S3
+  <a href="#push-data-to-s3" class="md-nav__link">
+    Push Data to S3
   </a>
   
 </li>
@@ -432,8 +432,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#retrieve-data" class="md-nav__link">
-    Retrieve Data
+  <a href="#retrieve-data-from-s3" class="md-nav__link">
+    Retrieve Data from S3
   </a>
   
 </li>
@@ -505,7 +505,7 @@ dvc remote add -d safetycone s3://images/safetycone
 </code></pre></div>
 
 
-<h2 id="add-data-to-s3">Add Data to S3</h2>
+<h2 id="push-data-to-s3">Push Data to S3</h2>
 <p>We create a folder and add the datasets in there. This will create a version of the data. The details are as follows:</p>
 <ul>
 <li>Add folder <foldername> with data</li>
@@ -517,7 +517,7 @@ dvc remote add -d safetycone s3://images/safetycone
 <p>We need to be mindful to set the remote name to the correct link else it will just use the default (core) link.</p>
 <h2 id="update-git">Update Git</h2>
 <p>We then git commit the <code>&lt;foldername&gt;.dvc</code>, <code>.gitignore</code> &amp; <code>.dvc/config</code> (if there are any additions of the remote links) to the repository. The git commit message/hash will be the basis to access the data version.</p>
-<h2 id="retrieve-data">Retrieve Data</h2>
+<h2 id="retrieve-data-from-s3">Retrieve Data from S3</h2>
 <p>We can pull from specific dvc folders by using <code>dvc &lt;foldername&gt;.dvc pull</code></p>
 <h2 id="full-code-example">Full Code Example</h2>
 <div class="codehilite"><pre><span></span><code><span class="c1"># add remote link</span>
