@@ -321,6 +321,34 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#add-data-to-s3" class="md-nav__link">
+    Add Data to S3
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update-git" class="md-nav__link">
+    Update Git
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retrieve-data" class="md-nav__link">
+    Retrieve Data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#full-code-example" class="md-nav__link">
+    Full Code Example
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -361,9 +389,56 @@
 
 
 <h2 id="add-remote-link">Add Remote Link</h2>
+<p>We then add the remote links, by giving it a name, and the S3 URL. You can see that we are classifying the links as folders within an S3 bucket</p>
 <div class="codehilite"><pre><span></span><code>dvc remote add babystroller s3://images/babystroller
-dvc remote add safetycone s3://images/safetycone
 dvc remote add rubbishbin s3://images/rubbishbin
+<span class="c1"># add as a default remote</span>
+dvc remote add -d safetycone s3://images/safetycone
+</code></pre></div>
+
+
+<p>This will update the <code>.dvc/config</code> file as shown below.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">[core]</span>
+    <span class="na">remote</span> <span class="o">=</span> <span class="s">safetycone</span>
+<span class="k">[&#39;remote &quot;babystroller&quot;&#39;]</span>
+    <span class="na">url</span> <span class="o">=</span> <span class="s">s3://images/babystroller</span>
+<span class="k">[&#39;remote &quot;safetycone&quot;&#39;]</span>
+    <span class="na">url</span> <span class="o">=</span> <span class="s">s3://images/safetycone</span>
+<span class="k">[&#39;remote &quot;rubbishbin&quot;&#39;]</span>
+    <span class="na">url</span> <span class="o">=</span> <span class="s">s3://images/rubbishbin</span>
+</code></pre></div>
+
+
+<h2 id="add-data-to-s3">Add Data to S3</h2>
+<p>We create a folder and add the datasets in there. This will create a version of the data. The details are as follows:</p>
+<ul>
+<li>Add folder <foldername> with data</li>
+<li><code>dvc add &lt;foldername&gt;</code></li>
+<li>a file called <code>&lt;foldername&gt;.dvc</code> will be created</li>
+<li>the <code>&lt;foldername&gt;</code> is automatically added to <code>.gitignore</code> so that the data will not be uploaded to the repository</li>
+<li>Push data version to S3: <code>dvc push -r &lt;remote name&gt; &lt;foldername&gt;.dvc</code></li>
+</ul>
+<p>We need to be mindful to set the remote name to the correct link else it will just use the default (core) link.</p>
+<h2 id="update-git">Update Git</h2>
+<p>We then git commit the <code>&lt;foldername&gt;.dvc</code>, <code>.gitignore</code> &amp; <code>.dvc/config</code> (if there are any additions of the remote links) to the repository. The git commit message/hash will be the basis to access the data version.</p>
+<h2 id="retrieve-data">Retrieve Data</h2>
+<p>We can pull from specific dvc folders by using <code>dvc &lt;foldername&gt;.dvc pull</code></p>
+<h2 id="full-code-example">Full Code Example</h2>
+<div class="codehilite"><pre><span></span><code><span class="c1"># add remote link</span>
+dvc remote add rubbishbin s3://images/rubbishbin
+
+<span class="c1"># assume folder called rubbishbin is added with data inside</span>
+<span class="c1"># store data version to S3</span>
+dvc add rubbishbin
+dvc push -r rubbishbin rubbishbin.dvc
+
+<span class="c1"># git commit</span>
+git add rubbishbin.dvc .dvc/config .gitignore
+git commit -m <span class="s2">&quot;Add rubbishbin dataset &amp; remote link&quot;</span>
+git push
+
+<span class="c1"># pull data</span>
+dvc pull -r rubbishbin rubbishbin.dvc
 </code></pre></div>
                 
               
