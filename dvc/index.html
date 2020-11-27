@@ -15,7 +15,7 @@
     
     
       
-        <title>Code Version Control - AI Engineer Guide</title>
+        <title>Data Version Control - AI Engineer Guide</title>
       
     
     
@@ -57,7 +57,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#git" class="md-skip">
+        <a href="#data-version-control" class="md-skip">
           Skip to content
         </a>
       
@@ -85,7 +85,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Code Version Control
+              Data Version Control
             
           </span>
         </div>
@@ -207,74 +207,11 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Code Version Control
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
-        </span>
-      </label>
-    
-    <a href="./" title="Code Version Control" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../git/" title="Code Version Control" class="md-nav__link">
       Code Version Control
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-      </span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#branches" class="md-nav__link">
-    Branches
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#commit-code" class="md-nav__link">
-    Commit Code
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#merge-request" class="md-nav__link">
-    Merge Request
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#git-cmd-workflow" class="md-nav__link">
-    Git CMD Workflow
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
     
@@ -364,29 +301,22 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#branches" class="md-nav__link">
-    Branches
+  <a href="#dvc-init" class="md-nav__link">
+    DVC INIT
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#commit-code" class="md-nav__link">
-    Commit Code
+  <a href="#add-s3-keys" class="md-nav__link">
+    Add S3 Keys
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#merge-request" class="md-nav__link">
-    Merge Request
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#git-cmd-workflow" class="md-nav__link">
-    Git CMD Workflow
+  <a href="#add-remote-link" class="md-nav__link">
+    Add Remote Link
   </a>
   
 </li>
@@ -403,7 +333,7 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/git.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/dvc.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
@@ -411,56 +341,30 @@
                   
                 
                 
-                <h1 id="git">Git</h1>
-<p>Git is the most popular source code version control system. Popular software development hosts like Github, Gitlab, Bitbucket all uses git. It is essential for two main purposes:</p>
-<ol>
-<li><strong>Version Control</strong>: allows rollback of code</li>
-<li><strong>Branches</strong>: allows different components to be developed concurrently and merged to a single branch later</li>
-</ol>
-<p><br></p>
-<p>The process works roughly like this:</p>
-<ol>
-<li>Create a new branch</li>
-<li>Work on a new feature</li>
-<li>Commit &amp; push a small working component</li>
-<li>Send a merge request to e.g. dev branch</li>
-<li>Tech lead approve, code is merged to dev branch</li>
-</ol>
-<h2 id="branches">Branches</h2>
-<p>Branches plays a key role in git. This allows multiple users to coordinate in a project, which each working on a separate branch. As a rule of thumb, we do not push any codes directly to the master branch. The owner of the repository will usually disable this option.</p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># check which branch you are at</span>
-git branch
-<span class="c1"># pull updates from remote</span>
-git fetch
-<span class="c1"># change to dev branch</span>
-git checkout dev
-<span class="c1"># create a new local branch</span>
-git checkout -b &lt;featurename&gt;
+                <h1 id="data-version-control">Data Version Control</h1>
+<p><a href="https://dvc.org">DVC</a> is a library for ML versioning. For this documentation, we will be using an example where we store the data versions into AWS S3 bucket. To start off, install the dvc library, together with AWS S3's accompanying library </p>
+<div class="codehilite"><pre><span></span><code>pip install dvc<span class="o">[</span>s3<span class="o">]</span>
 </code></pre></div>
 
 
-<h2 id="commit-code">Commit Code</h2>
-<p>Prior to commit our code, we should check the changes we made.</p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># check for any changes for all files</span>
-git status
-<span class="c1"># check for code changes in a file</span>
-git diff &lt;filename&gt;
+<h2 id="dvc-init">DVC INIT</h2>
+<p><code>dvc init</code> will add a <code>.dvcignore</code> file, and more importantly, a <code>.dvc</code> folder. Within the latter, it contains: </p>
+<ul>
+<li><code>cache</code> folder: stores the data versions &amp; corresponding hashes, which will be uploaded to the S3. These will not be uploaded, as there is a <code>.gitignore</code> file automatically created, that excludes this folder.</li>
+<li><code>config</code> file: stores the s3 bucket URLs</li>
+</ul>
+<h2 id="add-s3-keys">Add S3 Keys</h2>
+<p>To allow DVC to push &amp; pull data via S3 bucket, we need to set the AWS Access &amp; Secret Keys, either through AWS CLI <code>aws configure</code>, or save them as environment variables in the OS.</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">export</span> <span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span><span class="s2">&quot;xxx&quot;</span>
+<span class="nb">export</span> <span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span><span class="s2">&quot;xxx&quot;</span>
 </code></pre></div>
 
 
-<p>To commit your code, we first want to resolve any potential conflicts from the branch we want to merge to later (in case, new updates occurred). Then, we add the file or all files in a folder, followed by a commit msg, and then push to the remote (hosting service like github).</p>
-<div class="codehilite"><pre><span></span><code>git merge &lt;branchtomergelater&gt;
-git add &lt;fileOrfolder&gt;
-git commit -m <span class="s2">&quot;your commit msg&quot;</span>
-git push
+<h2 id="add-remote-link">Add Remote Link</h2>
+<div class="codehilite"><pre><span></span><code>dvc remote add babystroller s3://images/babystroller
+dvc remote add safetycone s3://images/safetycone
+dvc remote add rubbishbin s3://images/rubbishbin
 </code></pre></div>
-
-
-<p>It is essential to commit small, bite-size code changes to prevent the reviewer from being overwhelmed when validating your code during a merge request.</p>
-<h2 id="merge-request">Merge Request</h2>
-<p>Also known as Pull Request, this is an option in e.g., Github GUI, to merge the code from one branch to another, e.g. dev to master. The branch owner will validate the code changes, give comments, and accept/reject the request.</p>
-<h2 id="git-cmd-workflow">Git CMD Workflow</h2>
-<p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/git.png?raw=true" /></p>
                 
               
               
@@ -475,41 +379,6 @@ git push
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
-        
-          <a href="../virtual_env/" title="Virtual Environment" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-footer-nav__button md-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-            </div>
-            <div class="md-footer-nav__title">
-              <div class="md-ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                Virtual Environment
-              </div>
-            </div>
-          </a>
-        
-        
-          <a href="../code-standards/" title="Code Standards" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-footer-nav__title">
-              <div class="md-ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Code Standards
-              </div>
-            </div>
-            <div class="md-footer-nav__button md-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
