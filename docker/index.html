@@ -634,7 +634,7 @@ sudo docker build -t &lt;imagename&gt; . -f Dockerfile.cpu
 
 
 <h3 id="run">Run</h3>
-<p>For AI microservice in Docker there are four main run commands to launch the container.</p>
+<p>For an AI microservice in Docker, there are five main run commands to launch the container.</p>
 <table>
 <thead>
 <tr>
@@ -665,6 +665,7 @@ sudo docker build -t &lt;imagename&gt; . -f Dockerfile.cpu
 </tr>
 </tbody>
 </table>
+<p>The full command is as such.</p>
 <div class="codehilite"><pre><span></span><code>sudo docker run -d -p <span class="m">5000</span>:5000 --log-opt max-size<span class="o">=</span>5m --log-opt max-file<span class="o">=</span><span class="m">5</span> --restart always --name &lt;containername&gt; &lt;imagename&gt;
 </code></pre></div>
 
