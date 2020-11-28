@@ -466,7 +466,7 @@
                 
                 
                 <h1 id="data-version-control">Data Version Control</h1>
-<p><a href="https://dvc.org">DVC</a> is a library for ML versioning. For this documentation, we will be using an example where we store the data versions into AWS S3 bucket. To start off, install the dvc library, together with AWS S3's accompanying library </p>
+<p><a href="https://dvc.org">DVC</a> is a library for ML versioning of blobs, which can include data and/or models. For this documentation, we will be using an example where we store the data versions into AWS S3 bucket. To start off, install the dvc library, together with AWS S3's accompanying library </p>
 <div class="codehilite"><pre><span></span><code>pip install dvc<span class="o">[</span>s3<span class="o">]</span>
 </code></pre></div>
 
@@ -474,7 +474,7 @@
 <h2 id="dvc-init">DVC INIT</h2>
 <p><code>dvc init</code> will add a <code>.dvcignore</code> file, and more importantly, a <code>.dvc</code> folder. Within the latter, it contains: </p>
 <ul>
-<li><code>cache</code> folder: stores the data versions &amp; corresponding hashes, which will be uploaded to the S3. These will not be uploaded, as there is a <code>.gitignore</code> file automatically created, that excludes this folder.</li>
+<li><code>cache</code> folder: stores the data versions &amp; corresponding hashes, which will be uploaded to the S3. These will not be uploaded to the repository, as there is a <code>.gitignore</code> file automatically created, that excludes this folder.</li>
 <li><code>config</code> file: stores the s3 bucket URLs</li>
 </ul>
 <h2 id="add-s3-keys">Add S3 Keys</h2>

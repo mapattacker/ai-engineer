@@ -248,26 +248,52 @@
     Branches
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#commit-code" class="md-nav__link">
-    Commit Code
+    <nav class="md-nav" aria-label="Branches">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#workflow" class="md-nav__link">
+    Workflow
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#merge-request" class="md-nav__link">
     Merge Request
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#git-cmd-workflow" class="md-nav__link">
-    Git CMD Workflow
+  <a href="#code-versioning" class="md-nav__link">
+    Code Versioning
   </a>
+  
+    <nav class="md-nav" aria-label="Code Versioning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#commit" class="md-nav__link">
+    Commit
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow_1" class="md-nav__link">
+    Workflow
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -380,26 +406,52 @@
     Branches
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#commit-code" class="md-nav__link">
-    Commit Code
+    <nav class="md-nav" aria-label="Branches">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#workflow" class="md-nav__link">
+    Workflow
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#merge-request" class="md-nav__link">
     Merge Request
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#git-cmd-workflow" class="md-nav__link">
-    Git CMD Workflow
+  <a href="#code-versioning" class="md-nav__link">
+    Code Versioning
   </a>
+  
+    <nav class="md-nav" aria-label="Code Versioning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#commit" class="md-nav__link">
+    Commit
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow_1" class="md-nav__link">
+    Workflow
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -426,18 +478,11 @@
                 <h1 id="git">Git</h1>
 <p>Git is the most popular source code version control system. Popular software development hosts like Github, Gitlab, Bitbucket all uses git. It is essential for two main purposes:</p>
 <ol>
-<li><strong>Version Control</strong>: allows rollback of code</li>
 <li><strong>Branches</strong>: allows different components to be developed concurrently and merged to a single branch later</li>
+<li><strong>Version Control</strong>: allows rollback of code</li>
 </ol>
-<p><br></p>
-<p>The process works roughly like this:</p>
-<ol>
-<li>Create a new branch</li>
-<li>Work on a new feature</li>
-<li>Commit &amp; push a small working component</li>
-<li>Send a merge request to e.g. dev branch</li>
-<li>Tech lead approve, code is merged to dev branch</li>
-</ol>
+<hr>
+
 <h2 id="branches">Branches</h2>
 <p>Branches plays a key role in git. This allows multiple users to coordinate in a project, which each working on a separate branch. As a rule of thumb, we do not push any codes directly to the master branch. The owner of the repository will usually disable this option.</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># check which branch you are at</span>
@@ -451,9 +496,21 @@ git checkout -b &lt;featurename&gt;
 </code></pre></div>
 
 
+<h3 id="workflow">Workflow</h3>
 <p>Below is a workflow typical in a project team. Image sourced from <a href="https://buddy.works/blog/5-types-of-git-workflows">Buddy</a>.</p>
 <p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/gitflow.png?raw=true" /></p>
-<h2 id="commit-code">Commit Code</h2>
+<ol>
+<li>Create a new branch for a new feature</li>
+<li>Work on the new feature</li>
+<li>Commit &amp; push a small working component</li>
+<li>Send a merge request to e.g. dev branch</li>
+<li>Tech lead approve, code is merged to dev branch</li>
+</ol>
+<h3 id="merge-request">Merge Request</h3>
+<p>Also known as Pull Request, this is an option in e.g., Github GUI, to merge the code from one branch to another, e.g. dev to master. The branch owner will validate the code changes, give comments, and accept/reject the request.</p>
+<hr>
+
+<h2 id="code-versioning">Code Versioning</h2>
 <p>Prior to commit our code, we should check the changes we made.</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># check for any changes for all files</span>
 git status
@@ -462,6 +519,7 @@ git diff &lt;filename&gt;
 </code></pre></div>
 
 
+<h3 id="commit">Commit</h3>
 <p>To commit your code, we first want to resolve any potential conflicts from the branch we want to merge to later (in case, new updates occurred). Then, we add the file or all files in a folder, followed by a commit msg, and then push to the remote (hosting service like github).</p>
 <div class="codehilite"><pre><span></span><code>git merge &lt;branchtomergelater&gt;
 git add &lt;fileOrfolder&gt;
@@ -471,9 +529,7 @@ git push
 
 
 <p>It is essential to commit small, bite-size code changes to prevent the reviewer from being overwhelmed when validating your code during a merge request.</p>
-<h2 id="merge-request">Merge Request</h2>
-<p>Also known as Pull Request, this is an option in e.g., Github GUI, to merge the code from one branch to another, e.g. dev to master. The branch owner will validate the code changes, give comments, and accept/reject the request.</p>
-<h2 id="git-cmd-workflow">Git CMD Workflow</h2>
+<h3 id="workflow_1">Workflow</h3>
 <p>The various git commands and how they interact at different stages are as illustrated below.</p>
 <p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/git.png?raw=true" /></p>
                 
