@@ -663,6 +663,70 @@ zappa init
     <span class="err">...</span>
 <span class="p">}</span>
 </code></pre></div>
+
+
+<p>The trick is to first generate the default role, than to filter down the default policy to your specific usecase. Below is an example.</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+    <span class="nt">&quot;Version&quot;</span><span class="p">:</span> <span class="s2">&quot;2012-10-17&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;Statement&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;Sid&quot;</span><span class="p">:</span> <span class="s2">&quot;LambdaInvoke&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;Effect&quot;</span><span class="p">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;Action&quot;</span><span class="p">:</span> <span class="s2">&quot;lambda:InvokeFunction&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;Resource&quot;</span><span class="p">:</span> <span class="s2">&quot;arn:aws:lambda:ap-southeast-1:123456780:function:complianceai-lambda-dev&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;Sid&quot;</span><span class="p">:</span> <span class="s2">&quot;Logs&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;Effect&quot;</span><span class="p">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;Action&quot;</span><span class="p">:</span> <span class="s2">&quot;logs:*&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;Resource&quot;</span><span class="p">:</span> <span class="s2">&quot;arn:aws:logs:ap-southeast-1:123456780:log-group:/aws/lambda/complianceai-lambda-dev:*&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;Sid&quot;</span><span class="p">:</span> <span class="s2">&quot;S3ListObjectsInBucket&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;Effect&quot;</span><span class="p">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;Action&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;s3:ListBucket&quot;</span>
+            <span class="p">],</span>
+            <span class="nt">&quot;Resource&quot;</span><span class="p">:</span> <span class="s2">&quot;arn:aws:s3:::compliance-bucket&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;Sid&quot;</span><span class="p">:</span> <span class="s2">&quot;S3AllObjectActions&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;Effect&quot;</span><span class="p">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;Action&quot;</span><span class="p">:</span> <span class="s2">&quot;s3:*Object&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;Resource&quot;</span><span class="p">:</span> <span class="s2">&quot;arn:aws:s3:::compliance-bucket/*&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;Sid&quot;</span><span class="p">:</span> <span class="s2">&quot;DynamoDBListAndDescribe&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;Effect&quot;</span><span class="p">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;Action&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;dynamodb:List*&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;dynamodb:DescribeReservedCapacity*&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;dynamodb:DescribeLimits&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;dynamodb:DescribeTimeToLive&quot;</span>
+            <span class="p">],</span>
+            <span class="nt">&quot;Resource&quot;</span><span class="p">:</span> <span class="s2">&quot;*&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;Sid&quot;</span><span class="p">:</span> <span class="s2">&quot;DynamoDBSpecificTable&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;Effect&quot;</span><span class="p">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;Action&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;dynamodb:BatchGet*&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;dynamodb:DescribeStream&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;dynamodb:DescribeTable&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;dynamodb:Get*&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;dynamodb:Query&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;dynamodb:Scan&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;dynamodb:BatchWrite*&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;dynamodb:CreateTable&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;dynamodb:Delete*&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;dynamodb:Update*&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;dynamodb:PutItem&quot;</span>
+            <span class="p">],</span>
+            <span class="nt">&quot;Resource&quot;</span><span class="p">:</span> <span class="s2">&quot;arn:aws:dynamodb:*:*:table/ComplianceTable&quot;</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
                 
               
               
