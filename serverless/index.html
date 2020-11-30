@@ -338,6 +338,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#setup-aws-policy-keys-for-zappa-deployment" class="md-nav__link">
+    Setup AWS Policy &amp; Keys for Zappa Deployment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#how-to-use" class="md-nav__link">
     How to Use
   </a>
@@ -347,6 +354,13 @@
           <li class="md-nav__item">
   <a href="#commands" class="md-nav__link">
     Commands
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lambda-execution-role" class="md-nav__link">
+    Lambda Execution Role
   </a>
   
 </li>
@@ -411,6 +425,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#setup-aws-policy-keys-for-zappa-deployment" class="md-nav__link">
+    Setup AWS Policy &amp; Keys for Zappa Deployment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#how-to-use" class="md-nav__link">
     How to Use
   </a>
@@ -420,6 +441,13 @@
           <li class="md-nav__item">
   <a href="#commands" class="md-nav__link">
     Commands
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lambda-execution-role" class="md-nav__link">
+    Lambda Execution Role
   </a>
   
 </li>
@@ -464,6 +492,88 @@
 <p><a href="https://github.com/Miserlou/Zappa">Zappa</a> is a popular python library used to automatically launch python lambda functions &amp; api-gateways.</p>
 <h3 id="venv">VENV</h3>
 <p>Your application/function needs a virtual environment with all the relevant python libraries installed in the root. See the <a href="https://mapattacker.github.io/ai-engineer/virtual_env/">Virtual Environment</a> example on how to use venv for this. Before zappa deployment, ensure that the venv is activated and the app works.</p>
+<h3 id="setup-aws-policy-keys-for-zappa-deployment">Setup AWS Policy &amp; Keys for Zappa Deployment</h3>
+<p>The most difficult part of Zappa is to setup a user &amp; policies for zappa to deploy your lambda/gateway application. First, we need to create a new user in AWS, and then define a policy which allows zappa to do all the work for deployment. Then we create the AWS access &amp; secret keys, and port it in our local environment variables.</p>
+<p>A healthy discussion on various minimium policies can be viewed <a href="https://github.com/Miserlou/Zappa/issues/244">here</a>. A working liberal example is given below.</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+    <span class="nt">&quot;Version&quot;</span><span class="p">:</span> <span class="s2">&quot;2012-10-17&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;Statement&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;Sid&quot;</span><span class="p">:</span> <span class="s2">&quot;VisualEditor0&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;Effect&quot;</span><span class="p">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;Action&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;lambda:CreateFunction&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;lambda:ListVersionsByFunction&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;lambda:DeleteFunction&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;lambda:GetFunctionConfiguration&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;lambda:GetAlias&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;lambda:InvokeFunction&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;lambda:GetFunction&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;lambda:UpdateFunctionConfiguration&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;lambda:RemovePermission&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;lambda:GetPolicy&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;lambda:AddPermission&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;lambda:DeleteFunctionConcurrency&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;lambda:UpdateFunctionCode&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;events:PutRule&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;events:ListRuleNamesByTarget&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;events:ListRules&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;events:RemoveTargets&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;events:ListTargetsByRule&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;events:DescribeRule&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;events:DeleteRule&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;events:PutTargets&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;logs:DescribeLogStreams&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;logs:FilterLogEvents&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;logs:DeleteLogGroup&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;apigateway:DELETE&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;apigateway:PATCH&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;apigateway:GET&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;apigateway:PUT&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;apigateway:POST&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;cloudformation:DescribeStackResource&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;cloudformation:UpdateStack&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;cloudformation:ListStackResources&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;cloudformation:DescribeStacks&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;cloudformation:CreateStack&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;cloudformation:DeleteStack&quot;</span>
+            <span class="p">],</span>
+            <span class="nt">&quot;Resource&quot;</span><span class="p">:</span> <span class="s2">&quot;*&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;Sid&quot;</span><span class="p">:</span> <span class="s2">&quot;VisualEditor1&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;Effect&quot;</span><span class="p">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;Action&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;iam:GetRole&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;iam:PassRole&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;iam:CreateRole&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;iam:AttachRolePolicy&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;iam:PutRolePolicy&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;s3:ListBucketMultipartUploads&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;s3:ListBucket&quot;</span>
+            <span class="p">],</span>
+            <span class="nt">&quot;Resource&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;arn:aws:iam::541320134486:role/*-ZappaLambdaExecutionRole&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;arn:aws:s3:::&lt;python-serverless-deployment-s3&gt;&quot;</span>
+            <span class="p">]</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;Sid&quot;</span><span class="p">:</span> <span class="s2">&quot;VisualEditor2&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;Effect&quot;</span><span class="p">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;Action&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;s3:PutObject&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;s3:GetObject&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;s3:AbortMultipartUpload&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;s3:DeleteObject&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;s3:ListMultipartUploadParts&quot;</span>
+            <span class="p">],</span>
+            <span class="nt">&quot;Resource&quot;</span><span class="p">:</span> <span class="s2">&quot;arn:aws:s3:::&lt;python-serverless-deployment-s3&gt;/*&quot;</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
 <h3 id="how-to-use">How to Use</h3>
 <p>After installing zappa, we init it at the root of your function, which will create a default zappa_settings.json. </p>
 <div class="codehilite"><pre><span></span><code>pip install zappa
@@ -471,7 +581,7 @@ zappa init
 </code></pre></div>
 
 
-<p>All the instructions to launch the Lambda &amp; API Gateway are set in <code>zappa_settings.json</code>. Refer to the official readme for the entire list. We can have another stage, e.g. "prod" with its own configuration.</p>
+<p>All the instructions to launch the Lambda &amp; API Gateway are set in <code>zappa_settings.json</code>. Refer to the official <a href="https://github.com/Miserlou/Zappa">readme</a> for the entire list. We can have another stage, e.g. "prod" with its own configuration.</p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
     <span class="nt">&quot;dev&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;app_function&quot;</span><span class="p">:</span> <span class="s2">&quot;app.app&quot;</span><span class="p">,</span>
@@ -539,6 +649,20 @@ zappa init
 </tr>
 </tbody>
 </table>
+<h3 id="lambda-execution-role">Lambda Execution Role</h3>
+<p>The default execution role created by zappa is too liberal. From the author "It grants access to all actions for all resources for types CloudWatch, S3, Kinesis, SNS, SQS, DynamoDB, and Route53; lambda:InvokeFunction for all Lambda resources; Put to all X-Ray resources; and all Network Interface operations to all EC2 resources".</p>
+<p>To set a manual policy, we need to set the "manage_roles" to <code>false</code> and include either the "role_name" or "role_arn". We then create the role &amp; policies in AWS. </p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+    <span class="nt">&quot;dev&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="err">...</span>
+        <span class="nt">&quot;manage_roles&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="err">//</span> <span class="err">Disable</span> <span class="err">Zappa</span> <span class="err">client</span> <span class="err">managing</span> <span class="err">roles.</span>
+        <span class="nt">&quot;role_name&quot;</span><span class="p">:</span> <span class="s2">&quot;MyLambdaRole&quot;</span><span class="p">,</span> <span class="err">//</span> <span class="err">Name</span> <span class="err">of</span> <span class="err">your</span> <span class="err">Zappa</span> <span class="err">execution</span> <span class="err">role.</span> <span class="err">Optional,</span> <span class="err">default:</span> <span class="err">&lt;project_name&gt;-&lt;env&gt;-ZappaExecutionRole.</span>
+        <span class="nt">&quot;role_arn&quot;</span><span class="p">:</span> <span class="s2">&quot;arn:aws:iam::12345:role/app-ZappaLambdaExecutionRole&quot;</span><span class="p">,</span> <span class="err">//</span> <span class="err">ARN</span> <span class="err">of</span> <span class="err">your</span> <span class="err">Zappa</span> <span class="err">execution</span> <span class="err">role.</span> <span class="err">Optional.</span>
+        <span class="err">...</span>
+    <span class="p">},</span>
+    <span class="err">...</span>
+<span class="p">}</span>
+</code></pre></div>
                 
               
               
