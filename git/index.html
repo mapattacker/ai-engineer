@@ -304,6 +304,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#release-tags" class="md-nav__link">
+    Release Tags
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -469,6 +476,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#release-tags" class="md-nav__link">
+    Release Tags
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -547,6 +561,38 @@ git push
 <h3 id="workflow_1">Workflow</h3>
 <p>The various git commands and how they interact at different stages are as illustrated below.</p>
 <p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/git.png?raw=true" /></p>
+<h2 id="release-tags">Release Tags</h2>
+<p>We can add tags, usually for release versions, so that it is easy to revert back to a specific version within a branch.</p>
+<table>
+<thead>
+<tr>
+<th>CMD</th>
+<th>Desc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>git tag -a v1.0.0 -m "1st prod version"</code></td>
+<td>tag in local</td>
+</tr>
+<tr>
+<td><code>git push origin v1.0.0</code></td>
+<td>push to remote</td>
+</tr>
+<tr>
+<td><code>git tag -d v1.0</code></td>
+<td>delete local tag ONLY</td>
+</tr>
+<tr>
+<td><code>git push --delete origin v1.0.0</code></td>
+<td>delete remote tag ONLY</td>
+</tr>
+<tr>
+<td><code>git tag</code></td>
+<td>list tags</td>
+</tr>
+</tbody>
+</table>
                 
               
               
