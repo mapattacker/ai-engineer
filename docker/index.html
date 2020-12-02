@@ -315,6 +315,19 @@
     Dockerfile
   </a>
   
+    <nav class="md-nav" aria-label="Dockerfile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#intel-gpu" class="md-nav__link">
+    Intel-GPU
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -434,6 +447,19 @@
   <a href="#dockerfile" class="md-nav__link">
     Dockerfile
   </a>
+  
+    <nav class="md-nav" aria-label="Dockerfile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#intel-gpu" class="md-nav__link">
+    Intel-GPU
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -611,6 +637,23 @@
 </table>
 <p>Each line in the Dockerfile is cached in memory by sequence, so that a rebuilding of image will not need to start from the beginning but the last line where there are changes. Therefore it is always important to always (copy and) install the dependencies first before copying over the rest of the source codes, as shown below.</p>
 <div class="codehilite"><pre><span></span><code><span class="k">FROM</span> <span class="s">python:3.7</span>
+
+<span class="k">RUN</span> apt-get update
+<span class="k">RUN</span> apt-get install ffmpeg libsm6 libxext6 -y
+
+<span class="k">COPY</span> requirements-serve.txt .
+<span class="k">RUN</span> pip install --upgrade pip
+<span class="k">RUN</span> pip install -r requirements-serve.txt
+
+<span class="k">COPY</span> . .
+
+<span class="k">ENTRYPOINT</span> <span class="p">[</span> <span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="s2">&quot;-u&quot;</span><span class="p">,</span> <span class="s2">&quot;serve_http.py&quot;</span> <span class="p">]</span>
+</code></pre></div>
+
+
+<h3 id="intel-gpu">Intel-GPU</h3>
+<p>If the host has Nvidia GPU, we should make use of it so that the inference time is much faster; x10 faster for this example. We will need to choose a base image that has CUDA &amp; CUDNN installed so that GPU can be utilised.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">FROM</span> <span class="s">pytorch/pytorch:1.5.1-cuda10.1-cudnn7-devel</span>
 
 <span class="k">RUN</span> apt-get update
 <span class="k">RUN</span> apt-get install ffmpeg libsm6 libxext6 -y
