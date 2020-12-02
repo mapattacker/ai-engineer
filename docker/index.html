@@ -689,23 +689,24 @@
 
 <h3 id="arm-gpu">ARM-GPU</h3>
 <p>The ARM architecture requires a little more effort; the below installation is for Nvidia Jetson Series Kit.</p>
-<div class="codehilite"><pre><span></span><code><span class="c"># From https://ngc.nvidia.com/catalog/containers/nvidia:l4t-pytorch it contains Pytorch v1.5 and torchvision v0.6.0</span>
+<div class="codehilite"><pre><span></span><code><span class="c"># From https://ngc.nvidia.com/catalog/containers/nvidia:l4t-pytorch </span>
+<span class="c"># it contains Pytorch v1.5 and torchvision v0.6.0</span>
 <span class="k">FROM</span> <span class="s">nvcr.io/nvidia/l4t-pytorch:r32.4.3-pth1.6-py3</span>
 
 <span class="k">ARG</span> <span class="nv">DEBIAN_FRONTEND</span><span class="o">=</span>noninteractive
 <span class="k">RUN</span> apt-get -y update <span class="o">&amp;&amp;</span> apt-get -y upgrade
 <span class="k">RUN</span> apt-get install -y wget python3-setuptools python3-pip libfreetype6-dev
 
-<span class="c">### Install OpenCV; from https://github.com/JetsonHacksNano/buildOpenCV ###</span>
+<span class="c"># Install OpenCV; from https://github.com/JetsonHacksNano/buildOpenCV</span>
 <span class="k">RUN</span> apt-get -y install qt5-default
 <span class="k">COPY</span> ./build/OpenCV-4.1.1-dirty-aarch64.sh .
 <span class="k">RUN</span> ./OpenCV-4.1.1-dirty-aarch64.sh --prefix<span class="o">=</span>/usr/local/ --skip-license <span class="o">&amp;&amp;</span> ldconfig
 
-<span class="c">### Install other Python libraries required by Module ###</span>
+<span class="c"># Install other Python libraries required by Module</span>
 <span class="k">COPY</span> requirements.txt .
 <span class="k">RUN</span> pip3 install -r requirements-serve.txt
 
-<span class="c">### Copy Python source codes ###</span>
+<span class="c"># Copy Python source codes</span>
 <span class="k">COPY</span> . .
 
 <span class="k">RUN</span> apt-get clean <span class="o">&amp;&amp;</span> rm -rf /var/lib/apt/lists/* <span class="o">&amp;&amp;</span> rm OpenCV-4.1.1-dirty-aarch64.sh
