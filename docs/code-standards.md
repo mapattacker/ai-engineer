@@ -63,7 +63,7 @@ def yolo2coco_bb(size, yolo):
 ```
 
 
-## Isort
+## ISort
 
 Sorts by alphabetical order the imported libraries, while splitting python base libraries as first order, with the 3rd party libraries as second order, and local script imports as the third.
 
@@ -87,12 +87,12 @@ Black **auto-formats** python files to adhere to PEP8 format as well as other st
 
 A wrapper of 3 libraries that **checks (but does not change)**, against python standard  styling (PEP8), programming errors (like “library imported but unused” and “Undefined name”) and to check cyclomatic complexity.
 
- - E***/W***: pep8 errors and warnings
- - F***: PyFlakes codes (see below)
- - C9**: McCabe complexity plugin mccabe
- - N8**: Naming Conventions plugin pep8-naming
-
-<br>
+| Code | Desc | 
+|-|-|
+| E/W | pep8 errors and warnings |
+| F*** | PyFlakes codes (see below) |
+| C9** | McCabe complexity plugin mccabe |
+| N8** | Naming Conventions plugin pep8-naming |
 
  * Installation: `pip install flake8`
  * Current Project: `flake8`

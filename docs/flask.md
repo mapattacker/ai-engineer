@@ -9,6 +9,7 @@ The input containing the data for predicting & the model parameters, aka `Reques
 
 Below is a simple flask app to serve an ML model's prediction. Assuming this app is named `serve_http.py`, we can launch this flask app locally via `python serve_http.py`. The API can be accessed via `http://localhost:5000/`.
 
+It is important to set the `host="0.0.0.0"`, so that it binds to all network interfaces of the container, and will be callable from the outside.
 
 ```python
 """flask app for model prediction"""
@@ -52,7 +53,7 @@ def get_predictions():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0")
 ```
 
 
@@ -60,7 +61,7 @@ if __name__ == '__main__':
 
 Flask as a server is meant for development, as it tries to remind you everytime you launch it. It has very limited parameters to manage the server, but luckily wrappers are available to connect Flask to a feature rich web server. Examples include timeout, and multiple workers.
 
-[Gunicorn](https://gunicorn.org) is one of the most popular, and also probably the easiest to use.
+[Gunicorn](https://gunicorn.org) is one of the most popular, and also probably the easiest to use. The binding of the host as mentioned previously in flask, can be done in gunicorn as described below.
 
 ```bash
 # gunicorn -w 2 flaskscript:flaskapp
@@ -140,4 +141,6 @@ if __name__ == "__main__":
 
 ### Postman
 
-![](https://github.com/mapattacker/ai-engineer/blob/master/images/postman.png)
+[Postman](http://postman.com) is a popular GUI to easily send requests and see the responses. 
+
+![](https://github.com/mapattacker/ai-engineer/blob/master/images/postman.png?raw=true)

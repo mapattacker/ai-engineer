@@ -11,27 +11,32 @@ Some facts:
 
 There are various `nouns` that are important in the Docker world.
 
- * __Image__: Installed version of an application
- * __Container__: Launched instance of an application from an image
- * __Container Registry__: a hosting platform to store your images. E.g. Docker Container Registry (DCR), AWS Elastic Container Registry (ECR)
- * __Dockerfile__: A file containing instructions to build an image
+| Noun | Desc |
+|-|-|
+| Image |  Installed version of an application |
+| Container |  Launched instance of an application from an image |
+| Container Registry |  a hosting platform to store your images. E.g. Docker Container Registry (DCR), AWS Elastic Container Registry (ECR) |
+| Dockerfile |  A file containing instructions to build an image |
 
 Also, these are the various `verbs` that are important in the Docker world.
 
- * __build__: Copy & install necessary packages & scripts to create an image
- * __run__: Launch a container from an image
- * __rm__ or __rmi__: remove a container or image respectively
- * __prune__: clear obsolete images, containers or network
-
+| Verb | Desc |
+|-|-|
+| build |  Copy & install necessary packages & scripts to create an image |
+| run |  Launch a container from an image |
+| rm or rmi |  remove a container or image respectively |
+| prune |  clear obsolete images, containers or network |
 
 ## Dockerfile
 
 The `Dockerfile` is the essence of Docker, where it contains instructions on how to build an image. There are four main instructions:
 
- * `FROM`: base image to build on, pulled from Docker Container Registry
- * `RUN`: install dependencies
- * `COPY`: copy files & scripts 
- * `CMD` or `ENTRYPOINT`: command to launch the application
+| CMD | Desc |
+|-|-|
+|  `FROM` |  base image to build on, pulled from Docker Container Registry |
+|  `RUN` |  install dependencies |
+|  `COPY` |  copy files & scripts  |
+|  `CMD` or `ENTRYPOINT` |  command to launch the application |
 
 Each line in the Dockerfile is cached in memory by sequence, so that a rebuilding of image will not need to start from the beginning but the last line where there are changes. Therefore it is always important to always (copy and) install the dependencies first before copying over the rest of the source codes, as shown below.
 
@@ -50,6 +55,67 @@ COPY . .
 ENTRYPOINT [ "python", "-u", "serve_http.py" ]
 ```
 
+### Intel-GPU
+
+If the host has Nvidia GPU, we should make use of it so that the inference time is much faster; x10 faster for this example. We will need to choose a base image that has CUDA & CUDNN installed so that GPU can be utilised.
+
+```Dockerfile
+FROM pytorch/pytorch:1.5.1-cuda10.1-cudnn7-devel
+
+RUN apt-get update
+RUN apt-get install ffmpeg libsm6 libxext6 -y
+
+COPY requirements-serve.txt .
+RUN pip install --upgrade pip
+RUN pip install -r requirements-serve.txt
+
+COPY . .
+
+ENTRYPOINT [ "python", "-u", "serve_http.py" ]
+```
+
+The run command is:
+
+```bash
+sudo docker run --gpus all --ipc=host -d -p 5000:5000 --name  <containername> <imagename>
+```
+
+### ARM-GPU
+
+The ARM architecture requires a little more effort; the below installation is for Nvidia Jetson Series Kit.
+
+```Dockerfile
+# From https://ngc.nvidia.com/catalog/containers/nvidia:l4t-pytorch 
+# it contains Pytorch v1.5 and torchvision v0.6.0
+FROM nvcr.io/nvidia/l4t-pytorch:r32.4.3-pth1.6-py3
+
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get -y update && apt-get -y upgrade
+RUN apt-get install -y wget python3-setuptools python3-pip libfreetype6-dev
+
+# Install OpenCV; from https://github.com/JetsonHacksNano/buildOpenCV
+RUN apt-get -y install qt5-default
+COPY ./build/OpenCV-4.1.1-dirty-aarch64.sh .
+RUN ./OpenCV-4.1.1-dirty-aarch64.sh --prefix=/usr/local/ --skip-license && ldconfig
+
+# Install other Python libraries required by Module
+COPY requirements.txt .
+RUN pip3 install -r requirements-serve.txt
+
+# Copy Python source codes
+COPY . .
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* && rm OpenCV-4.1.1-dirty-aarch64.sh
+
+ENTRYPOINT [ "python3", "-u", "serve_http.py" ]
+```
+
+The run command is:
+
+```bash
+sudo docker run -d -p 5000:5000 --runtime nvidia --name <containername> <imagename>
+```
+
 ## Common Commands
 
 ### Build
@@ -63,7 +129,7 @@ sudo docker build -t <imagename> . -f Dockerfile.cpu
 
 ### Run
 
-For AI microservice in Docker there are four main run commands to launch the container.
+For an AI microservice in Docker, there are five main run commands to launch the container.
  
 | Cmd | Desc |
 |-|-|
@@ -73,8 +139,18 @@ For AI microservice in Docker there are four main run commands to launch the con
 |  `--restart always` |  in case the server crash & restarts, the container will also restart |
 |  `--name <containername>` |  as a rule of thumb, always name the image & container |
 
+The full command is as such.
+
 ```bash
 sudo docker run -d -p 5000:5000 --log-opt max-size=5m --log-opt max-file=5 --restart always --name <containername> <imagename>
+```
+
+We can also stop, start or restart the container if required.
+
+```bash
+sudo docker stop <container-name/id>
+sudo docker start <container-name/id>
+sudo docker restart <container-name/id>
 ```
 
 ### Check Status
