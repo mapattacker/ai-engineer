@@ -14,6 +14,7 @@ nav:
     - Flask: flask.md
     - Docker: docker.md
     - Serverless: serverless.md
+    - System Test: system-test.md
 
 repo_name: mapattacker/ai-engineer
 repo_url: https://github.com/mapattacker/ai-engineer
