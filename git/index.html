@@ -549,6 +549,10 @@
 <hr>
 
 <h2 id="remote-url">Remote URL</h2>
+<div class="codehilite"><pre><span></span><code><span class="err">ssh-keygen</span>
+</code></pre></div>
+
+
 <p>When using the first git clone to pull the repository to your local machine, we need to specify to use https or ssh. To me it is better for the latter to avoid multiple logins whenever we want to push changes to the remote repository.</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># git repository via ssh</span>
 git clone git@github.com:mapattacker/ai-engineer.git
@@ -558,6 +562,8 @@ git remote -v
 git remote set-url origin https://github.com/mapattacker/ai-engineer.git
 </code></pre></div>
 
+
+<hr>
 
 <h2 id="branches">Branches</h2>
 <p>Branches plays a key role in git. This allows multiple users to coordinate in a project, which each working on a separate branch. As a rule of thumb, we do not push any codes directly to the master branch. The owner of the repository will usually disable this option.</p>
