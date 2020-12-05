@@ -320,6 +320,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#delete-from-git-history" class="md-nav__link">
+    Delete from Git History
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -509,6 +516,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#delete-from-git-history" class="md-nav__link">
+    Delete from Git History
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -555,7 +569,12 @@ git fetch
 <span class="c1"># change to dev branch</span>
 git checkout dev
 <span class="c1"># create a new local branch</span>
-git checkout -b &lt;featurename&gt;
+git checkout -b &lt;branchname&gt;
+
+<span class="c1"># delete local branch</span>
+git branch -d &lt;branchname&gt;
+<span class="c1"># delete remote branch</span>
+git push origin -d &lt;branchname&gt;
 </code></pre></div>
 
 
@@ -595,6 +614,8 @@ git push
 <h3 id="workflow_1">Workflow</h3>
 <p>The various git commands and how they interact at different stages are as illustrated below.</p>
 <p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/git.png?raw=true" /></p>
+<hr>
+
 <h2 id="release-tags">Release Tags</h2>
 <p>We can add tags, usually for release versions, so that it is easy to revert back to a specific version within a branch.</p>
 <table>
@@ -624,6 +645,40 @@ git push
 <tr>
 <td><code>git tag</code></td>
 <td>list tags</td>
+</tr>
+</tbody>
+</table>
+<hr>
+
+<h2 id="delete-from-git-history">Delete from Git History</h2>
+<p><a href="https://rtyley.github.io/bfg-repo-cleaner/">BFG Repo-Cleaner</a> is a 3rd party java file used to remove files that are not accidentally uploaded, e.g., passwords, blobs. Download their file from the website and follow the instructions there, or from the example below.</p>
+<table>
+<thead>
+<tr>
+<th>CMD</th>
+<th>Desc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>git clone --mirror git@gitlab.com:project/repo-name.git</code></td>
+<td>clone only the .git</td>
+</tr>
+<tr>
+<td><code>bfg --delete-files "*.{png,jpg,gif}" repo-name.git</code></td>
+<td>delete certain file extensions</td>
+</tr>
+<tr>
+<td><code>cd repo-name.git</code></td>
+<td>go into git directory</td>
+</tr>
+<tr>
+<td><code>git reflog expire --expire=now --all &amp;&amp; git gc --prune=now --aggressive</code></td>
+<td>delete old files</td>
+</tr>
+<tr>
+<td><code>git push --force</code></td>
+<td>push updated git to remote</td>
 </tr>
 </tbody>
 </table>
