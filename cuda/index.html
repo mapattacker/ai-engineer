@@ -15,7 +15,7 @@
     
     
       
-        <title>Data Version Control - AI Engineer Guide</title>
+        <title>Nvidia GPU - AI Engineer Guide</title>
       
     
     
@@ -57,7 +57,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#data-version-control" class="md-skip">
+        <a href="#nvidia-gpu" class="md-skip">
           Skip to content
         </a>
       
@@ -85,7 +85,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Data Version Control
+              Nvidia GPU
             
           </span>
         </div>
@@ -219,95 +219,11 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Data Version Control
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
-        </span>
-      </label>
-    
-    <a href="./" title="Data Version Control" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../dvc/" title="Data Version Control" class="md-nav__link">
       Data Version Control
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-      </span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#dvc-init" class="md-nav__link">
-    DVC INIT
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#add-s3-keys" class="md-nav__link">
-    Add S3 Keys
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#add-remote-link" class="md-nav__link">
-    Add Remote Link
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#push-data-to-s3" class="md-nav__link">
-    Push Data to S3
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#update-git" class="md-nav__link">
-    Update Git
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#retrieve-data-from-s3" class="md-nav__link">
-    Retrieve Data from S3
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#full-code-example" class="md-nav__link">
-    Full Code Example
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
     
@@ -409,50 +325,15 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#dvc-init" class="md-nav__link">
-    DVC INIT
+  <a href="#installing-cuda" class="md-nav__link">
+    Installing CUDA
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#add-s3-keys" class="md-nav__link">
-    Add S3 Keys
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#add-remote-link" class="md-nav__link">
-    Add Remote Link
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#push-data-to-s3" class="md-nav__link">
-    Push Data to S3
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#update-git" class="md-nav__link">
-    Update Git
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#retrieve-data-from-s3" class="md-nav__link">
-    Retrieve Data from S3
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#full-code-example" class="md-nav__link">
-    Full Code Example
+  <a href="#verification" class="md-nav__link">
+    Verification
   </a>
   
 </li>
@@ -469,7 +350,7 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/dvc.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/cuda.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
@@ -477,78 +358,13 @@
                   
                 
                 
-                <h1 id="data-version-control">Data Version Control</h1>
-<p><a href="https://dvc.org">DVC</a> is a library for ML versioning of blobs, which can include data and/or models. For this documentation, we will be using an example where we store the data versions into AWS S3 bucket. To start off, install the dvc library, together with AWS S3's accompanying library </p>
-<div class="codehilite"><pre><span></span><code>pip install dvc<span class="o">[</span>s3<span class="o">]</span>
-</code></pre></div>
-
-
-<h2 id="dvc-init">DVC INIT</h2>
-<p><code>dvc init</code> will add a <code>.dvcignore</code> file, and more importantly, a <code>.dvc</code> folder. Within the latter, it contains: </p>
-<ul>
-<li><code>cache</code> folder: stores the data versions &amp; corresponding hashes, which will be uploaded to the S3. These will not be uploaded to the repository, as there is a <code>.gitignore</code> file automatically created, that excludes this folder.</li>
-<li><code>config</code> file: stores the s3 bucket URLs</li>
-</ul>
-<h2 id="add-s3-keys">Add S3 Keys</h2>
-<p>To allow DVC to push &amp; pull data via S3 bucket, we need to set the AWS Access &amp; Secret Keys, either through AWS CLI <code>aws configure</code>, or save them as environment variables in the OS.</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">export</span> <span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span><span class="s2">&quot;xxx&quot;</span>
-<span class="nb">export</span> <span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span><span class="s2">&quot;xxx&quot;</span>
-</code></pre></div>
-
-
-<h2 id="add-remote-link">Add Remote Link</h2>
-<p>We then add the remote links, by giving it a name, and the S3 URL. You can see that we are classifying the links as folders within an S3 bucket</p>
-<div class="codehilite"><pre><span></span><code>dvc remote add babystroller s3://images/babystroller
-dvc remote add rubbishbin s3://images/rubbishbin
-<span class="c1"># add as a default remote</span>
-dvc remote add -d safetycone s3://images/safetycone
-</code></pre></div>
-
-
-<p>This will update the <code>.dvc/config</code> file as shown below.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">[core]</span>
-    <span class="na">remote</span> <span class="o">=</span> <span class="s">safetycone</span>
-<span class="k">[&#39;remote &quot;babystroller&quot;&#39;]</span>
-    <span class="na">url</span> <span class="o">=</span> <span class="s">s3://images/babystroller</span>
-<span class="k">[&#39;remote &quot;safetycone&quot;&#39;]</span>
-    <span class="na">url</span> <span class="o">=</span> <span class="s">s3://images/safetycone</span>
-<span class="k">[&#39;remote &quot;rubbishbin&quot;&#39;]</span>
-    <span class="na">url</span> <span class="o">=</span> <span class="s">s3://images/rubbishbin</span>
-</code></pre></div>
-
-
-<h2 id="push-data-to-s3">Push Data to S3</h2>
-<p>We create a folder and add the datasets in there. This will create a version of the data. The details are as follows:</p>
-<ul>
-<li>Add folder <foldername> with data</li>
-<li><code>dvc add &lt;foldername&gt;</code></li>
-<li>a file called <code>&lt;foldername&gt;.dvc</code> will be created</li>
-<li><code>.dvc/cache</code> folder containing the data version &amp; hashes will be created</li>
-<li>the <code>&lt;foldername&gt;</code> is automatically added to <code>.gitignore</code> so that the data will not be uploaded to the repository</li>
-<li>Push data version to S3: <code>dvc push -r &lt;remote name&gt; &lt;foldername&gt;.dvc</code></li>
-</ul>
-<p>We need to be mindful to set the remote name to the correct link else it will just use the default (core) link.</p>
-<h2 id="update-git">Update Git</h2>
-<p>We then git commit the <code>&lt;foldername&gt;.dvc</code>, <code>.gitignore</code> &amp; <code>.dvc/config</code> (if there are any additions of the remote links) to the repository. The git commit message/hash will be the basis to access the data version.</p>
-<h2 id="retrieve-data-from-s3">Retrieve Data from S3</h2>
-<p>We can pull from specific dvc folders by using <code>dvc &lt;foldername&gt;.dvc pull</code></p>
-<h2 id="full-code-example">Full Code Example</h2>
-<div class="codehilite"><pre><span></span><code><span class="c1"># add remote link</span>
-dvc remote add rubbishbin s3://images/rubbishbin
-
-<span class="c1"># assume folder called rubbishbin is added with data inside</span>
-<span class="c1"># store data version to S3</span>
-dvc add rubbishbin
-dvc push -r rubbishbin rubbishbin.dvc
-
-<span class="c1"># git commit</span>
-git add rubbishbin.dvc .dvc/config .gitignore
-git commit -m <span class="s2">&quot;Add init rubbishbin dataset&quot;</span>
-git push
-
-<span class="c1"># pull data</span>
-dvc pull -r rubbishbin rubbishbin.dvc
-</code></pre></div>
+                <h1 id="nvidia-gpu">Nvidia GPU</h1>
+<h2 id="installing-cuda">Installing CUDA</h2>
+<p>Go to Nvidia's CUDA <a href="https://developer.nvidia.com/cuda-toolkit-archive">website</a></p>
+<p>sudo sh cuda_10.0.130_410.48_linux.run</p>
+<h2 id="verification">Verification</h2>
+<p><code>cat /proc/driver/nvidia/version</code>: Verify Nvidia driver version
+<code>nvcc -V</code>: Verify CUDA toolkit version</p>
                 
               
               
@@ -563,41 +379,6 @@ dvc pull -r rubbishbin rubbishbin.dvc
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
-        
-          <a href="../git/" title="Code Version Control" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-footer-nav__button md-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-            </div>
-            <div class="md-footer-nav__title">
-              <div class="md-ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                Code Version Control
-              </div>
-            </div>
-          </a>
-        
-        
-          <a href="../code-standards/" title="Code Standards" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-footer-nav__title">
-              <div class="md-ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Code Standards
-              </div>
-            </div>
-            <div class="md-footer-nav__button md-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
