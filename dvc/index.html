@@ -531,7 +531,7 @@ dvc remote add -d safetycone s3://images/safetycone
 <h2 id="update-git">Update Git</h2>
 <p>We then git commit the <code>&lt;foldername&gt;.dvc</code>, <code>.gitignore</code> &amp; <code>.dvc/config</code> (if there are any additions of the remote links) to the repository. The git commit message/hash will be the basis to access the data version.</p>
 <h2 id="retrieve-data-from-s3">Retrieve Data from S3</h2>
-<p>We can pull from specific dvc folders by using <code>dvc &lt;foldername&gt;.dvc pull</code></p>
+<p>We can pull from specific dvc folders by using <code>dvc pull -r &lt;remote name&gt; &lt;foldername&gt;.dvc</code></p>
 <h2 id="full-code-example">Full Code Example</h2>
 <div class="codehilite"><pre><span></span><code><span class="c1"># add remote link</span>
 dvc remote add rubbishbin s3://images/rubbishbin
