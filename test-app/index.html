@@ -57,7 +57,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#systems-test" class="md-skip">
+        <a href="#application-test" class="md-skip">
           Skip to content
         </a>
       
@@ -385,7 +385,7 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/system-test.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/test-app.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
@@ -393,8 +393,8 @@
                   
                 
                 
-                <h1 id="systems-test">Systems Test</h1>
-<p>System Tests, aks integration tests, tests the entire system, with all components integrated to detect any issues arising from it.</p>
+                <h1 id="application-test">Application Test</h1>
+<p>Application Tests, aks integration tests, tests the entire application, with all components integrated to detect any issues arising from it.</p>
 <h2 id="memory-leak">Memory Leak</h2>
 <p>Memory leak is an insidious fault in the code that can consume the entire memory (RAM or GPU) over time &amp; crash the application, together with other applications in the same server. To detect this, we usually need to run multiple requests over a period of time to the API to see if the memory builds up. We can use an app I developed to do this; <a href="https://github.com/mapattacker/streamlit-memoryleak">streamlit-memoryleak-checker</a>.</p>
 <p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/memory.png?raw=true" /></p>
