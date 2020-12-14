@@ -518,7 +518,7 @@
 <div class="codehilite"><pre><span></span><code><span class="c1"># gunicorn -w 2 flaskscript:flaskapp</span>
 <span class="c1"># it uses port 8000 by default, but we can change it</span>
 <span class="c1"># to see all flask stdout, we can change the log level to debug</span>
-gunicorn --bind <span class="m">0</span>.0.0.0:5000 -w <span class="m">2</span> --log-level debug serve_http:app
+gunicorn --bind <span class="m">0</span>.0.0.0:5000 -w <span class="m">2</span> --timeout<span class="o">=</span><span class="m">300</span> --log-level info serve_http:app
 </code></pre></div>
 
 
