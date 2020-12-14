@@ -409,7 +409,7 @@
 </code></pre></div>
 
 
-<p>This is how a model directory &amp; its contents look like, with each model version stored in a time-stamped folder.</p>
+<p>This is how a model directory &amp; its contents look like, with each model version stored in a time-stamped folder. With the timestamp, it allows automated canary deployment when a new version is created.</p>
 <div class="codehilite"><pre><span></span><code>├── amazon_review
 │ ├── <span class="m">1600788643</span>
 │ │ ├── assets
@@ -501,7 +501,7 @@ docker run -p <span class="m">8500</span>:8500 <span class="se">\</span>
 </code></pre></div>
 
 
-<p>Below is an example using python.</p>
+<p>Below is an example using python. More <a href="https://neptune.ai/blog/how-to-serve-machine-learning-models-with-tensorflow-serving-and-docker">here</a></p>
 <div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">sys</span>
