@@ -12,9 +12,10 @@ nav:
     - Code Standards: code-standards.md
     - Security: security.md
     - Flask: flask.md
+    - Tensorflow Serving: tf-serving.md
     - Docker: docker.md
     - Serverless: serverless.md
-    - System Test: system-test.md
+    - Application Test: test-app.md
 
 repo_name: mapattacker/ai-engineer
 repo_url: https://github.com/mapattacker/ai-engineer

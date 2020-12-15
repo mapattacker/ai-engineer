@@ -20,6 +20,8 @@ git remote -v
 git remote set-url origin https://github.com/mapattacker/ai-engineer.git
 ```
 
+<hr>
+
 ## Branches
 
 Branches plays a key role in git. This allows multiple users to coordinate in a project, which each working on a separate branch. As a rule of thumb, we do not push any codes directly to the master branch. The owner of the repository will usually disable this option.
@@ -34,7 +36,12 @@ git fetch
 # change to dev branch
 git checkout dev
 # create a new local branch
-git checkout -b <featurename>
+git checkout -b <branchname>
+
+# delete local branch
+git branch -d <branchname>
+# delete remote branch
+git push origin -d <branchname>
 ```
 
 ### Workflow
@@ -86,6 +93,8 @@ The various git commands and how they interact at different stages are as illust
 
 ![](https://github.com/mapattacker/ai-engineer/blob/master/images/git.png?raw=true)
 
+<hr>
+
 ## Release Tags
 
 We can add tags, usually for release versions, so that it is easy to revert back to a specific version within a branch.
@@ -97,3 +106,17 @@ We can add tags, usually for release versions, so that it is easy to revert back
 | `git tag -d v1.0` | delete local tag ONLY |
 | `git push --delete origin v1.0.0` | delete remote tag ONLY |
 | `git tag` | list tags |
+
+<hr>
+
+## Delete from Git History
+
+[BFG Repo-Cleaner](https://rtyley.github.io/bfg-repo-cleaner/) is a 3rd party java file used to remove files that are not accidentally uploaded, e.g., passwords, blobs. Download their file from the website and follow the instructions there, or from the example below.
+
+| CMD | Desc |
+|-|-|
+| `git clone --mirror git@gitlab.com:project/repo-name.git` | clone only the .git |
+| `bfg --delete-files "*.{png,jpg,gif}" repo-name.git` | delete certain file extensions |
+| `cd repo-name.git` | go into git directory |
+| `git reflog expire --expire=now --all && git gc --prune=now --aggressive` | delete old files |
+| `git push --force` | push updated git to remote |

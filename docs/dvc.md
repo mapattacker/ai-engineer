@@ -66,7 +66,7 @@ We then git commit the `<foldername>.dvc`, `.gitignore` & `.dvc/config` (if ther
 
 ## Retrieve Data from S3
 
-We can pull from specific dvc folders by using `dvc <foldername>.dvc pull`
+We can pull from specific dvc folders by using `dvc pull -r <remote name> <foldername>.dvc`
 
 ## Full Code Example
 

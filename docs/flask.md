@@ -66,7 +66,8 @@ Flask as a server is meant for development, as it tries to remind you everytime 
 ```bash
 # gunicorn -w 2 flaskscript:flaskapp
 # it uses port 8000 by default, but we can change it
-gunicorn --bind 0.0.0.0:5000 -w 2 serve_http:app
+# to see all flask stdout, we can change the log level to debug
+gunicorn --bind 0.0.0.0:5000 -w 2 --timeout=300 --log-level info serve_http:app
 ```
 
 ## Testing
