@@ -431,15 +431,19 @@
                 <h1 id="tensorrt">TensorRT</h1>
 <p>TensorFlow Integration for TensorRT (TF-TRT) is developed by Nvidia, which is a deep learning framework based on CUDA for inference acceleration. It optimizes and executes compatible subgraphs, allowing TensorFlow to execute the remaining graph. While you can still use TensorFlow's wide and flexible feature set, TensorRT will parse the model and apply optimizations to the portions of the graph wherever possible. </p>
 <p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/tensorrt.png?raw=true" />
-Source: <a href="https://blog.tensorflow.org/2018/04/speed-up-tensorflow-inference-on-gpus-tensorRT.html">https://developer.nvidia.com/tensorrt</a></p>
+Source: <a href="https://developer.nvidia.com/tensorrt">Nvidia TensorRT</a></p>
+<p>Two of the most important optimizations are described below.</p>
 <h2 id="layer-fusion">Layer Fusion</h2>
 <p>During the TF-TRT optimization, TensorRT performs several important transformations and optimizations to the neural network graph. First, layers with unused output are eliminated to avoid unnecessary computation. </p>
 <p>Next, where possible, certain layers (such as convolution, bias, and ReLU) are fused to form a single layer. Another transformation is horizontal layer fusion, or layer aggregation, along with the required division of aggregated layers to their respective output. Horizontal layer fusion improves performance by combining layers that take the same source tensor and apply the same operations with similar parameters. </p>
 <p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/tensorrt2.png?raw=true" />
-Source: <a href="https://blog.tensorflow.org/2018/04/speed-up-tensorflow-inference-on-gpus-tensorRT.html">https://blog.tensorflow.org/2018/04/speed-up-tensorflow-inference-on-gpus-tensorRT.html</a></p>
+Source: <a href="https://blog.tensorflow.org/2018/04/speed-up-tensorflow-inference-on-gpus-tensorRT.html">Speed up Tensorflow inference on GPUs - TensorRT</a></p>
 <h2 id="quantization">Quantization</h2>
-<p>Typically, model training is performed using 32-bit floating point mathematics. Due to the backpropagation algorithm and weights updates, this high precision is necessary to allow for model convergence. Once trained, inference could be done in reduced precision (e.g. FP16) as the neural network architecture only requires a feed-forward network.</p>
+<p>Typically, model training is performed using 32-bit floating point (<code>FP32</code>) mathematics. Due to the backpropagation algorithm and weights updates, this high precision is necessary to allow for model convergence. Once trained, inference could be done in reduced precision (e.g. <code>FP16</code>) as the neural network architecture only requires a feed-forward network.</p>
 <p>Reducing numerical precision allows for a smaller model with faster inferencing time, lower memory requirements, and more throughput.</p>
+<p>There are certain requirements using quanitzation in TensorRT
+ * <code>FP16</code> requires Nvidia GPUs that have hardware <strong>tensor cores</strong>
+ * <code>INT8</code> is more complex, and requires a <strong>calibration process</strong> that minimizes the information loss when approximating the FP32 network with a limited 8-bit integer representation.</p>
                 
               
               
