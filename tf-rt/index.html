@@ -283,9 +283,45 @@
       
     
     
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        TensorRT
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
     <a href="./" class="md-nav__link md-nav__link--active">
       TensorRT
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#layer-fusion" class="md-nav__link">
+    Layer Fusion
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quantization" class="md-nav__link">
+    Quantization
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
     
   </li>
 
@@ -355,6 +391,28 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#layer-fusion" class="md-nav__link">
+    Layer Fusion
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quantization" class="md-nav__link">
+    Quantization
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -371,8 +429,17 @@
                 
                 
                 <h1 id="tensorrt">TensorRT</h1>
-<p>TensorFlow Integration for TensorRT (TF-TRT) is developed by Nvidia, which is a deep learning framework based on CUDA for inference acceleration. This is done by optimizing the model to dramatically increase their inference time. Below shows some of the optimizations done.</p>
-<p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/tensorrt.png?raw=true" /></p>
+<p>TensorFlow Integration for TensorRT (TF-TRT) is developed by Nvidia, which is a deep learning framework based on CUDA for inference acceleration. It optimizes and executes compatible subgraphs, allowing TensorFlow to execute the remaining graph. While you can still use TensorFlow's wide and flexible feature set, TensorRT will parse the model and apply optimizations to the portions of the graph wherever possible. </p>
+<p><img alt="https://github.com/mapattacker/ai-engineer/blob/master/images/tensorrt.png?raw=true" src="https://github.com/mapattacker/ai-engineer/blob/master/images/tensorrt.png?raw=true" />
+Source: https://developer.nvidia.com/tensorrt</p>
+<h2 id="layer-fusion">Layer Fusion</h2>
+<p>During the TF-TRT optimization, TensorRT performs several important transformations and optimizations to the neural network graph. First, layers with unused output are eliminated to avoid unnecessary computation. </p>
+<p>Next, where possible, certain layers (such as convolution, bias, and ReLU) are fused to form a single layer. Another transformation is horizontal layer fusion, or layer aggregation, along with the required division of aggregated layers to their respective output. Horizontal layer fusion improves performance by combining layers that take the same source tensor and apply the same operations with similar parameters. </p>
+<p><img alt="https://github.com/mapattacker/ai-engineer/blob/master/images/tensorrt2.png?raw=true" src="https://github.com/mapattacker/ai-engineer/blob/master/images/tensorrt2.png?raw=true" />
+Source: https://blog.tensorflow.org/2018/04/speed-up-tensorflow-inference-on-gpus-tensorRT.html</p>
+<h2 id="quantization">Quantization</h2>
+<p>Typically, model training is performed using 32-bit floating point mathematics. Due to the backpropagation algorithm and weights updates, this high precision is necessary to allow for model convergence. Once trained, inference could be done in reduced precision (e.g. FP16) as the neural network architecture only requires a feed-forward network.</p>
+<p>Reducing numerical precision allows for a smaller model with faster inferencing time, lower memory requirements, and more throughput.</p>
                 
               
               
