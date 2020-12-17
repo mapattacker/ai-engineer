@@ -441,9 +441,11 @@ Source: <a href="https://blog.tensorflow.org/2018/04/speed-up-tensorflow-inferen
 <h2 id="quantization">Quantization</h2>
 <p>Typically, model training is performed using 32-bit floating point (<code>FP32</code>) mathematics. Due to the backpropagation algorithm and weights updates, this high precision is necessary to allow for model convergence. Once trained, inference could be done in reduced precision (e.g. <code>FP16</code>) as the neural network architecture only requires a feed-forward network.</p>
 <p>Reducing numerical precision allows for a smaller model with faster inferencing time, lower memory requirements, and more throughput.</p>
-<p>There are certain requirements using quanitzation in TensorRT
- * <code>FP16</code> requires Nvidia GPUs that have hardware <strong>tensor cores</strong>
- * <code>INT8</code> is more complex, and requires a <strong>calibration process</strong> that minimizes the information loss when approximating the FP32 network with a limited 8-bit integer representation.</p>
+<p>There are certain requirements using quantization in TensorRT</p>
+<ul>
+<li><code>FP16</code> requires Nvidia GPUs that have hardware <strong>tensor cores</strong></li>
+<li><code>INT8</code> is more complex, and requires a <strong>calibration process</strong> that minimizes the information loss when approximating the FP32 network with a limited 8-bit integer representation.</li>
+</ul>
                 
               
               
