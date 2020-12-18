@@ -565,6 +565,7 @@
                 
                 
                 <h1 id="model-optimization">Model Optimization</h1>
+<p>There are various ways to optimize a trained neural network model such that we can improve the inference performance with little impact on the precision.</p>
 <h2 id="cpu-flow-control">CPU Flow Control</h2>
 <p>Some operations in the neural network cannot run in GPU, hence data sometimes have to be transferred from CPU-GPU. This transfer if occurred many times, increases the latency. We can profile this by recording the events and time as a json file, and view in Chrome at the URL, <code>chrome://tracing</code> .</p>
 <div class="codehilite"><pre><span></span><code><span class="n">image</span> <span class="o">=</span> <span class="n">get_image_by_url</span><span class="p">(</span><span class="s2">&quot;https://www.rover.com/blog/wp-content/uploads/2017/05/pug-tilt-960x540.jpg&quot;</span><span class="p">)</span>
