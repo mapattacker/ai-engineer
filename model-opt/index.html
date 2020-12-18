@@ -1,0 +1,871 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.6">
+    
+    
+      
+        <title>Model Optimization - AI Engineer Guide</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6910b76c.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.196e0c26.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ab47bd">
+        
+      
+    
+    
+    
+      
+        
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="purple" data-md-color-accent="">
+      
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#model-optimization" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href=".." title="AI Engineer Guide" class="md-header-nav__button md-logo" aria-label="AI Engineer Guide">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            AI Engineer Guide
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Model Optimization
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/mapattacker/ai-engineer/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mapattacker/ai-engineer
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="AI Engineer Guide" class="md-nav__button md-logo" aria-label="AI Engineer Guide">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    AI Engineer Guide
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/mapattacker/ai-engineer/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mapattacker/ai-engineer
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../virtual_env/" class="md-nav__link">
+      Virtual Environment
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../git/" class="md-nav__link">
+      Code Version Control
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../dvc/" class="md-nav__link">
+      Data Version Control
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../code-standards/" class="md-nav__link">
+      Code Standards
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../security/" class="md-nav__link">
+      Security
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../flask/" class="md-nav__link">
+      Flask
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Model Optimization
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="./" class="md-nav__link md-nav__link--active">
+      Model Optimization
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cpu-flow-control" class="md-nav__link">
+    CPU Flow Control
+  </a>
+  
+    <nav class="md-nav" aria-label="CPU Flow Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tensorflow-model-optimization" class="md-nav__link">
+    Tensorflow Model Optimization
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tensorrt" class="md-nav__link">
+    TensorRT
+  </a>
+  
+    <nav class="md-nav" aria-label="TensorRT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layer-fusion" class="md-nav__link">
+    Layer Fusion
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantization" class="md-nav__link">
+    Quantization
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#save-model" class="md-nav__link">
+    Save Model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#benchmark-functions" class="md-nav__link">
+    Benchmark Functions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trt-conversion" class="md-nav__link">
+    TRT Conversion
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#references_1" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../tf-serving/" class="md-nav__link">
+      Tensorflow Serving
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../docker/" class="md-nav__link">
+      Docker
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../serverless/" class="md-nav__link">
+      Serverless
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../test-other/" class="md-nav__link">
+      Other Tests
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cpu-flow-control" class="md-nav__link">
+    CPU Flow Control
+  </a>
+  
+    <nav class="md-nav" aria-label="CPU Flow Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tensorflow-model-optimization" class="md-nav__link">
+    Tensorflow Model Optimization
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tensorrt" class="md-nav__link">
+    TensorRT
+  </a>
+  
+    <nav class="md-nav" aria-label="TensorRT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layer-fusion" class="md-nav__link">
+    Layer Fusion
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantization" class="md-nav__link">
+    Quantization
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#save-model" class="md-nav__link">
+    Save Model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#benchmark-functions" class="md-nav__link">
+    Benchmark Functions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trt-conversion" class="md-nav__link">
+    TRT Conversion
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#references_1" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/model-opt.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="model-optimization">Model Optimization</h1>
+<h2 id="cpu-flow-control">CPU Flow Control</h2>
+<p>Some operations in the neural network cannot run in GPU, hence data sometimes have to be transferred from CPU-GPU. This transfer if occurred many times, increases the latency. We can profile this by recording the events and time as a json file, and view in Chrome at the URL, <code>chrome://tracing</code> .</p>
+<div class="codehilite"><pre><span></span><code><span class="n">image</span> <span class="o">=</span> <span class="n">get_image_by_url</span><span class="p">(</span><span class="s2">&quot;https://www.rover.com/blog/wp-content/uploads/2017/05/pug-tilt-960x540.jpg&quot;</span><span class="p">)</span>
+<span class="n">image_tensor</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
+<span class="n">image_tensor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">image_tensor</span><span class="p">)</span>
+<span class="n">image_tensor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">image_tensor</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">input_tensor_name</span> <span class="o">=</span> <span class="s2">&quot;image_tensor:0&quot;</span>
+<span class="n">output_tensor_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;detection_boxes:0&#39;</span><span class="p">,</span> <span class="s1">&#39;detection_classes:0&#39;</span><span class="p">,</span> <span class="s1">&#39;detection_scores:0&#39;</span><span class="p">,</span> <span class="s1">&#39;num_detections:0&#39;</span><span class="p">]</span>
+<span class="n">ssd_mobilenet_v2_graph_def</span> <span class="o">=</span> <span class="n">load_graph_def</span><span class="p">(</span><span class="n">frozen_model_path</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span><span class="o">.</span><span class="n">as_default</span><span class="p">()</span> <span class="k">as</span> <span class="n">g</span><span class="p">:</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">import_graph_def</span><span class="p">(</span><span class="n">ssd_mobilenet_v2_graph_def</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">input_tensor</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_tensor_by_name</span><span class="p">(</span><span class="n">input_tensor_name</span><span class="p">)</span>
+    <span class="n">output_tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">get_tensor_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">output_tensor_names</span><span class="p">]</span>
+
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="n">g</span><span class="p">)</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">RunOptions</span><span class="p">(</span><span class="n">trace_level</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">RunOptions</span><span class="o">.</span><span class="n">FULL_TRACE</span><span class="p">)</span>
+    <span class="n">run_metadata</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">RunMetadata</span><span class="p">()</span>
+
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">output_tensors</span><span class="p">,</span> <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">input_tensor</span><span class="p">:</span> <span class="n">image_tensor</span><span class="p">},</span>
+                       <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">run_metadata</span><span class="o">=</span><span class="n">run_metadata</span><span class="p">)</span>
+    <span class="n">inference_time</span> <span class="o">=</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">start</span><span class="p">)</span><span class="o">*</span><span class="mf">1000.</span> <span class="c1"># in ms</span>
+
+    <span class="c1"># Write metadata</span>
+    <span class="n">fetched_timeline</span> <span class="o">=</span> <span class="n">timeline</span><span class="o">.</span><span class="n">Timeline</span><span class="p">(</span><span class="n">run_metadata</span><span class="o">.</span><span class="n">step_stats</span><span class="p">)</span>
+    <span class="n">chrome_trace</span> <span class="o">=</span> <span class="n">fetched_timeline</span><span class="o">.</span><span class="n">generate_chrome_trace_format</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;ssd_mobilenet_v2_coco_2018_03_29/exported_model/&#39;</span> <span class="o">+</span> <span class="n">trace_filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">chrome_trace</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>We can specify certain nodes that are more CPU efficient, to run within CPU, thereby decreasing the data transfer and improving the inference performance. </p>
+<p>For example all the NonMaxSuppression are placed for CPU processing since most of the flow operations happen in this block.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">ssd_mobilenet_v2_optimized_graph_def</span><span class="o">.</span><span class="n">node</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">&#39;NonMaxSuppression&#39;</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+        <span class="n">node</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="s1">&#39;/device:CPU:0&#39;</span>
+</code></pre></div>
+
+
+<h3 id="references">References</h3>
+<ul>
+<li><a href="https://towardsdatascience.com/optimize-nvidia-gpu-performance-for-efficient-model-inference-f3e9874e9fdc">Optimize NVIDIA GPU performance for efficient model inference</a></li>
+</ul>
+<h2 id="tensorflow-model-optimization">Tensorflow Model Optimization</h2>
+<p>Tensorflow has has developed its own <a href="https://www.tensorflow.org/model_optimization">library</a> for model optimization, which includes quantization, sparsity and pruning, and clustering. It can be installed via <code>pip install --user --upgrade tensorflow-model-optimization</code>.</p>
+<h2 id="tensorrt">TensorRT</h2>
+<p>TensorFlow Integration for TensorRT (TF-TRT) is developed by Nvidia, which is a deep learning framework based on CUDA for inference acceleration. It optimizes and executes compatible subgraphs, allowing TensorFlow to execute the remaining graph. While you can still use TensorFlow's wide and flexible feature set, TensorRT will parse the model and apply optimizations to the portions of the graph wherever possible. </p>
+<p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/tensorrt.png?raw=true" />
+Source: <a href="https://developer.nvidia.com/tensorrt">Nvidia TensorRT</a></p>
+<p>Two of the most important optimizations are described below.</p>
+<h3 id="layer-fusion">Layer Fusion</h3>
+<p>During the TF-TRT optimization, TensorRT performs several important transformations and optimizations to the neural network graph. First, layers with unused output are eliminated to avoid unnecessary computation. </p>
+<p>Next, where possible, certain layers (such as convolution, bias, and ReLU) are fused to form a single layer. Another transformation is horizontal layer fusion, or layer aggregation, along with the required division of aggregated layers to their respective output. Horizontal layer fusion improves performance by combining layers that take the same source tensor and apply the same operations with similar parameters. </p>
+<p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/tensorrt2.png?raw=true" />
+Source: <a href="https://blog.tensorflow.org/2018/04/speed-up-tensorflow-inference-on-gpus-tensorRT.html">Speed up Tensorflow inference on GPUs - TensorRT</a></p>
+<h3 id="quantization">Quantization</h3>
+<p>Typically, model training is performed using 32-bit floating point (<code>FP32</code>) mathematics. Due to the backpropagation algorithm and weights updates, this high precision is necessary to allow for model convergence. Once trained, inference could be done in reduced precision (e.g. <code>FP16</code>) as the neural network architecture only requires a feed-forward network.</p>
+<p>Reducing numerical precision allows for a smaller model with faster inferencing time, lower memory requirements, and more throughput.</p>
+<p>There are certain requirements using quantization in TensorRT</p>
+<ul>
+<li><code>FP16</code> requires Nvidia GPUs that have hardware <strong>tensor cores</strong></li>
+<li><code>INT8</code> is more <a href="https://on-demand.gputechconf.com/gtc/2017/presentation/s7310-8-bit-inference-with-tensorrt.pdf">complex</a>, and requires a <strong>calibration process</strong> that minimizes the information loss when approximating the FP32 network with a limited 8-bit integer representation.</li>
+</ul>
+<h3 id="save-model">Save Model</h3>
+<p>An example is used from a keras' model, and then saving it as a tensorflow protobuf model.</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.applications.inception_v3</span> <span class="kn">import</span> <span class="n">InceptionV3</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">InceptionV3</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="s1">&#39;imagenet&#39;</span><span class="p">)</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">saved_model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">&#39;inceptionv3_saved_model&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>We can view the model details using the <code>saved_model_cli</code>.</p>
+<div class="codehilite"><pre><span></span><code>!saved_model_cli show --all --dir &lt;model-directory&gt;
+</code></pre></div>
+
+
+<h3 id="benchmark-functions">Benchmark Functions</h3>
+<p>To check that the new optimized model has faster inference &amp; throughput, we want to prepare a function for loading the model... </p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">load_tf_saved_model_infer</span><span class="p">(</span><span class="n">input_saved_model_dir</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;load model for inference&quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Loading saved model </span><span class="si">{</span><span class="n">input_saved_model_dir</span><span class="si">}</span><span class="s1">...&#39;</span><span class="p">)</span>
+    <span class="n">saved_model_loaded</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">saved_model</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">input_saved_model_dir</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="n">tag_constants</span><span class="o">.</span><span class="n">SERVING</span><span class="p">])</span>
+    <span class="n">infer</span> <span class="o">=</span> <span class="n">saved_model</span><span class="o">.</span><span class="n">signatures</span><span class="p">[</span><span class="s1">&#39;serving_default&#39;</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">infer</span><span class="o">.</span><span class="n">structured_outputs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">infer</span>
+</code></pre></div>
+
+
+<p>We can use <strong>batch inference</strong> to send many images to the GPU at once promotes parallel processing and improve throughput.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">batch_input</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+    <span class="n">batched_input</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">299</span><span class="p">,</span> <span class="mi">299</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">batch_size</span><span class="p">):</span>
+        <span class="n">img_path</span> <span class="o">=</span> <span class="s1">&#39;./data/img</span><span class="si">%d</span><span class="s1">.JPG&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">load_img</span><span class="p">(</span><span class="n">img_path</span><span class="p">,</span> <span class="n">target_size</span><span class="o">=</span><span class="p">(</span><span class="mi">299</span><span class="p">,</span> <span class="mi">299</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">img_to_array</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">preprocess_input</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">batched_input</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">x</span>
+
+    <span class="n">batched_input</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="n">batched_input</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">batched_input</span>
+</code></pre></div>
+
+
+<p>... and lastly, a function for benchmarking the latency &amp; throughput.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">benchmark</span><span class="p">(</span><span class="n">batched_input</span><span class="p">,</span> <span class="n">infer</span><span class="p">,</span> <span class="n">N_warmup_run</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">N_run</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;benchmark latency &amp; throughput</span>
+
+<span class="sd">    Args</span>
+<span class="sd">        batched_input: </span>
+<span class="sd">        infer (tf.float32): tensorflow model for inference</span>
+<span class="sd">        N_warmup_run (int): no. of runs to warm up GPU</span>
+<span class="sd">        N_run (int): no. of runs after warmup to benchmark</span>
+
+<span class="sd">    Rets</span>
+<span class="sd">        all_preds (list): predicted output</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">elapsed_time</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">all_preds</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">batched_input</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_warmup_run</span><span class="p">):</span>
+        <span class="n">labeling</span> <span class="o">=</span> <span class="n">infer</span><span class="p">(</span><span class="n">batched_input</span><span class="p">)</span>
+        <span class="n">preds</span> <span class="o">=</span> <span class="n">labeling</span><span class="p">[</span><span class="s1">&#39;predictions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_run</span><span class="p">):</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="n">labeling</span> <span class="o">=</span> <span class="n">infer</span><span class="p">(</span><span class="n">batched_input</span><span class="p">)</span>
+        <span class="n">preds</span> <span class="o">=</span> <span class="n">labeling</span><span class="p">[</span><span class="s1">&#39;predictions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+        <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elapsed_time</span><span class="p">,</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
+
+        <span class="n">all_preds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">preds</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">50</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Steps </span><span class="si">{}</span><span class="s1">-</span><span class="si">{}</span><span class="s1"> average: </span><span class="si">{:4.1f}</span><span class="s1">ms&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">50</span><span class="p">,</span> <span class="p">(</span><span class="n">elapsed_time</span><span class="p">[</span><span class="o">-</span><span class="mi">50</span><span class="p">:]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">))</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Throughput: </span><span class="si">{:.0f}</span><span class="s1"> images/s&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">N_run</span> <span class="o">*</span> <span class="n">batch_size</span> <span class="o">/</span> <span class="n">elapsed_time</span><span class="o">.</span><span class="n">sum</span><span class="p">()))</span>
+    <span class="k">return</span> <span class="n">all_preds</span>
+</code></pre></div>
+
+
+<h3 id="trt-conversion">TRT Conversion</h3>
+<p>Tensorflow library has integrated Tensorrt, called <a href="https://docs.nvidia.com/deeplearning/frameworks/tf-trt-user-guide/index.html">TrtGraphConverterV2</a> so we can call its API to convert the existing model. Below is a simple snippet on how to use it.</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">tensorflow.python.compiler.tensorrt</span> <span class="kn">import</span> <span class="n">trt_convert</span> <span class="k">as</span> <span class="n">trt</span>
+
+<span class="n">converter</span> <span class="o">=</span> <span class="n">trt</span><span class="o">.</span><span class="n">TrtGraphConverterV2</span><span class="p">(</span>
+                <span class="n">input_saved_model_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">conversion_params</span><span class="o">=</span><span class="n">TrtConversionParams</span><span class="p">(</span>
+                    <span class="n">precision_mode</span><span class="o">=</span><span class="s1">&#39;FP32&#39;</span><span class="p">,</span>
+                    <span class="n">max_batch_size</span><span class="o">=</span><span class="mi">1</span>
+                    <span class="n">minimum_segment_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                    <span class="n">max_workspace_size_bytes</span><span class="o">=</span><span class="mi">8000000000</span><span class="p">,</span>
+                    <span class="n">use_calibration</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">maximum_cached_engines</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="n">is_dynamic_op</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">rewriter_config_template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+<span class="n">converter</span><span class="o">.</span><span class="n">convert</span><span class="p">()</span>
+<span class="n">converter</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">output_saved_model_dir</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>While below gives a function that allows more flexibility to change between various precision, and also calibrate the dataset when going to <code>int8</code>.</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">tensorflow.python.compiler.tensorrt</span> <span class="kn">import</span> <span class="n">trt_convert</span> <span class="k">as</span> <span class="n">trt</span>
+
+<span class="k">def</span> <span class="nf">convert_to_trt_graph_and_save</span><span class="p">(</span><span class="n">precision_mode</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">,</span>
+                                  <span class="n">input_saved_model_dir</span><span class="o">=</span><span class="s1">&#39;inceptionv3_saved_model&#39;</span><span class="p">,</span>
+                                  <span class="n">max_workspace_size_bytes</span><span class="o">=</span><span class="mi">8000000000</span>
+                                  <span class="n">calibration_data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="c1"># select precision</span>
+    <span class="k">if</span> <span class="n">precision_mode</span> <span class="o">==</span> <span class="s1">&#39;float32&#39;</span><span class="p">:</span>
+        <span class="n">precision_mode</span> <span class="o">=</span> <span class="n">trt</span><span class="o">.</span><span class="n">TrtPrecisionMode</span><span class="o">.</span><span class="n">FP32</span>
+        <span class="n">converted_save_suffix</span> <span class="o">=</span> <span class="s1">&#39;_TFTRT_FP32&#39;</span>
+    <span class="k">elif</span> <span class="n">precision_mode</span> <span class="o">==</span> <span class="s1">&#39;float16&#39;</span><span class="p">:</span>
+        <span class="n">precision_mode</span> <span class="o">=</span> <span class="n">trt</span><span class="o">.</span><span class="n">TrtPrecisionMode</span><span class="o">.</span><span class="n">FP16</span>
+        <span class="n">converted_save_suffix</span> <span class="o">=</span> <span class="s1">&#39;_TFTRT_FP16&#39;</span>
+    <span class="k">elif</span> <span class="n">precision_mode</span> <span class="o">==</span> <span class="s1">&#39;int8&#39;</span><span class="p">:</span>
+        <span class="n">precision_mode</span> <span class="o">=</span> <span class="n">trt</span><span class="o">.</span><span class="n">TrtPrecisionMode</span><span class="o">.</span><span class="n">INT8</span>
+        <span class="n">converted_save_suffix</span> <span class="o">=</span> <span class="s1">&#39;_TFTRT_INT8&#39;</span>
+
+    <span class="n">output_saved_model_dir</span> <span class="o">=</span> <span class="n">input_saved_model_dir</span> <span class="o">+</span> <span class="n">converted_save_suffix</span>
+    <span class="n">conversion_params</span> <span class="o">=</span> <span class="n">trt</span><span class="o">.</span><span class="n">DEFAULT_TRT_CONVERSION_PARAMS</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span>
+        <span class="n">precision_mode</span><span class="o">=</span><span class="n">precision_mode</span><span class="p">,</span> 
+        <span class="n">max_workspace_size_bytes</span><span class="o">=</span><span class="n">max_workspace_size_bytes</span>
+    <span class="p">)</span>
+    <span class="n">converter</span> <span class="o">=</span> <span class="n">trt</span><span class="o">.</span><span class="n">TrtGraphConverterV2</span><span class="p">(</span>
+        <span class="n">input_saved_model_dir</span><span class="o">=</span><span class="n">input_saved_model_dir</span><span class="p">,</span>
+        <span class="n">conversion_params</span><span class="o">=</span><span class="n">conversion_params</span>
+    <span class="p">)</span>
+
+    <span class="c1"># calibrate data if using int8</span>
+    <span class="k">if</span> <span class="n">precision_mode</span> <span class="o">==</span> <span class="n">trt</span><span class="o">.</span><span class="n">TrtPrecisionMode</span><span class="o">.</span><span class="n">INT8</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">calibration_input_fn</span><span class="p">():</span>
+            <span class="k">yield</span> <span class="p">(</span><span class="n">calibration_data</span><span class="p">,</span> <span class="p">)</span>
+        <span class="n">converter</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">calibration_input_fn</span><span class="o">=</span><span class="n">calibration_input_fn</span><span class="p">)</span>    
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">converter</span><span class="o">.</span><span class="n">convert</span><span class="p">()</span>
+
+    <span class="c1"># save tf-trt model</span>
+    <span class="n">converter</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">output_saved_model_dir</span><span class="o">=</span><span class="n">output_saved_model_dir</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>We can check the signature of the new model again using the <code>saved_model_cli</code>.</p>
+<div class="codehilite"><pre><span></span><code>!saved_model_cli show --all --dir &lt;new-model-directory&gt;
+</code></pre></div>
+
+
+<h3 id="references_1">References</h3>
+<ul>
+<li><a href="https://medium.com/tensorflow/optimizing-tensorflow-serving-performance-with-nvidia-tensorrt-6d8a2347869a">Optimizing TensorFlow Serving performance with NVIDIA TensorRT</a></li>
+</ul>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../flask/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Flask
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../tf-serving/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Tensorflow Serving
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/vendor.fd16492e.min.js"></script>
+      <script src="../assets/javascripts/bundle.7836ba4d.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "..",
+          features: [],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.4ac00218.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>
