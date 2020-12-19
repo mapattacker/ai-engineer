@@ -15,7 +15,7 @@
     
     
       
-        <title>Pytest - AI Engineer Guide</title>
+        <title>Testing - AI Engineer Guide</title>
       
     
     
@@ -57,7 +57,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#pytest" class="md-skip">
+        <a href="#testing" class="md-skip">
           Skip to content
         </a>
       
@@ -85,7 +85,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Pytest
+              Testing
             
           </span>
         </div>
@@ -315,73 +315,11 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Pytest
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
-        </span>
-      </label>
-    
-    <a href="./" title="Pytest" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../pytest.md" title="Pytest" class="md-nav__link">
       Pytest
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-      </span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#basics" class="md-nav__link">
-    Basics
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#test-coverage" class="md-nav__link">
-    Test Coverage
-  </a>
-  
-    <nav class="md-nav" aria-label="Test Coverage">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#pytest-cov" class="md-nav__link">
-    pytest-cov
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
     
@@ -423,9 +361,22 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#pytest" class="md-nav__link">
+    Pytest
+  </a>
+  
+    <nav class="md-nav" aria-label="Pytest">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#basics" class="md-nav__link">
     Basics
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -433,19 +384,6 @@
   <a href="#test-coverage" class="md-nav__link">
     Test Coverage
   </a>
-  
-    <nav class="md-nav" aria-label="Test Coverage">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#pytest-cov" class="md-nav__link">
-    pytest-cov
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -461,7 +399,7 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/pytest.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/test.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
@@ -469,13 +407,20 @@
                   
                 
                 
-                <h1 id="pytest">Pytest</h1>
-<p><a href="https://docs.pytest.org/en/stable/">Pytest</a> is one of the python libraries used for automated testing your code. Refactoring process can does be easier to validate, debug, and also placed in your CI/CD pipeline.</p>
-<h2 id="basics">Basics</h2>
+                <h1 id="testing">Testing</h1>
+<p>Testing is an important aspect for any software system as it reduces uncertainty and increases reliability when ungoing refactoring processes. A traditional testing pyramid includes the type of tests as well as their quantity for each test as illustrated below.</p>
+<p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/hierarchy-tests.png?raw=true" />
+Source: <a href="https://sre.google/sre-book/testing-reliability/">Google</a></p>
+<p>With a machine learning system being more complex, as it does not just contain code, but also <strong>data</strong> and <strong>model</strong>. We will also need to test for these.</p>
+<p>Much of my knowledge in machine learning testing is through this udemy course called <a href="https://www.udemy.com/course/testing-and-monitoring-machine-learning-model-deployments/">Testing &amp; Monitoring Machine Learning Model Deployments</a>. I would highly recommend you to sign up for it.</p>
+<h2 id="pytest">Pytest</h2>
+<p><a href="https://docs.pytest.org/en/stable/">Pytest</a> is one of the python libraries used for automated testing your code. Refactoring &amp; improvements can thus be easier to validate, debug, and also included in your CI/CD pipeline. </p>
+<p>An good tutorial on using pytest can be found <a href="https://towardsdatascience.com/unit-testing-for-data-scientists-dc5e0cd397fb">here</a> </p>
+<h3 id="basics">Basics</h3>
 <p>A few basic conventions of pytest includes:</p>
 <ul>
-<li>Test scripts must start or end with the word <code>test</code></li>
-<li>Functions must start with the word <code>test</code></li>
+<li>Test scripts must start or end with the word <code>test</code>, e.g. <code>test_data.py</code></li>
+<li>Functions must start with the word <code>test</code>, e.g. <code>def test_filepath_exits()</code></li>
 <li>Pytest uses <code>assert</code> to provide more context in the test result</li>
 </ul>
 <p>Here are a few commands in the cli after running <code>pytest</code></p>
@@ -514,9 +459,8 @@
 </tbody>
 </table>
 <h2 id="test-coverage">Test Coverage</h2>
-<p>Test coverage allows you to test how much of your code base is tested, and allows you to spot any potential part of your code that you have missed testing.</p>
-<h3 id="pytest-cov">pytest-cov</h3>
-<p>This library can be installed via <code>pip install pytest-cov</code>. Once test cases are written with pytest, we can use it to generate the coverage report. An example is shown below.</p>
+<p>Test coverage allows you to test how much of your code base is tested, and allows you to spot any potential part of your code that you have missed testing. We can use the library <code>pytest-cov</code> for this, and it can be installed via <code>pip install pytest-cov</code>. </p>
+<p>Once test cases are written with pytest, we can use it to generate the coverage report. An example is shown below.</p>
 <div class="codehilite"><pre><span></span><code><span class="n">pytest</span> <span class="o">--</span><span class="n">cov</span><span class="o">=</span><span class="n">myproj</span> <span class="n">tests</span><span class="o">/</span>
 
 <span class="o">--------------------</span> <span class="n">coverage</span><span class="p">:</span> <span class="o">...</span> <span class="o">---------------------</span>
@@ -545,41 +489,6 @@
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
-        
-          <a href="../serverless/" title="Serverless" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-footer-nav__button md-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-            </div>
-            <div class="md-footer-nav__title">
-              <div class="md-ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                Serverless
-              </div>
-            </div>
-          </a>
-        
-        
-          <a href="../test-other/" title="Other Tests" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-footer-nav__title">
-              <div class="md-ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Other Tests
-              </div>
-            </div>
-            <div class="md-footer-nav__button md-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
