@@ -14,7 +14,7 @@
     
     
       
-        <title>Demo - AI Engineer Guide</title>
+        <title>Demo Site - AI Engineer Guide</title>
       
     
     
@@ -60,6 +60,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#demo-site" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -86,7 +91,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Demo
+              Demo Site
             
           </span>
         </div>
@@ -343,6 +348,21 @@
               </div>
             
             
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
@@ -353,9 +373,150 @@
                   </a>
                 
                 
-                  <h1>Demo</h1>
-                
-                
+                <h1 id="demo-site">Demo Site</h1>
+<p>For every model, a demo site should be created to demonstrate the reliability and use of the service, especially to product owners &amp; clients. <a href="https://www.streamlit.io/">Streamlit</a> is an amazing python library used to create ML demo sites fast, while providing a beautiful &amp; consistent template.</p>
+<p>To facilitate deployment, we should always ensure both requirements.txt &amp; Dockerfile are created &amp; tested. </p>
+<p>Below is an example how we can develop a simple object detection demo site.</p>
+<div class="codehilite"><pre><span></span><code><span class="sd">&quot;&quot;&quot;streamlit server for demo site&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">streamlit</span> <span class="k">as</span> <span class="nn">st</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+
+<span class="kn">from</span> <span class="nn">utils_image</span> <span class="kn">import</span> <span class="n">encode_image</span><span class="p">,</span> <span class="n">draw_on_image</span><span class="p">,</span> <span class="n">json2array_yolo</span>
+
+
+<span class="n">json_data</span> <span class="o">=</span> \
+<span class="p">{</span>
+  <span class="s2">&quot;requests&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;features&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="s2">&quot;maxResults&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+          <span class="s2">&quot;min_height&quot;</span><span class="p">:</span> <span class="mf">0.03</span><span class="p">,</span>
+          <span class="s2">&quot;min_width&quot;</span><span class="p">:</span> <span class="mf">0.03</span><span class="p">,</span>
+          <span class="s2">&quot;score_th&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>
+          <span class="s2">&quot;nms_iou&quot;</span><span class="p">:</span> <span class="mf">0.4</span><span class="p">,</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="s2">&quot;image&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="kc">None</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">hide_navbar</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;hide navbar so its not apparent this is from streamlit&quot;&quot;&quot;</span>
+    <span class="n">hide_streamlit_style</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    &lt;style&gt;</span>
+<span class="s2">    #MainMenu {visibility: hidden;}</span>
+<span class="s2">    footer {visibility: hidden;}</span>
+<span class="s2">    &lt;/style&gt;</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="n">hide_streamlit_style</span><span class="p">,</span> <span class="n">unsafe_allow_html</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+
+
+
+<span class="k">def</span> <span class="nf">send2api</span><span class="p">(</span><span class="n">api</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">json_data</span><span class="p">,</span> <span class="n">token</span><span class="p">,</span> \
+             <span class="n">maxfeatures</span><span class="p">,</span> <span class="n">min_height</span><span class="p">,</span> <span class="n">min_width</span><span class="p">,</span> \
+             <span class="n">score_th</span><span class="p">,</span> <span class="n">nms_iou</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Sends JSON request &amp; recieve a JSON response</span>
+
+<span class="sd">    Args</span>
+<span class="sd">    ----</span>
+<span class="sd">    api (str): API endpoint</span>
+<span class="sd">    image (image file): opened image file</span>
+<span class="sd">    json_data (dict): json request template</span>
+<span class="sd">    token (str): API token</span>
+<span class="sd">    maxfeatures (int): max no. of objects to detect in image</span>
+<span class="sd">    min_height (float): min height of bounding box (relative to H) to be included</span>
+<span class="sd">    min_width (float): min width of bounding box (relative to W) to be included</span>
+<span class="sd">    score_th (float): min prediciton score for bounding box to be included</span>
+<span class="sd">    nms_iou (float): intersection over union, for non-max suppression</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    json_response (dict): API response</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">base64_bytes</span> <span class="o">=</span> <span class="n">encode_image</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+    <span class="n">token</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;X-Bedrock-Api-Token&quot;</span><span class="p">:</span> <span class="n">token</span><span class="p">}</span>
+
+    <span class="n">json_data</span><span class="p">[</span><span class="s2">&quot;requests&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;image&quot;</span><span class="p">][</span><span class="s2">&quot;content&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">base64_bytes</span>
+    <span class="n">json_data</span><span class="p">[</span><span class="s2">&quot;requests&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;features&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;maxResults&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">maxfeatures</span>
+    <span class="n">json_data</span><span class="p">[</span><span class="s2">&quot;requests&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;features&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;min_height&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">min_height</span>
+    <span class="n">json_data</span><span class="p">[</span><span class="s2">&quot;requests&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;features&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;min_width&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">min_width</span>
+    <span class="n">json_data</span><span class="p">[</span><span class="s2">&quot;requests&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;features&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;score_th&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">score_th</span>
+    <span class="n">json_data</span><span class="p">[</span><span class="s2">&quot;requests&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;features&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;nms_iou&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nms_iou</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">api</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">token</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json_data</span><span class="p">)</span>
+    <span class="c1"># response = requests.post(api, json=json_data)</span>
+    <span class="n">json_response</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="n">json_response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json_response</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">json_response</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">api</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;design streamlit fronend&quot;&quot;&quot;</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;SafetyCone Detection&quot;</span><span class="p">)</span>
+
+    <span class="n">token</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span><span class="s2">&quot;API Token&quot;</span><span class="p">)</span>
+    <span class="n">uploaded_file</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">file_uploader</span><span class="p">(</span><span class="s2">&quot;Upload an image.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">uploaded_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">api</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">uploaded_file</span><span class="p">)</span>
+
+        <span class="c1"># header</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="s2">&quot;Uploaded Image&quot;</span><span class="p">)</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+
+        <span class="c1"># sidebar</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Change Parameters&quot;</span><span class="p">)</span>
+        <span class="n">maxfeatures</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="o">.</span><span class="n">slider</span><span class="p">(</span><span class="s2">&quot;Max Features&quot;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">min_height</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="o">.</span><span class="n">slider</span><span class="p">(</span><span class="s2">&quot;Min Height&quot;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+        <span class="n">min_width</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="o">.</span><span class="n">slider</span><span class="p">(</span><span class="s2">&quot;Min Width&quot;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+        <span class="n">score_th</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="o">.</span><span class="n">slider</span><span class="p">(</span><span class="s2">&quot;Score Th&quot;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+        <span class="n">nms_iou</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="o">.</span><span class="n">slider</span><span class="p">(</span><span class="s2">&quot;NMS IOU&quot;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;Send API Request&quot;</span><span class="p">):</span>
+          <span class="n">st</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Results&quot;</span><span class="p">)</span>
+
+          <span class="c1"># send request</span>
+          <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+          <span class="n">json_response</span> <span class="o">=</span> <span class="n">send2api</span><span class="p">(</span><span class="n">api</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">json_data</span><span class="p">,</span> <span class="n">token</span><span class="p">,</span> \
+                                   <span class="n">maxfeatures</span><span class="p">,</span> <span class="n">min_height</span><span class="p">,</span> <span class="n">min_width</span><span class="p">,</span> \
+                                   <span class="n">score_th</span><span class="p">,</span> <span class="n">nms_iou</span><span class="p">)</span>
+          <span class="n">latency</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+          <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;**Est. latency = `</span><span class="si">{:.3f}</span><span class="s2"> s`**&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">latency</span><span class="p">))</span>
+
+          <span class="c1"># result image</span>
+          <span class="n">st</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="s2">&quot;Visualize Output&quot;</span><span class="p">)</span>
+          <span class="n">bboxes_json</span> <span class="o">=</span> <span class="n">json_response</span><span class="p">[</span><span class="s2">&quot;safetycone&quot;</span><span class="p">][</span><span class="s2">&quot;boundingPoly&quot;</span><span class="p">][</span><span class="s2">&quot;normalizedVertices&quot;</span><span class="p">]</span>
+          <span class="n">bboxes_array</span> <span class="o">=</span> <span class="n">json2array_yolo</span><span class="p">(</span><span class="n">bboxes_json</span><span class="p">)</span>
+          <span class="n">class_mapper</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;safetycone&quot;</span><span class="p">}</span>
+          <span class="n">image_res</span> <span class="o">=</span> <span class="n">draw_on_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">bboxes_array</span><span class="p">,</span> <span class="n">class_mapper</span><span class="p">)</span>
+          <span class="n">st</span><span class="o">.</span><span class="n">image</span><span class="p">(</span><span class="n">image_res</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+
+          <span class="c1"># api response</span>
+          <span class="n">st</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="s2">&quot;API Response&quot;</span><span class="p">)</span>
+          <span class="n">st</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">json_response</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">api</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:5000&quot;</span>
+    <span class="n">hide_navbar</span><span class="p">()</span>
+    <span class="n">main</span><span class="p">(</span><span class="n">api</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>To launch the app, use <code>streamlit run app.py</code>.</p>
+<p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/streamlit1.png?raw=true" /></p>
+<p>After uploading a picture, the results are shown as such.</p>
+<p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/streamlit2.png?raw=true" /></p>
                 
               
               
