@@ -579,11 +579,16 @@
 <td><code>&lt;test_example.py&gt;</code></td>
 <td>run only tests in this test script</td>
 </tr>
+<tr>
+<td><code>-m &lt;name&gt;</code></td>
+<td>run only tests marked when <name></td>
+</tr>
 </tbody>
 </table>
+<p>For the last command, we can mark each of our test functions, e.g. <code>pytest.mark.integration</code> so that we can call them later using <code>pytest -m integration</code></p>
 <h3 id="fixtures">Fixtures</h3>
 <p>When creating test scripts, we often need to run some common code before we create the test case itself. Instead of repeating the same code in every test, we create fixtures that establish a baseline code for our tests. Some common fixtures include data loaders, or initialize database connections.</p>
-<p>Fixtures are define in the file <code>conftest.py</code>.</p>
+<p>Fixtures are define in the file <code>conftest.py</code> so that tests from multiple test modules in the directory can access the fixture function.</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># conftest.py</span>
 <span class="kn">import</span> <span class="nn">pytest</span>
 
@@ -599,8 +604,9 @@
 </code></pre></div>
 
 
+<p>The test fixture have a scope argument, e.g. <code>@pytest.fixture(scope="session")</code> which set when the fixture will be destroyed. For example, the session scope is destroyed at the end of the test session (i.e. all the tests). By default, the scope is set to <code>function</code>, which mean the fixture is destroyed at the end of the test function when it was called.</p>
 <h3 id="parameterize">Parameterize</h3>
-<p>Parameterizing allows multiple inputs to be iterate over a test function.</p>
+<p>Parameterizing allows multiple inputs to be iterate over a test function. For the example below, there will be 3 tests being run.</p>
 <div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">pytest</span>
 
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">])</span>
@@ -621,6 +627,13 @@
 <span class="k">[testenv]</span>
 <span class="na">deps</span> <span class="o">=</span> <span class="s">pytest</span>
 <span class="na">commands</span> <span class="o">=</span> <span class="s">pytest</span>
+
+<span class="k">[pytest]</span>
+<span class="na">filterwarnings</span> <span class="o">=</span><span class="s"></span>
+<span class="s">    ignore::DeprecationWarning</span>
+<span class="s">    ignore::RuntimeWarning</span>
+<span class="s">    ignore::UserWarning</span>
+<span class="s">    ignore::FutureWarning</span>
 </code></pre></div>
 
 
