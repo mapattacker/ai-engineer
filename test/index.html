@@ -357,6 +357,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ini-file" class="md-nav__link">
+    INI File
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#fixtures" class="md-nav__link">
     Fixtures
   </a>
@@ -366,6 +373,13 @@
           <li class="md-nav__item">
   <a href="#parameterize" class="md-nav__link">
     Parameterize
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-annotation" class="md-nav__link">
+    Function Annotation
   </a>
   
 </li>
@@ -483,6 +497,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ini-file" class="md-nav__link">
+    INI File
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#fixtures" class="md-nav__link">
     Fixtures
   </a>
@@ -492,6 +513,13 @@
           <li class="md-nav__item">
   <a href="#parameterize" class="md-nav__link">
     Parameterize
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-annotation" class="md-nav__link">
+    Function Annotation
   </a>
   
 </li>
@@ -569,7 +597,11 @@
 <tbody>
 <tr>
 <td><code>-v</code></td>
-<td>report in verbose mode</td>
+<td>report in verbose, but truncated mode</td>
+</tr>
+<tr>
+<td><code>-vv</code></td>
+<td>report in verbose, non-truncated mode</td>
 </tr>
 <tr>
 <td><code>-q</code></td>
@@ -597,7 +629,19 @@
 </tr>
 </tbody>
 </table>
-<p>For the last command, we can mark each of our test functions, e.g. <code>pytest.mark.integration</code> so that we can call them later using <code>pytest -m integration</code></p>
+<p>For the last command, we can mark each of our test functions, e.g. <code>pytest.mark.integration</code> so that we can call them later using <code>pytest -m integration</code>. To run other unmarked test, we use <code>pytest -m 'not integration'</code></p>
+<h3 id="ini-file">INI File</h3>
+<p>We can add more configurations to pytest through a <code>pytest.ini</code> file. The commands can also be placed in a <code>tox.ini</code> file if using tox to launch pytest.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">[pytest]</span>
+<span class="na">junit_family</span><span class="o">=</span><span class="s">xunit1</span>
+<span class="na">filterwarnings</span> <span class="o">=</span><span class="s"></span>
+<span class="s">    ignore::DeprecationWarning</span>
+<span class="s">    ignore::RuntimeWarning</span>
+<span class="s">    ignore::UserWarning</span>
+<span class="s">    ignore::FutureWarning</span>
+</code></pre></div>
+
+
 <h3 id="fixtures">Fixtures</h3>
 <p>When creating test scripts, we often need to run some common code before we create the test case itself. Instead of repeating the same code in every test, we create fixtures that establish a baseline code for our tests. Some common fixtures include data loaders, or initialize database connections.</p>
 <p>Fixtures are define in the file <code>conftest.py</code> so that tests from multiple test modules in the directory can access the fixture function.</p>
@@ -628,17 +672,33 @@
 </code></pre></div>
 
 
+<h3 id="function-annotation">Function Annotation</h3>
+<p>While not a pytest functionality, <strong>Function Annotations</strong> are useful and easy to implement for checking the input and return types in pytest.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s2">&quot;something&quot;</span>
+
+<span class="n">foo</span><span class="o">.</span><span class="vm">__annotations__</span>
+<span class="c1"># {&#39;a&#39;: &lt;class &#39;int&#39;&gt;, &#39;b&#39;: &lt;class &#39;float&#39;&gt;, &#39;return&#39;: &lt;class &#39;bool&#39;&gt;}</span>
+</code></pre></div>
+
+
 <hr>
 
 <h2 id="tox">Tox</h2>
-<p><a href="https://tox.readthedocs.io/en/latest/index.html">Tox</a> is a generic virtualenv for commandline execution, and is particularly useful for running tests. It is installed via <code>pip install tox</code></p>
-<p>A file called <code>tox.ini</code> is created and set at the root, with the contents as follows. To run pytest using tox, just run <code>tox</code></p>
+<p><a href="https://tox.readthedocs.io/en/latest/index.html">Tox</a> is a generic virtualenv for commandline execution, and is particularly useful for running tests. Think of it as a CI/CD running in your laptop. Tox can be installed via <code>pip install tox</code></p>
+<p>A file called <code>tox.ini</code> is created and set at the root, with the contents as follows. To run pytest using tox, just run <code>tox</code>. To run a specific environment, run <code>tox -e integration</code>.</p>
 <div class="codehilite"><pre><span></span><code><span class="k">[tox]</span>
 <span class="na">envlist</span> <span class="o">=</span> <span class="s">py37</span>
 
 <span class="k">[testenv]</span>
 <span class="na">deps</span> <span class="o">=</span> <span class="s">pytest</span>
 <span class="na">commands</span> <span class="o">=</span> <span class="s">pytest</span>
+
+<span class="k">[testenv:integration]</span>
+<span class="na">deps</span> <span class="o">=</span><span class="s"></span>
+<span class="s">    black</span>
+<span class="na">commands</span> <span class="o">=</span><span class="s"></span>
+<span class="s">    black --check --diff mylibrary</span>
 
 <span class="k">[pytest]</span>
 <span class="na">filterwarnings</span> <span class="o">=</span><span class="s"></span>
