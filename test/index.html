@@ -390,6 +390,20 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#unit-test" class="md-nav__link">
+    Unit-Test
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integration-test" class="md-nav__link">
+    Integration Test
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tox" class="md-nav__link">
     Tox
   </a>
@@ -530,6 +544,20 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#unit-test" class="md-nav__link">
+    Unit-Test
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integration-test" class="md-nav__link">
+    Integration Test
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tox" class="md-nav__link">
     Tox
   </a>
@@ -630,6 +658,7 @@
 </tbody>
 </table>
 <p>For the last command, we can mark each of our test functions, e.g. <code>pytest.mark.integration</code> so that we can call them later using <code>pytest -m integration</code>. To run other unmarked test, we use <code>pytest -m 'not integration'</code></p>
+<p>Note that <code>pytest</code> runs from the existing python library, and can ignore your virtual environment setup. As a result, you might face import errors even though the libraries are already installed in the virtual env. To ask it to run in the virtual env, use <code>python -m pytest</code>.</p>
 <h3 id="ini-file">INI File</h3>
 <p>We can add more configurations to pytest through a <code>pytest.ini</code> file. The commands can also be placed in a <code>tox.ini</code> file if using tox to launch pytest.</p>
 <div class="codehilite"><pre><span></span><code><span class="k">[pytest]</span>
@@ -682,6 +711,9 @@
 </code></pre></div>
 
 
+<h2 id="unit-test">Unit-Test</h2>
+<h2 id="integration-test">Integration Test</h2>
+<p>https://towardsdatascience.com/building-prediction-apis-in-python-part-3-automated-testing-a7cfa1fa7e9d</p>
 <hr>
 
 <h2 id="tox">Tox</h2>
@@ -714,8 +746,8 @@
 <h2 id="test-coverage">Test Coverage</h2>
 <p>A common question is how much should I test? An analogy would be the wearing of armor to cover oneself. Too much armor will weight down a person, while too little will be very vulnerable. A right balance needs to be struck.</p>
 <p>A test coverage report show how much of your code base is tested, and allows you to spot any potential part of your code that you have missed testing. We can use the library <code>pytest-cov</code> for this, and it can be installed via <code>pip install pytest-cov</code>. </p>
-<p>Once test cases are written with pytest, we can use it to generate the coverage report. An example is shown below.</p>
-<div class="codehilite"><pre><span></span><code><span class="n">pytest</span> <span class="o">--</span><span class="n">cov</span><span class="o">=</span><span class="n">myproj</span> <span class="n">tests</span><span class="o">/</span>
+<p>Once test cases are written with pytest, we can use it to generate the coverage report. An example, using the command <code>pytest --cov=&lt;project-folder&gt; &lt;test-folder&gt;</code> is shown below.</p>
+<div class="codehilite"><pre><span></span><code><span class="n">pytest</span> <span class="o">--</span><span class="n">cov</span><span class="o">=</span><span class="n">project</span> <span class="n">tests</span><span class="o">/</span>
 
 <span class="o">--------------------</span> <span class="n">coverage</span><span class="p">:</span> <span class="o">...</span> <span class="o">---------------------</span>
 <span class="n">Name</span>                 <span class="n">Stmts</span>   <span class="n">Miss</span>  <span class="n">Cover</span>
@@ -725,6 +757,12 @@
 <span class="n">myproj</span><span class="o">/</span><span class="n">feature4286</span>      <span class="mi">94</span>      <span class="mi">7</span>    <span class="mi">92</span><span class="o">%</span>
 <span class="o">----------------------------------------</span>
 <span class="n">TOTAL</span>                  <span class="mi">353</span>     <span class="mi">20</span>    <span class="mi">94</span><span class="o">%</span>
+</code></pre></div>
+
+
+<p>To ignore certain files or folders, add a <code>.coveragerc</code> file to where you call pytest, and add the following.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">[run]</span>
+<span class="na">omit</span> <span class="o">=</span> <span class="s">project/train.py</span>
 </code></pre></div>
 
 
