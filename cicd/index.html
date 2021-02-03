@@ -467,7 +467,14 @@
 <p>This process is usually integrated with a version control platform like Github and Gitlab. Both popular platforms provide in-built CI/CD automation called <a href="https://github.com/features/actions">Github Actions</a> and <a href="https://docs.gitlab.com/ee/ci/">Gitlab-CI</a>. They are largely free, with some paid add-on tools.</p>
 <p>For the rest of the topic, I will be focused on the latter. The concept is largely the same so the knowledge is quite transferable.</p>
 <h2 id="basics">Basics</h2>
-<p>Gitlab CI is run by "runners", which are essential google servers spun up when a <strong>job</strong> is activated. A series of jobs make up a <strong>pipeline</strong>, while certain jobs of a specific attribute are assigned to a <strong>stage</strong>. By default, all jobs in a stage needs to finish before the next stage's jobs starts.</p>
+<p>Gitlab CI is run by "runners", which are essentially google servers spun up when a <strong>job</strong> is activated. A series of jobs make up a <strong>pipeline</strong>, while certain jobs of a specific attribute are assigned to a <strong>stage</strong>. By default, all jobs in a stage needs to finish before the next stage's jobs starts.</p>
+<p>A typical pipeline workflow consists of the various stages.</p>
+<ol>
+<li>Test: security scans, unit-tests</li>
+<li>Build: build the app</li>
+<li>Staging: deploy app to staging env</li>
+<li>Production: deploy app to production env </li>
+</ol>
 <figure>
   <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/ci-pipelines.png?raw=true" />
   <figcaption>A pipeline with typical stages, and individual jobs, shown in Gitlab's interface</a></figcaption>
