@@ -408,6 +408,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#ymal-file" class="md-nav__link">
+    Ymal File
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -445,6 +452,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#ymal-file" class="md-nav__link">
+    Ymal File
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -470,16 +484,16 @@
 <p>Gitlab CI is run by "runners", which are essentially google servers spun up when a <strong>job</strong> is activated. A series of jobs make up a <strong>pipeline</strong>, while certain jobs of a specific attribute are assigned to a <strong>stage</strong>. By default, all jobs in a stage needs to finish before the next stage's jobs starts.</p>
 <p>A typical pipeline workflow consists of the various stages.</p>
 <ol>
-<li>Test: security scans, unit-tests</li>
-<li>Build: build the app</li>
+<li>Test: security scans, unit-tests, integration tests</li>
 <li>Staging: deploy app to staging env</li>
 <li>Production: deploy app to production env </li>
 </ol>
 <figure>
   <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/ci-pipelines.png?raw=true" />
-  <figcaption>A pipeline with typical stages, and individual jobs, shown in Gitlab's interface</a></figcaption>
+  <figcaption>A pipeline with various stages, and individual jobs, shown in Gitlab's interface</a></figcaption>
 </figure>
 
+<h2 id="ymal-file">Ymal File</h2>
 <p>Gitlab-CI will auto run if a file called <code>.gitlab-ci.yml</code> is stored in the root of the repository. Inside the ymal file, containing mostly shell commands that tells runner what to execute. It can also refer to scripts stored in the repo so as to keep the ymal file short and concise.</p>
                 
               
