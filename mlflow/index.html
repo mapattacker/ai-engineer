@@ -370,7 +370,7 @@
 
   <li class="md-nav__item">
     <a href="../docker/" class="md-nav__link">
-      Container
+      Containerisation
     </a>
   </li>
 
@@ -381,8 +381,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../test/" class="md-nav__link">
-      Testing
+    <a href="../testing1/" class="md-nav__link">
+      Testing 1
     </a>
   </li>
 
@@ -393,8 +393,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../test-other/" class="md-nav__link">
-      Other Tests
+    <a href="../testing2/" class="md-nav__link">
+      Testing 2
     </a>
   </li>
 
@@ -519,7 +519,7 @@
 <p>Therefore, we need a system to track each of the model version we trained, as well as log all the different information we used for each training cycle.</p>
 <p>Together with model deployment &amp; monitoring tools, this comprises of the entire ML lifecycle, also known as MLOps.</p>
 <h2 id="mlflow">MLFlow</h2>
-<p>There are a number of different enterprise model version/MLOps platform, like <a href="https://basis-ai.com/product">bedrock</a> and <a href="https://aws.amazon.com/sagemaker/">AWS Sagemaker</a>. However, the most popular open-source platform is <a href="https://mlflow.org/">MLFlow</a>, which we will demostrate here.</p>
+<p>There are a number of different model version/MLOps platform, like <a href="https://basis-ai.com/product">bedrock</a>, <a href="https://aws.amazon.com/sagemaker/">AWS Sagemaker</a>, and <a href="https://dvc.org/doc/start/data-pipelines">DVC Pipelines</a> + <a href="https://cml.dev/">CML</a>. However, one of most popular open-source platform is <a href="https://mlflow.org/">MLFlow</a>, which we will demostrate here.</p>
 <p>To start, we install MLFlow with <code>pip install mlflow</code>, and to launch the user interface, <code>mlflow ui</code>. </p>
 <p>For a more verbose specification, to indicate the database, artifacts folder and the server ip (and port) we can do as below.</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">cd</span> &lt;project-directory&gt;
