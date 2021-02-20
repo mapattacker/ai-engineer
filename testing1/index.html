@@ -769,7 +769,7 @@
 </code></pre></div>
 
 
-<p>Hence, we use the <code>Mock()</code> method to create a mock <code>bedrock_client</code>, so that when the import is called, all the metrics will be stored within the mocked library. </p>
+<p>Hence, we use the <code>Mock()</code> method to create a mock <code>bedrock_client</code>, so that when the import is called, all the metrics will be stored within the mocked library. Note that we have to delete this mock instance at the end (<code>del sys.modules['bedrock_client.bedrock.api']</code>) so that it does not bring over to other test cases.</p>
 <div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">train_pipeline</span> <span class="kn">import</span> <span class="n">evaluate</span><span class="p">,</span> <span class="n">log_metrics</span>
 <span class="kn">from</span> <span class="nn">unittest.mock</span> <span class="kn">import</span> <span class="n">Mock</span>
 

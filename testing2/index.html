@@ -372,6 +372,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#load-test" class="md-nav__link">
+    Load Test
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -457,6 +464,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#load-test" class="md-nav__link">
+    Load Test
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -479,6 +493,76 @@
 <h2 id="memory-leak">Memory Leak</h2>
 <p>Memory leak is an insidious fault in the code that can consume the entire memory (RAM or GPU) over time &amp; crash the application, together with other applications in the same server. To detect this, we usually need to run multiple requests over a period of time to the API to see if the memory builds up. We can use an app I developed to do this; <a href="https://github.com/mapattacker/streamlit-memoryleak">memoryleak-checker</a>.</p>
 <p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/memory.png?raw=true" /></p>
+<h2 id="load-test">Load Test</h2>
+<p>Load testing is the process of determination of behavior of system when multiple users access it at the same time.</p>
+<p><a href="https://locust.io/">Locust</a> is an open source load testing library developed in python. We install it using <code>pip install locust</code>. And write the following script, saving it as <code>locustfile.py</code>.</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">locust</span> <span class="kn">import</span> <span class="n">HttpUser</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="n">between</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;test_data/sample_request.json&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+<span class="k">class</span> <span class="nc">APIUser</span><span class="p">(</span><span class="n">HttpUser</span><span class="p">):</span>
+    <span class="n">host</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:5000&#39;</span>
+    <span class="n">wait_time</span> <span class="o">=</span> <span class="n">between</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+    <span class="nd">@task</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">predict_endpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;/predict&#39;</span><span class="p">,</span> <span class="n">json</span> <span class="o">=</span> <span class="n">request</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>We then launch it in the terminal using the command <code>locust</code>, and then the GUI can be access from <code>localhost:8089</code>.</p>
+<p>We can test the total number of users as 10, with a spawn rate of 1. This means that the API will be launched with only 1 user requesting, and after every 3-5 seconds (the wait_time), another new user will be added, until the total of 10 users are reached.</p>
+<figure>
+  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/locust1.png?raw=true" />
+  <figcaption>Start screen</figcaption>
+</figure>
+
+<p>Going to the statistics, a summary of the total users, failures and request per seconds </p>
+<figure>
+  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/locust2.png?raw=true" />
+  <figcaption>Summary</figcaption>
+</figure>
+
+<p>We can also have a visual representation in line charts.</p>
+<figure>
+  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/locust3.png?raw=true" />
+  <figcaption>Charts</figcaption>
+</figure>
+
+<p>Other commands are as follows:</p>
+<div class="codehilite"><pre><span></span><code>locust -f locust_files/my_locust_file.py --headless -u <span class="m">1000</span> -r <span class="m">100</span>
+</code></pre></div>
+
+
+<table>
+<thead>
+<tr>
+<th>CMD</th>
+<th>Desc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-f</code></td>
+<td>specify file name &amp; location if they are diff from default</td>
+</tr>
+<tr>
+<td><code>--headless</code></td>
+<td>only print in console, with no GUI</td>
+</tr>
+<tr>
+<td><code>-u</code></td>
+<td>no. users to spawn</td>
+</tr>
+<tr>
+<td><code>-r</code></td>
+<td>spawn rate; no users to add per second</td>
+</tr>
+</tbody>
+</table>
                 
               
               
