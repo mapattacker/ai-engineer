@@ -556,9 +556,7 @@
 <div class="codehilite"><pre><span></span><code>docker pull tensorflow/serving
 docker run -p <span class="m">8500</span>:8500 <span class="se">\</span>
            -p <span class="m">8501</span>:8501 <span class="se">\</span>
-           --mount <span class="nv">type</span><span class="o">=</span>bind,<span class="se">\</span>
-           <span class="nv">source</span><span class="o">=</span>/path/to/model_folder/,<span class="se">\</span>
-           <span class="nv">target</span><span class="o">=</span>/models/model_folder <span class="se">\</span>
+           --mount <span class="nv">type</span><span class="o">=</span>bind,source<span class="o">=</span>/path/to/model_folder/,target<span class="o">=</span>/models/model_folder <span class="se">\</span>
            -e <span class="nv">MODEL_NAME</span><span class="o">=</span>model_name <span class="se">\</span>
            -t tensorflow/serving
            --name amazonreview
