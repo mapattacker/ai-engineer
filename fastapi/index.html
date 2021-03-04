@@ -634,11 +634,13 @@
 </code></pre></div>
 
 
-<p>We can define in pydantic as below, using multiple basemodels for each level in the JSON.
- * If there are no values input like <code>y: float</code>, it will listed as a required field
- * If we add a value like <code>y: float = 0.8369</code>, it will be an optional field, with the value also listed as a default and example value
- * If we add a value like <code>x: float = Field(..., example=0.82379)</code>, it will be a required field, and also listed as an example value
- * More attributes can be added in Field, that will be populated in OpenAPI docs.</p>
+<p>We can define in pydantic as below, using multiple basemodels for each level in the JSON.</p>
+<ul>
+<li>If there are no values input like <code>y: float</code>, it will listed as a required field</li>
+<li>If we add a value like <code>y: float = 0.8369</code>, it will be an optional field, with the value also listed as a default and example value</li>
+<li>If we add a value like <code>x: float = Field(..., example=0.82379)</code>, it will be a required field, and also listed as an example value</li>
+<li>More attributes can be added in Field, that will be populated in OpenAPI docs.</li>
+</ul>
 <p>More attributes can be added in <code>Field()</code>, that will be populated in OpenAPI docs.</p>
 <div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">lvl3_list</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">example</span><span class="o">=</span><span class="mf">0.82379</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;X-coordinates&quot;</span><span class="p">))</span>
