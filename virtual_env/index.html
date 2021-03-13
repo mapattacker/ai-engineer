@@ -589,12 +589,13 @@ deactivate
 
 
 <h2 id="jupyter-notebook">Jupyter Notebook</h2>
-<p>Sometimes we need to experiment with certain code or data, and not ready to convert into python scripts; hence the use of jupyter notebooks. To change the environmen or kernel (as named in jupyter), we first setup our virtual env using venv or conda.</p>
+<p>Sometimes we need to experiment with certain code or data, and not ready to convert into python scripts; hence the use of jupyter notebooks. To change the environment or kernel (as named in jupyter), we first setup our virtual env using venv or conda, and install the necessary library as follows.</p>
 <div class="codehilite"><pre><span></span><code>pip install ipykernel
 python -m ipykernel install --user --name<span class="o">=</span>venv
 </code></pre></div>
 
 
+<p>In the jupyter notebook, we then select the kernel <code>venv</code>.</p>
 <figure>
   <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/jupyter.png?raw=true" width="450" />
   <figcaption></figcaption>
