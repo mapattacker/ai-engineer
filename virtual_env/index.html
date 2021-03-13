@@ -247,6 +247,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#jupyter-notebook" class="md-nav__link">
+    Jupyter Notebook
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -533,6 +540,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#jupyter-notebook" class="md-nav__link">
+    Jupyter Notebook
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -572,6 +586,21 @@ python -m venv &lt;name&gt;
 pip install -r requirements.txt
 deactivate
 </code></pre></div>
+
+
+<h2 id="jupyter-notebook">Jupyter Notebook</h2>
+<p>Sometimes we need to experiment with certain code or data, and not ready to convert into python scripts; hence the use of jupyter notebooks. To change the environmen or kernel (as named in jupyter), we first setup our virtual env using venv or conda.</p>
+<div class="codehilite"><pre><span></span><code>pip install ipykernel
+python -m ipykernel install --user --name<span class="o">=</span>venv
+</code></pre></div>
+
+
+<figure>
+  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/jupyter.png?raw=true" width="450" />
+  <figcaption></figcaption>
+</figure>
+
+<p>Sourced from this <a href="https://janakiev.com/blog/jupyter-virtual-envs/">article</a></p>
                 
               
               
