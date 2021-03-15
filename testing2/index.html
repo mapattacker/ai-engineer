@@ -14,7 +14,7 @@
     
     
       
-        <title>Other Tests - AI Engineer Guide</title>
+        <title>ML Testing - AI Engineer Guide</title>
       
     
     
@@ -61,7 +61,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#other-tests" class="md-skip">
+        <a href="#machine-learning-tests" class="md-skip">
           Skip to content
         </a>
       
@@ -91,7 +91,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Other Tests
+              ML Testing
             
           </span>
         </div>
@@ -403,12 +403,12 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Other Tests
+        ML Testing
         <span class="md-nav__icon md-icon"></span>
       </label>
     
     <a href="./" class="md-nav__link md-nav__link--active">
-      Other Tests
+      ML Testing
     </a>
     
       
@@ -425,16 +425,42 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#memory-leak" class="md-nav__link">
-    Memory Leak
+  <a href="#data-validation" class="md-nav__link">
+    Data Validation
   </a>
+  
+    <nav class="md-nav" aria-label="Data Validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fake-data" class="md-nav__link">
+    Fake Data
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#load-test" class="md-nav__link">
-    Load Test
+  <a href="#api-tests" class="md-nav__link">
+    API Tests
   </a>
+  
+    <nav class="md-nav" aria-label="API Tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#validate-response" class="md-nav__link">
+    Validate Response
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -442,6 +468,18 @@
   
 </nav>
     
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../testing3/" class="md-nav__link">
+      Other Tests
+    </a>
   </li>
 
         
@@ -522,16 +560,42 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#memory-leak" class="md-nav__link">
-    Memory Leak
+  <a href="#data-validation" class="md-nav__link">
+    Data Validation
   </a>
+  
+    <nav class="md-nav" aria-label="Data Validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fake-data" class="md-nav__link">
+    Fake Data
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#load-test" class="md-nav__link">
-    Load Test
+  <a href="#api-tests" class="md-nav__link">
+    API Tests
   </a>
+  
+    <nav class="md-nav" aria-label="API Tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#validate-response" class="md-nav__link">
+    Validate Response
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -552,85 +616,61 @@
                   </a>
                 
                 
-                <h1 id="other-tests">Other Tests</h1>
-<p>These are other tests not included in pytest.</p>
-<h2 id="memory-leak">Memory Leak</h2>
-<p>Memory leak is an insidious fault in the code that can consume the entire memory (RAM or GPU) over time &amp; crash the application, together with other applications in the same server. To detect this, we usually need to run multiple requests over a period of time to the API to see if the memory builds up. We can use an app I developed to do this; <a href="https://github.com/mapattacker/streamlit-memoryleak">memoryleak-checker</a>.</p>
-<p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/memory.png?raw=true" /></p>
-<h2 id="load-test">Load Test</h2>
-<p>Load testing is the process of determination of behavior of system when multiple users access it at the same time.</p>
-<p><a href="https://locust.io/">Locust</a> is an open source load testing library developed in python. We install it using <code>pip install locust</code>. And write the following script, saving it as <code>locustfile.py</code>.</p>
-<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">locust</span> <span class="kn">import</span> <span class="n">HttpUser</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="n">between</span>
-<span class="kn">import</span> <span class="nn">json</span>
+                <h1 id="machine-learning-tests">Machine Learning Tests</h1>
+<h2 id="data-validation">Data Validation</h2>
+<h3 id="fake-data">Fake Data</h3>
+<p>Sometimes we are unable to store a subset of the data in our repository for testing, due to the confidentiality of data. In this case, we can instead generate fake data using the popular library called <a href="https://github.com/joke2k/faker">Faker</a>.</p>
+<h2 id="api-tests">API Tests</h2>
+<h3 id="validate-response">Validate Response</h3>
+<p>Sometimes, we might know our own json request schema, but when we hand it over to someone else, they might send using a wrong request schema. We can use the pydantic library, together with <strong>flask_pydantic</strong> within Flask to do this validation.</p>
+<p>This is done by building the request schema, then place it within the get_predictions() function as indicated below.</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span>
+<span class="kn">from</span> <span class="nn">flask_pydantic</span> <span class="kn">import</span> <span class="n">validate</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+
+<span class="kn">from</span> <span class="nn">predict</span> <span class="kn">import</span> <span class="n">prediction</span>
 
 
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;test_data/sample_request.json&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">request</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="k">class</span> <span class="nc">APIUser</span><span class="p">(</span><span class="n">HttpUser</span><span class="p">):</span>
-    <span class="n">host</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:5000&#39;</span>
-    <span class="n">wait_time</span> <span class="o">=</span> <span class="n">between</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 
-    <span class="nd">@task</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">predict_endpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;/predict&#39;</span><span class="p">,</span> <span class="n">json</span> <span class="o">=</span> <span class="n">request</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">RequestModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">maxResults</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span>
+    <span class="n">min_height</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">min_width</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">score_th</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span>
+    <span class="n">nms_iou</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.4</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">image</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/predict&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">])</span>
+<span class="nd">@validate</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">get_predictions</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="n">RequestModel</span><span class="p">):</span>
+    <span class="n">JScontent</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">json</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">JScontent</span><span class="p">[</span><span class="s2">&quot;image&quot;</span><span class="p">]</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">prediction</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">response</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">)</span>
 </code></pre></div>
 
 
-<p>We then launch it in the terminal using the command <code>locust</code>, and then the GUI can be access from <code>localhost:8089</code>.</p>
-<p>We can test the total number of users as 10, with a spawn rate of 1. This means that the API will be launched with only 1 user requesting, and after every 3-5 seconds (the wait_time), another new user will be added, until the total of 10 users are reached.</p>
-<figure>
-  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/locust1.png?raw=true" style="width:60%" />
-  <figcaption>Start screen</figcaption>
-</figure>
-
-<p>Going to the statistics, a summary of the total users, failures and request per seconds </p>
-<figure>
-  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/locust2.png?raw=true" />
-  <figcaption>Summary</figcaption>
-</figure>
-
-<p>We can also have a visual representation in line charts.</p>
-<figure>
-  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/locust3.png?raw=true" />
-  <figcaption>Charts</figcaption>
-</figure>
-
-<p>Other commands are as follows:</p>
-<div class="codehilite"><pre><span></span><code>locust -f locust_files/my_locust_file.py --headless -u <span class="m">1000</span> -r <span class="m">100</span> -run-time 1h30m
+<p>A 400 json validation error will be returned if there are any issues, stating the exact part of the schema which is incorrect.</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+  <span class="nt">&quot;validation_error&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;query_params&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;loc&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">],</span>
+        <span class="nt">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;field required&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;value_error.missing&quot;</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
-
-
-<table>
-<thead>
-<tr>
-<th>CMD</th>
-<th>Desc</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>-f</code></td>
-<td>specify file name &amp; location if they are diff from default</td>
-</tr>
-<tr>
-<td><code>--headless</code></td>
-<td>only print in console, with no GUI</td>
-</tr>
-<tr>
-<td><code>-u</code></td>
-<td>no. users to spawn</td>
-</tr>
-<tr>
-<td><code>-r</code></td>
-<td>spawn rate; no users to add per second</td>
-</tr>
-<tr>
-<td><code>-run-time</code></td>
-<td>time limit for test</td>
-</tr>
-</tbody>
-</table>
                 
               
               
@@ -664,13 +704,13 @@
           </a>
         
         
-          <a href="../serverless/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../testing3/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Serverless
+                Other Tests
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
