@@ -425,36 +425,16 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#data-validation" class="md-nav__link">
-    Data Validation
+  <a href="#schema-validation" class="md-nav__link">
+    Schema Validation
   </a>
   
-    <nav class="md-nav" aria-label="Data Validation">
+    <nav class="md-nav" aria-label="Schema Validation">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#fake-data" class="md-nav__link">
     Fake Data
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#api-tests" class="md-nav__link">
-    API Tests
-  </a>
-  
-    <nav class="md-nav" aria-label="API Tests">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#validate-response" class="md-nav__link">
-    Validate Response
   </a>
   
 </li>
@@ -560,36 +540,16 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#data-validation" class="md-nav__link">
-    Data Validation
+  <a href="#schema-validation" class="md-nav__link">
+    Schema Validation
   </a>
   
-    <nav class="md-nav" aria-label="Data Validation">
+    <nav class="md-nav" aria-label="Schema Validation">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#fake-data" class="md-nav__link">
     Fake Data
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#api-tests" class="md-nav__link">
-    API Tests
-  </a>
-  
-    <nav class="md-nav" aria-label="API Tests">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#validate-response" class="md-nav__link">
-    Validate Response
   </a>
   
 </li>
@@ -617,60 +577,10 @@
                 
                 
                 <h1 id="machine-learning-tests">Machine Learning Tests</h1>
-<h2 id="data-validation">Data Validation</h2>
+<h2 id="schema-validation">Schema Validation</h2>
+<p>There are quite a number of popular schema validation libraries available, but I will just stick to <a href="https://pydantic-docs.helpmanual.io/">Pydantic</a>, for the reason that it is touted to be the <a href="https://pydantic-docs.helpmanual.io/benchmarks/">fastest</a>, and it is used natively in FastAPI.</p>
 <h3 id="fake-data">Fake Data</h3>
 <p>Sometimes we are unable to store a subset of the data in our repository for testing, due to the confidentiality of data. In this case, we can instead generate fake data using the popular library called <a href="https://github.com/joke2k/faker">Faker</a>.</p>
-<h2 id="api-tests">API Tests</h2>
-<h3 id="validate-response">Validate Response</h3>
-<p>Sometimes, we might know our own json request schema, but when we hand it over to someone else, they might send using a wrong request schema. We can use the pydantic library, together with <strong>flask_pydantic</strong> within Flask to do this validation.</p>
-<p>This is done by building the request schema, then place it within the get_predictions() function as indicated below.</p>
-<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span>
-<span class="kn">from</span> <span class="nn">flask_pydantic</span> <span class="kn">import</span> <span class="n">validate</span>
-<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
-
-<span class="kn">from</span> <span class="nn">predict</span> <span class="kn">import</span> <span class="n">prediction</span>
-
-
-<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-
-
-<span class="k">class</span> <span class="nc">RequestModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="n">maxResults</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span>
-    <span class="n">min_height</span><span class="p">:</span> <span class="nb">float</span>
-    <span class="n">min_width</span><span class="p">:</span> <span class="nb">float</span>
-    <span class="n">score_th</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span>
-    <span class="n">nms_iou</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.4</span>
-    <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">image</span><span class="p">:</span> <span class="nb">str</span>
-
-
-<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/predict&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">])</span>
-<span class="nd">@validate</span><span class="p">()</span>
-<span class="k">def</span> <span class="nf">get_predictions</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="n">RequestModel</span><span class="p">):</span>
-    <span class="n">JScontent</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">json</span>
-    <span class="n">img</span> <span class="o">=</span> <span class="n">JScontent</span><span class="p">[</span><span class="s2">&quot;image&quot;</span><span class="p">]</span>
-    <span class="n">response</span> <span class="o">=</span> <span class="n">prediction</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">response</span>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">)</span>
-</code></pre></div>
-
-
-<p>A 400 json validation error will be returned if there are any issues, stating the exact part of the schema which is incorrect.</p>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span>
-  <span class="nt">&quot;validation_error&quot;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&quot;query_params&quot;</span><span class="p">:</span> <span class="p">[</span>
-      <span class="p">{</span>
-        <span class="nt">&quot;loc&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">],</span>
-        <span class="nt">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;field required&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;value_error.missing&quot;</span>
-      <span class="p">}</span>
-    <span class="p">]</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
                 
               
               

@@ -380,6 +380,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#openapi" class="md-nav__link">
+    OpenAPI
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -601,6 +608,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#openapi" class="md-nav__link">
+    OpenAPI
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -708,19 +722,7 @@ gunicorn --bind <span class="m">0</span>.0.0.0:5000 -w <span class="m">2</span> 
 <span class="p">}</span>
 
 <span class="k">def</span> <span class="nf">send2api</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">token</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">score_th</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">nms_iou</span><span class="o">=</span><span class="mf">0.40</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Sends JSON request to AI-microservice and recieve a JSON response</span>
-
-<span class="sd">    Args</span>
-<span class="sd">    ----</span>
-<span class="sd">    url (str): URL of server where AI-microservice is hosted</span>
-<span class="sd">    image (image file): opened image file</span>
-<span class="sd">    score_th (float): Minimum prediction score for bounding box to be accepted</span>
-<span class="sd">    nms_ious (float): IOU threshold for non-max suppression</span>
-
-<span class="sd">    Rets</span>
-<span class="sd">    ----</span>
-<span class="sd">    (dict): JSON response</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Sends JSON request to AI-microservice and recieve a JSON response&quot;&quot;&quot;</span>
     <span class="n">base64_bytes</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">read</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
 
     <span class="n">json_template</span><span class="p">[</span><span class="s2">&quot;requests&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;image&quot;</span><span class="p">][</span><span class="s2">&quot;content&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">base64_bytes</span>
@@ -749,6 +751,66 @@ gunicorn --bind <span class="m">0</span>.0.0.0:5000 -w <span class="m">2</span> 
 <h3 id="postman">Postman</h3>
 <p><a href="http://postman.com">Postman</a> is a popular GUI to easily send requests and see the responses. </p>
 <p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/postman.png?raw=true" /></p>
+<h2 id="openapi">OpenAPI</h2>
+<p>OpenAPI is a standard API documentation specification in ymal or json format, originated from Swagger. It usually comes with a user interface, the most popular being <a href="https://petstore.swagger.io/?_ga=2.260024972.744460072.1616040410-1862236881.1616040410">SwaggerUI</a> or redoc.</p>
+<p>It provides all the information required about the API, with also an ability to test the API itself.</p>
+<p>There are various ways to go about this. It could be generated separately as a single ymal file, and hosted using <a href="https://github.com/zalando/connexion/blob/master/docs/index.rst">connextion</a>, or using <a href="https://github.com/flasgger/flasgger">flasgger</a>, defined within the actual API flask script, or adding components of each API with a yml file.</p>
+<p>Likely the most convenient way is to use libraries like <a href="https://github.com/turner-townsend/flask-pydantic-spec">Flask-Pydantic-Spec</a>, where it allows u to define the schemas using pydantic, and adding some additional information, will auto generate the openAPI documentation together with the API Flask script. This is exactly what <a href="https://mapattacker.github.io/ai-engineer/fastapi/">FastAPI</a> does, with libraries in-built within.</p>
+<p>Below is an example script using the mentioned library. You can refer to my <a href="https://github.com/mapattacker/Flask-OpenAPI">repo</a> for the full example.</p>
+<div class="codehilite"><pre><span></span><code><span class="sd">&quot;&quot;&quot;flask server with pydantic validation &amp; openapi integration&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span>
+<span class="kn">from</span> <span class="nn">flask_pydantic_spec</span> <span class="kn">import</span> <span class="n">FlaskPydanticSpec</span><span class="p">,</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">confloat</span>
+
+<span class="kn">from</span> <span class="nn">predict</span> <span class="kn">import</span> <span class="n">prediction</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">api</span> <span class="o">=</span> <span class="n">FlaskPydanticSpec</span><span class="p">(</span><span class="s2">&quot;flask&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Objection Detection&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s2">&quot;v1.0.0&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">RequestSchema</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">maxResults</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">example</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Maximum detection result to return&quot;</span><span class="p">)</span>
+    <span class="n">min_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">example</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Score&quot;</span><span class="p">)</span>
+    <span class="n">min_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">example</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Score&quot;</span><span class="p">)</span>
+    <span class="n">score_th</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">example</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Score&quot;</span><span class="p">)</span>
+    <span class="n">nms_iou</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">example</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Non-max suppression, intersection over union&quot;</span><span class="p">)</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">example</span><span class="o">=</span><span class="s2">&quot;safetycone&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;name of object to detect&quot;</span><span class="p">)</span>
+    <span class="n">image</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;base64-encoded-image&quot;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">_normalizedVertices</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">example</span><span class="o">=</span><span class="mf">5.12</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;X-coordinate&quot;</span><span class="p">)</span>
+    <span class="n">y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">example</span><span class="o">=</span><span class="mf">20.56</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Y-coordinate&quot;</span><span class="p">)</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">example</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;width in pixel&quot;</span><span class="p">)</span>
+    <span class="n">height</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">example</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;height in pixel&quot;</span><span class="p">)</span>
+    <span class="n">score</span><span class="p">:</span> <span class="n">confloat</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">example</span><span class="o">=</span><span class="mf">0.79</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;confidence score&quot;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">ResponseSchema</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">normalizedVertices</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_normalizedVertices</span><span class="p">]</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/predict&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">])</span>
+<span class="nd">@api</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span>
+    <span class="n">body</span><span class="o">=</span><span class="n">Request</span><span class="p">(</span><span class="n">RequestSchema</span><span class="p">),</span>
+    <span class="n">resp</span><span class="o">=</span><span class="n">Response</span><span class="p">(</span><span class="n">HTTP_200</span><span class="o">=</span><span class="n">ResponseSchema</span><span class="p">),</span>
+    <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;API Name&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">get_predictions</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Short description of endpoint</span>
+
+<span class="sd">    Long description of endpoint&quot;&quot;&quot;</span>
+    <span class="n">JScontent</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">json</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">JScontent</span><span class="p">[</span><span class="s2">&quot;image&quot;</span><span class="p">]</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">prediction</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">response</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">api</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">)</span>
+</code></pre></div>
                 
               
               
