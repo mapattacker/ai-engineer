@@ -610,27 +610,25 @@
 <p>FastAPI uses the pydantic library to define the schema of the request &amp; response APIs. This allows the auto generation in the OpenAPI documentations, and for the former, for validating the schema when a request is received.</p>
 <p>For example, given the json:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-    <span class="nt">&quot;ANIMAL_DETECTION&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;boundingPoly&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&quot;normalizedVertices&quot;</span><span class="p">:</span> <span class="p">[</span>
-                    <span class="p">{</span>
-                    <span class="nt">&quot;x&quot;</span><span class="p">:</span> <span class="mf">0.406767</span><span class="p">,</span>
-                    <span class="nt">&quot;y&quot;</span><span class="p">:</span> <span class="mf">0.874573</span><span class="p">,</span>
-                    <span class="nt">&quot;width&quot;</span><span class="p">:</span> <span class="mf">0.357321</span><span class="p">,</span>
-                    <span class="nt">&quot;height&quot;</span><span class="p">:</span> <span class="mf">0.452179</span><span class="p">,</span>
-                    <span class="nt">&quot;score&quot;</span><span class="p">:</span> <span class="mf">0.972167</span>
-                    <span class="p">},</span>
-                    <span class="p">{</span>
-                    <span class="nt">&quot;x&quot;</span><span class="p">:</span> <span class="mf">0.56781</span><span class="p">,</span>
-                    <span class="nt">&quot;y&quot;</span><span class="p">:</span> <span class="mf">0.874173</span><span class="p">,</span>
-                    <span class="nt">&quot;width&quot;</span><span class="p">:</span> <span class="mf">0.457373</span><span class="p">,</span>
-                    <span class="nt">&quot;height&quot;</span><span class="p">:</span> <span class="mf">0.452121</span><span class="p">,</span>
-                    <span class="nt">&quot;score&quot;</span><span class="p">:</span> <span class="mf">0.982109</span>
-                    <span class="p">}</span>
-                <span class="p">]</span>
-            <span class="p">},</span>
-        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Cat&quot;</span>
-    <span class="p">}</span>
+    <span class="nt">&quot;boundingPoly&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;normalizedVertices&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                <span class="nt">&quot;x&quot;</span><span class="p">:</span> <span class="mf">0.406767</span><span class="p">,</span>
+                <span class="nt">&quot;y&quot;</span><span class="p">:</span> <span class="mf">0.874573</span><span class="p">,</span>
+                <span class="nt">&quot;width&quot;</span><span class="p">:</span> <span class="mf">0.357321</span><span class="p">,</span>
+                <span class="nt">&quot;height&quot;</span><span class="p">:</span> <span class="mf">0.452179</span><span class="p">,</span>
+                <span class="nt">&quot;score&quot;</span><span class="p">:</span> <span class="mf">0.972167</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                <span class="nt">&quot;x&quot;</span><span class="p">:</span> <span class="mf">0.56781</span><span class="p">,</span>
+                <span class="nt">&quot;y&quot;</span><span class="p">:</span> <span class="mf">0.874173</span><span class="p">,</span>
+                <span class="nt">&quot;width&quot;</span><span class="p">:</span> <span class="mf">0.457373</span><span class="p">,</span>
+                <span class="nt">&quot;height&quot;</span><span class="p">:</span> <span class="mf">0.452121</span><span class="p">,</span>
+                <span class="nt">&quot;score&quot;</span><span class="p">:</span> <span class="mf">0.982109</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">},</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Cat&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 
@@ -652,14 +650,9 @@
 <span class="k">class</span> <span class="nc">_boundingPoly</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">normalizedVertices</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_normalizedVertices</span><span class="p">]</span>
 
-<span class="k">class</span> <span class="nc">_main</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">ResponseSchema</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">boundingPoly</span><span class="p">:</span> <span class="n">_boundingPoly</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Human&quot;</span>
-
-<span class="k">class</span> <span class="nc">response_item</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="n">ANIMAL_DETECTION</span><span class="p">:</span> <span class="n">_main</span>
-
-<span class="n">RESPONSE_SCHEMA</span> <span class="o">=</span> <span class="n">response_item</span>
 </code></pre></div>
 
 
@@ -672,8 +665,8 @@
 <span class="kn">import</span> <span class="nn">base64</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;/api&#39;</span><span class="p">,</span> <span class="n">response_model</span> <span class="o">=</span> <span class="n">RESPONSE_SCHEMA</span><span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">human_detection</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">REQUEST_SCHEMA</span><span class="p">):</span>
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;/api&#39;</span><span class="p">,</span> <span class="n">response_model</span> <span class="o">=</span> <span class="n">ResponseSchema</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">human_detection</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">RequestSchema</span><span class="p">):</span>
 
     <span class="n">JScontent</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
     <span class="n">encodedImage</span> <span class="o">=</span> <span class="n">JScontent</span><span class="p">[</span><span class="s1">&#39;requests&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;image&#39;</span><span class="p">][</span><span class="s1">&#39;content&#39;</span><span class="p">]</span>
