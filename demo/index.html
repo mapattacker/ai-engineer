@@ -564,7 +564,7 @@
 <p>For every model, a demo site should be created to demonstrate the reliability and use of the service, especially to product owners &amp; clients. <a href="https://www.streamlit.io/">Streamlit</a> is an amazing python library used to create ML demo sites fast, while providing a beautiful &amp; consistent template.</p>
 <p>To facilitate deployment, we should always ensure both <code>requirements.txt</code> &amp; <code>Dockerfile</code> are created &amp; tested. </p>
 <p>Below is an example how we can develop a simple object detection demo site.</p>
-<div class="codehilite"><pre><span></span><code><span class="sd">&quot;&quot;&quot;streamlit server for demo site&quot;&quot;&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;streamlit server for demo site&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">time</span>
@@ -703,7 +703,6 @@
     <span class="n">hide_navbar</span><span class="p">()</span>
     <span class="n">main</span><span class="p">(</span><span class="n">api</span><span class="p">)</span>
 </code></pre></div>
-
 <p>To launch the app, use <code>streamlit run app.py</code>.</p>
 <p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/streamlit1.png?raw=true" /></p>
 <p>After uploading a picture, the results are shown as such.</p>

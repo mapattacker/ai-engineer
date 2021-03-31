@@ -636,7 +636,7 @@
 <p>Every project has a different set of requirements &amp; different sets of python packages might be required to support it. The versions of each package can differ or break with each python or dependent packages versions update, so it is important to isolate every project within an enclosed virtual environment.</p>
 <h2 id="anaconda">Anaconda</h2>
 <p><a href="https://www.anaconda.com">Anaconda</a> is a python installation that bundles all essential packages for a data science project, hence by default most people will have this installed. It comes with its own virtual environment. Here are the basic commands to create &amp; remove.</p>
-<div class="codehilite"><pre><span></span><code>conda create -n &lt;yourenvname&gt; <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.7
+<div class="highlight"><pre><span></span><code>conda create -n &lt;yourenvname&gt; <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.7
 pip install -r requirements.txt
 conda activate &lt;yourenvname&gt;
 conda deactivate
@@ -644,22 +644,19 @@ conda deactivate
 conda env list
 conda env remove -n &lt;yourenvname&gt;
 </code></pre></div>
-
 <h2 id="venv">VENV</h2>
 <p>venv is my next favourite, as it is a default library shipped with python, and very easy to setup. The libraries will be installed in the directory you are in, so remember to add the folder in <code>.gitignore</code>. To remove the libraries, just delete the folder that was created.</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> &lt;projectfolder&gt;
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> &lt;projectfolder&gt;
 python -m venv &lt;name&gt;
 <span class="nb">source</span> &lt;name&gt;/bin/activate
 pip install -r requirements.txt
 deactivate
 </code></pre></div>
-
 <h2 id="jupyter-notebook">Jupyter Notebook</h2>
 <p>Sometimes we need to experiment with certain code or data, and not ready to convert into python scripts; hence the use of jupyter notebooks. To change the environment or kernel (as named in jupyter), we first setup our virtual env using venv or conda, and install the necessary library as follows.</p>
-<div class="codehilite"><pre><span></span><code>pip install ipykernel
+<div class="highlight"><pre><span></span><code>pip install ipykernel
 python -m ipykernel install --user --name<span class="o">=</span>venv
 </code></pre></div>
-
 <p>In the jupyter notebook, we then select the kernel option from the top right and switch to the virtual env we launched earlier.</p>
 <figure>
   <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/jupyter.png?raw=true" width="90%" />

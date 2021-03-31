@@ -662,7 +662,7 @@
 <p>Much of the learnings of this page came from a course from Coursera called <a href="https://www.coursera.org/projects/tensorflow-serving-docker-model-deployment">TensorFlow Serving with Docker for Model Deployment</a>. Do sign up for this free course for a better sense of things.</p>
 <h2 id="save-model-as-protobuf">Save Model as Protobuf</h2>
 <p>We need to use <code>tensorflow.save_mode.save()</code>, or tf.keras's <code>model.save(filepath=file_path, save_format='tf')</code> API to save the trained model in a protobuf format, e.g. <code>model.pb</code>.</p>
-<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">time</span>
 
 <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
@@ -671,19 +671,17 @@
 <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())))</span>
 <span class="n">tf</span><span class="o">.</span><span class="n">saved_model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
 </code></pre></div>
-
 <p>This is how a model directory &amp; its contents look like, with each model version stored in a time-stamped folder. With the timestamp, it allows automated canary deployment when a new version is created.</p>
-<div class="codehilite"><pre><span></span><code>├── amazon_review
+<div class="highlight"><pre><span></span><code>├── amazon_review
 │ ├── <span class="m">1600788643</span>
 │ │ ├── assets
 │ │ ├── saved_model.pb
 │ │ └── variables
 </code></pre></div>
-
 <h2 id="tensorflow-serving-with-docker">TensorFlow Serving with Docker</h2>
 <p>It is easiest to serve the model with docker, as described from the official <a href="https://www.tensorflow.org/tfx/serving/docker">website</a>.</p>
 <p>Below is an example, where we link the model to the dockerised tensorflow-serving image, and expose both gRPC &amp; REST ports.</p>
-<div class="codehilite"><pre><span></span><code>docker pull tensorflow/serving
+<div class="highlight"><pre><span></span><code>docker pull tensorflow/serving
 docker run -p <span class="m">8500</span>:8500 <span class="se">\</span>
            -p <span class="m">8501</span>:8501 <span class="se">\</span>
            --mount <span class="nv">type</span><span class="o">=</span>bind,source<span class="o">=</span>/path/to/model_folder/,target<span class="o">=</span>/models/model_folder <span class="se">\</span>
@@ -691,7 +689,6 @@ docker run -p <span class="m">8500</span>:8500 <span class="se">\</span>
            -t tensorflow/serving
            --name amazonreview
 </code></pre></div>
-
 <table>
 <thead>
 <tr>
@@ -755,12 +752,11 @@ docker run -p <span class="m">8500</span>:8500 <span class="se">\</span>
 </tbody>
 </table>
 <p>Below is an example using CURL</p>
-<div class="codehilite"><pre><span></span><code>curl -d <span class="s1">&#39;{&quot;instances&quot;: [1.0, 2.0, 5.0]}&#39;</span> <span class="se">\</span>
+<div class="highlight"><pre><span></span><code>curl -d <span class="s1">&#39;{&quot;instances&quot;: [1.0, 2.0, 5.0]}&#39;</span> <span class="se">\</span>
     -X POST http://localhost:8501/v1/models/amazon_review:predict
 </code></pre></div>
-
 <p>Below is an example using python. More <a href="https://neptune.ai/blog/how-to-serve-machine-learning-models-with-tensorflow-serving-and-docker">here</a></p>
-<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">json</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
@@ -790,7 +786,6 @@ docker run -p <span class="m">8500</span>:8500 <span class="se">\</span>
     <span class="n">model_prediction</span> <span class="o">=</span> <span class="n">get_model_prediction</span><span class="p">(</span><span class="n">model_input</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">model_prediction</span><span class="p">)</span>
 </code></pre></div>
-
 <h2 id="grpc-client">gRPC Client</h2>
 <p>To use gRPC for tensorflow-serving, we need to first install it via <code>pip install grpc</code>. There are certain requirements needed for this protocol, namely:</p>
 <ul>
@@ -800,7 +795,7 @@ docker run -p <span class="m">8500</span>:8500 <span class="se">\</span>
 <li>Connect to the server via gRPC stubs</li>
 </ul>
 <p>Below is an example of a gRPC implementation in python.</p>
-<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">sys</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">grpc</span>
 <span class="kn">from</span> <span class="nn">grpc.beta</span> <span class="kn">import</span> <span class="n">implementations</span>
 <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>

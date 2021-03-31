@@ -732,7 +732,7 @@
 <h3 id="setup-aws-policy-keys-for-zappa-deployment">Setup AWS Policy &amp; Keys for Zappa Deployment</h3>
 <p>The most difficult part of Zappa is to setup a user &amp; policies for zappa to deploy your lambda/gateway application. First, we need to create a new user in AWS, and then define a policy which allows zappa to do all the work for deployment. Then we create the AWS access &amp; secret keys, and port it in our local environment variables.</p>
 <p>A healthy discussion on various minimium policies can be viewed <a href="https://github.com/Miserlou/Zappa/issues/244">here</a>. A working liberal example is given below.</p>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
     <span class="nt">&quot;Version&quot;</span><span class="p">:</span> <span class="s2">&quot;2012-10-17&quot;</span><span class="p">,</span>
     <span class="nt">&quot;Statement&quot;</span><span class="p">:</span> <span class="p">[</span>
         <span class="p">{</span>
@@ -809,15 +809,13 @@
     <span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
-
 <h3 id="how-to-use">How to Use</h3>
 <p>After installing zappa, we init it at the root of your function, which will create a default zappa_settings.json. </p>
-<div class="codehilite"><pre><span></span><code>pip install zappa
+<div class="highlight"><pre><span></span><code>pip install zappa
 zappa init
 </code></pre></div>
-
 <p>All the instructions to launch the Lambda &amp; API Gateway are set in <code>zappa_settings.json</code>. Refer to the official <a href="https://github.com/Miserlou/Zappa">readme</a> for the entire list. We can have another stage, e.g. "prod" with its own configuration.</p>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
     <span class="nt">&quot;dev&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;app_function&quot;</span><span class="p">:</span> <span class="s2">&quot;app.app&quot;</span><span class="p">,</span>
         <span class="nt">&quot;aws_region&quot;</span><span class="p">:</span> <span class="s2">&quot;ap-southeast-1&quot;</span><span class="p">,</span>
@@ -832,7 +830,6 @@ zappa init
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-
 <p>Then, we will deploy it to the cloud, by stating the stage. Behind the scenes, it does all these:</p>
 <ul>
 <li>New user policy is created for lambda execution</li>
@@ -886,7 +883,7 @@ zappa init
 <h3 id="lambda-execution-role">Lambda Execution Role</h3>
 <p>The default execution role created by zappa is too liberal. From the author "It grants access to all actions for all resources for types CloudWatch, S3, Kinesis, SNS, SQS, DynamoDB, and Route53; lambda:InvokeFunction for all Lambda resources; Put to all X-Ray resources; and all Network Interface operations to all EC2 resources".</p>
 <p>To set a manual policy, we need to set the "manage_roles" to <code>false</code> and include either the "role_name" or "role_arn". We then create the role &amp; policies in AWS. </p>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
     <span class="nt">&quot;dev&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="err">...</span>
         <span class="nt">&quot;manage_roles&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="err">//</span> <span class="err">Disable</span> <span class="err">Zappa</span> <span class="err">client</span> <span class="err">managing</span> <span class="err">roles.</span>
@@ -897,9 +894,8 @@ zappa init
     <span class="err">...</span>
 <span class="p">}</span>
 </code></pre></div>
-
 <p>The trick is to first generate the default role, then to filter down the default policy to your specific usecase. Below is an example, which retrieves &amp; updates S3 &amp; DynamnoDB.</p>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
     <span class="nt">&quot;Version&quot;</span><span class="p">:</span> <span class="s2">&quot;2012-10-17&quot;</span><span class="p">,</span>
     <span class="nt">&quot;Statement&quot;</span><span class="p">:</span> <span class="p">[</span>
         <span class="p">{</span>
@@ -960,7 +956,6 @@ zappa init
     <span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
-
 <h2 id="serverless-framework">Serverless Framework</h2>
 <p><a href="https://www.serverless.com/">Serverless Framework</a> is another powerful app to deploy serverless architecture. It's main benefits are being able to deploy to all major cloud providers, i.e. AWS, Azure and GCP, and also supporting multiple languages like nodeJS, Python, Go and Swift. </p>
 <p>The instructions for deployment are contained in a ymal file called <code>serverless.yml</code> to be stored at the root directory.</p>
