@@ -819,6 +819,7 @@
 <p>Some facts:</p>
 <ul>
 <li>All Docker images are linux, usually either alpine or debian</li>
+<li>alpine installations will need <code>apk</code>, while debian uses <code>apt</code></li>
 <li>Docker is not the only container service available, but the most widely used</li>
 </ul>
 <h2 id="basics">Basics</h2>
@@ -987,7 +988,7 @@ sudo docker build -t &lt;imagename&gt; . -f Dockerfile.cpu
 </tr>
 <tr>
 <td><code>-p 5000:5000</code></td>
-<td>Map the Flask port from container to the outside world</td>
+<td>Expose Flask port system-port:container-port</td>
 </tr>
 <tr>
 <td><code>--log-opt max-size=5m --log-opt max-file=5</code></td>
@@ -1041,6 +1042,40 @@ sudo docker system prune
 <h3 id="storage">Storage</h3>
 <p>By design, docker containers do not store persistent data. Thus, any data written in containers will not be available once the container is removed. There are three options to persist data, bind mount, volume, or tmpfs mount.</p>
 <p>More from <a href="https://4sysops.com/archives/introduction-to-docker-bind-mounts-and-volumes/">4sysops</a>, and <a href="https://docs.docker.com/storage/">docker</a></p>
+<p>Bind mount provides a direct connection of a folder file system to the container's system. We can easily swap a file within the local folder and it will be immediately reflected within the container. This is helpful when we need to change a new model training.</p>
+<div class="highlight"><pre><span></span><code>docker run <span class="se">\</span>
+    -p <span class="m">5000</span>:5000 <span class="se">\</span>
+    --mount <span class="nv">type</span><span class="o">=</span>bind,source<span class="o">=</span>/Users/jake/Desktop/data,target<span class="o">=</span>/data,readonly <span class="se">\</span>
+    --name &lt;containername&gt; &lt;imagename&gt;
+</code></pre></div>
+<p>Volume mount is the preferred mechanism for updating a file from a container into the file system. The volume folder is stored in the local filesystem managed by docker in <code>/var/lib/docker/volumes</code>.</p>
+<div class="highlight"><pre><span></span><code>docker run <span class="se">\</span>
+    -p <span class="m">5000</span>:5000 <span class="se">\</span>
+    --mount <span class="nv">type</span><span class="o">=</span>volume,source<span class="o">=</span>&lt;volumename&gt;,target<span class="o">=</span>/data <span class="se">\</span>
+    --name &lt;containername&gt; &lt;imagename&gt;
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Cmd</th>
+<th>Desc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>docker volume inspect volume_name</code></td>
+<td>inspect the volume; view mounted directory in docker</td>
+</tr>
+<tr>
+<td><code>docker volume ls</code></td>
+<td>view all volumes in docker</td>
+</tr>
+<tr>
+<td><code>docker rm volume</code></td>
+<td>delete volume</td>
+</tr>
+</tbody>
+</table>
 <h3 id="network">Network</h3>
 <p>For different containers to communicate to each other, we need to set a fixed network as the IP will change with each instance. We can do so by creating a network and setting it in when the container is launched.</p>
 <div class="highlight"><pre><span></span><code>docker network create &lt;name&gt;
