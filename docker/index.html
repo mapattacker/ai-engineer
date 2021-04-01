@@ -1042,7 +1042,7 @@ sudo docker system prune
 <h3 id="storage">Storage</h3>
 <p>By design, docker containers do not store persistent data. Thus, any data written in containers will not be available once the container is removed. There are three options to persist data, bind mount, volume, or tmpfs mount.</p>
 <p>More from <a href="https://4sysops.com/archives/introduction-to-docker-bind-mounts-and-volumes/">4sysops</a>, and <a href="https://docs.docker.com/storage/">docker</a></p>
-<p>Bind mount provides a direct connection of a folder file system to the container's system. We can easily swap a file within the local folder and it will be immediately reflected within the container. This is helpful when we need to change a new model training.</p>
+<p>Bind mount provides a direct connection of a local folder's file system to the container's system. We can easily swap a file within the local folder and it will be immediately reflected within the container. This is helpful when we need to change a new model after training.</p>
 <div class="highlight"><pre><span></span><code>docker run <span class="se">\</span>
     -p <span class="m">5000</span>:5000 <span class="se">\</span>
     --mount <span class="nv">type</span><span class="o">=</span>bind,source<span class="o">=</span>/Users/jake/Desktop/data,target<span class="o">=</span>/data,readonly <span class="se">\</span>
