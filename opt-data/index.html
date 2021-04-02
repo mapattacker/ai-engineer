@@ -392,24 +392,32 @@
     Pandas
   </a>
   
+    <nav class="md-nav" aria-label="Pandas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#looping" class="md-nav__link">
+    Looping
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#querying" class="md-nav__link">
+    Querying
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
   
 </nav>
       
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../opt-data-pro/" class="md-nav__link">
-        Data-Processing
-      </a>
     </li>
   
 
@@ -656,6 +664,26 @@
     Pandas
   </a>
   
+    <nav class="md-nav" aria-label="Pandas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#looping" class="md-nav__link">
+    Looping
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#querying" class="md-nav__link">
+    Querying
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -678,6 +706,16 @@
                 <h1 id="data-optimization">Data Optimization</h1>
 <h2 id="pandas">Pandas</h2>
 <p>Pandas <a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/enhancingperf.html">documentation</a> lists ways to enhance the performances in terms of both query and storage.</p>
+<h3 id="looping">Looping</h3>
+<p>As a rule of thumb, never use crude for loops to iterate and change values in the dataframe. The <code>apply</code> method is already internally optimized, like using iterators in Cython.</p>
+<p>There are other methods like vectorized as <a href="https://engineering.upside.com/a-beginners-guide-to-optimizing-pandas-code-for-speed-c09ef2c6a4d6">elaborated</a> here, or using Numba or Cython as described in <a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/enhancingperf.html">pandas</a>.</p>
+<h3 id="querying">Querying</h3>
+<p>Pandas have two optimized query methods called <code>.eval</code> &amp; <code>.query</code>; an example of the latter below. In using <code>query</code>, we can assign a <code>@</code> to indicate it as a variable.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Unoptimized</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">obj</span><span class="p">[</span><span class="n">obj</span><span class="p">[</span><span class="s2">&quot;antecedents&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">item</span><span class="p">][</span><span class="s2">&quot;consequents&quot;</span><span class="p">]</span>
+<span class="c1"># Optimized</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;antecedents == @item&quot;</span><span class="p">)[</span><span class="s2">&quot;consequents&quot;</span><span class="p">]</span>
+</code></pre></div>
                 
               
               
@@ -711,13 +749,13 @@
         </a>
       
       
-        <a href="../opt-data-pro/" class="md-footer__link md-footer__link--next" rel="next">
+        <a href="../flask/" class="md-footer__link md-footer__link--next" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Data-Processing
+              Flask
             </div>
           </div>
           <div class="md-footer__button md-icon">
