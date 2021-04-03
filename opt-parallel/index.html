@@ -406,13 +406,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#concurrency-vs-asynchroncy" class="md-nav__link">
-    Concurrency vs Asynchroncy
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -665,13 +658,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#concurrency-vs-asynchroncy" class="md-nav__link">
-    Concurrency vs Asynchroncy
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -690,10 +676,11 @@
                 
                 
                 <h1 id="parallel-programming">Parallel Programming</h1>
-<p>Parallel programming means executing operations while using multiple CPU's processes or using multiple threads in a process. This speeds up the operation multitudes faster based on the number of processes or threads launched.</p>
+<p>Parallel programming means executing operations while using multiple CPU's processes (cores) or using multiple threads in a process. This speeds up the operation multitudes faster based on the number of processes or threads launched.</p>
 <h2 id="pythons-gil-problem">Python's GIL problem</h2>
 <p>Python has a GIL (Global Interpreter Lock), which prevent two threads from executing simultaneously in the same program. However, libraries like numpy bypass this limitation by running external code in C.</p>
 <p>Because of this GIL limitation, threads provide no benefit for CPU intensive tasks, and is only used for IO (Input/Ouput) tasks. CPU-limiting processes refer to one where most part of the life is spent in cpu, while IO-limiting processes refer to one where most part of the life is spent in i/o state.</p>
+<p>Given all these, we know when to use multi-processes and threading to run tasks in parallel.</p>
 <table>
 <thead>
 <tr>
@@ -712,13 +699,11 @@
 </tr>
 <tr>
 <td>E.g. complex calculations</td>
-<td>networking, file read-write</td>
+<td>E.g. networking, file read-write</td>
 </tr>
 </tbody>
 </table>
 <p>A great detailed explanation is provided by <a href="https://medium.com/@bfortuner/python-multithreading-vs-multiprocessing-73072ce5600b">Brendan Fortuner</a>.</p>
-<h2 id="concurrency-vs-asynchroncy">Concurrency vs Asynchroncy</h2>
-<p>Normal operations are executed sequentially, i.e. <strong>synchronous</strong>. Of course, the opposite will be <strong>parallel</strong> operations, and this can be further divided into two subgroups, <strong>concurrent</strong> and <strong>asynchronous</strong> operations.</p>
                 
               
               

@@ -749,7 +749,8 @@
 <span class="n">torchvision</span><span class="o">==</span><span class="mf">0.6</span><span class="o">.</span><span class="mi">0</span><span class="o">+</span><span class="n">cu101</span>
 </code></pre></div>
 
-<p><code>pipreqs</code> also allow an option <code>--mode=compat</code>, which enables micro version updates only. This is important as it allows bug fixes or security patches installed within the micro versions with little chance that the code will break since it is a micro update.</p>
+<p><code>pipreqs</code> also allow an option <code>--mode=compat</code>, which enables patch version updates only. This is important as it allows bug fixes or security patches installed within the micro versions with little chance that the code will break since it is a micro update.</p>
+<p>A side note on semantic versioning. As defined by the <a href="https://semver.org/">convention</a>, it usually follows the version of Major.Minor.Patch; e.g. Flask==1.0.2, where the patch version is backward compatible. Python also have its own description in <a href="https://www.python.org/dev/peps/pep-0440/">PEP 440</a>, naming it as Major.Minor.Micro.</p>
 <h2 id="docstrings">DocStrings</h2>
 <p>DocStrings should be present for every function &amp; method of a class. For primary functions, ensure that it provides 1) Description of the function, 2) Argument name, data type, and description, 3) Return description &amp; data type.</p>
 <p>For secondary functions, they should minimally contain the function description.</p>
