@@ -878,13 +878,11 @@
     <span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
-
 <h3 id="how-to-use">How to Use</h3>
 <p>After installing zappa, we init it at the root of your function, which will create a default zappa_settings.json. </p>
 <div class="highlight"><pre><span></span><code>pip install zappa
 zappa init
 </code></pre></div>
-
 <p>All the instructions to launch the Lambda &amp; API Gateway are set in <code>zappa_settings.json</code>. Refer to the official <a href="https://github.com/Miserlou/Zappa">readme</a> for the entire list. We can have another stage, e.g. "prod" with its own configuration.</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
     <span class="nt">&quot;dev&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -901,7 +899,6 @@ zappa init
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-
 <p>Then, we will deploy it to the cloud, by stating the stage. Behind the scenes, it does all these:</p>
 <ul>
 <li>New user policy is created for lambda execution</li>
@@ -966,7 +963,6 @@ zappa init
     <span class="err">...</span>
 <span class="p">}</span>
 </code></pre></div>
-
 <p>The trick is to first generate the default role, then to filter down the default policy to your specific usecase. Below is an example, which retrieves &amp; updates S3 &amp; DynamnoDB.</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
     <span class="nt">&quot;Version&quot;</span><span class="p">:</span> <span class="s2">&quot;2012-10-17&quot;</span><span class="p">,</span>
@@ -1029,7 +1025,6 @@ zappa init
     <span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
-
 <h2 id="serverless-framework">Serverless Framework</h2>
 <p><a href="https://www.serverless.com/">Serverless Framework</a> is another powerful app to deploy serverless architecture. It's main benefits are being able to deploy to all major cloud providers, i.e. AWS, Azure and GCP, and also supporting multiple languages like nodeJS, Python, Go and Swift. </p>
 <p>The instructions for deployment are contained in a ymal file called <code>serverless.yml</code> to be stored at the root directory.</p>

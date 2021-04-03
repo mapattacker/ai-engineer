@@ -970,7 +970,6 @@
 
 <span class="k">ENTRYPOINT</span> <span class="p">[</span> <span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="s2">&quot;-u&quot;</span><span class="p">,</span> <span class="s2">&quot;serve_http.py&quot;</span> <span class="p">]</span>
 </code></pre></div>
-
 <h3 id="intel-gpu">Intel-GPU</h3>
 <p>If the host has Nvidia GPU, we should make use of it so that the inference time is much faster; x10 faster for this example. We will need to choose a base image that has CUDA &amp; CUDNN installed so that GPU can be utilised.</p>
 <div class="highlight"><pre><span></span><code><span class="k">FROM</span> <span class="s">pytorch/pytorch:1.5.1-cuda10.1-cudnn7-devel</span>
@@ -986,11 +985,9 @@
 
 <span class="k">ENTRYPOINT</span> <span class="p">[</span> <span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="s2">&quot;-u&quot;</span><span class="p">,</span> <span class="s2">&quot;serve_http.py&quot;</span> <span class="p">]</span>
 </code></pre></div>
-
 <p>The run command is:</p>
 <div class="highlight"><pre><span></span><code>sudo docker run --gpus all --ipc<span class="o">=</span>host -d -p <span class="m">5000</span>:5000 --name  &lt;containername&gt; &lt;imagename&gt;
 </code></pre></div>
-
 <h3 id="arm-gpu">ARM-GPU</h3>
 <p>The ARM architecture requires a little more effort; the below installation is for Nvidia Jetson Series Kit.</p>
 <div class="highlight"><pre><span></span><code><span class="c"># From https://ngc.nvidia.com/catalog/containers/nvidia:l4t-pytorch </span>
@@ -1017,18 +1014,15 @@
 
 <span class="k">ENTRYPOINT</span> <span class="p">[</span> <span class="s2">&quot;python3&quot;</span><span class="p">,</span> <span class="s2">&quot;-u&quot;</span><span class="p">,</span> <span class="s2">&quot;serve_http.py&quot;</span> <span class="p">]</span>
 </code></pre></div>
-
 <p>The run command is:</p>
 <div class="highlight"><pre><span></span><code>sudo docker run -d -p <span class="m">5000</span>:5000 --runtime nvidia --name &lt;containername&gt; &lt;imagename&gt;
 </code></pre></div>
-
 <h2 id="common-commands">Common Commands</h2>
 <h3 id="build">Build</h3>
 <p>The basic build command is quite straight forward. However, if we have various docker builds in a repo, it is best to name it with and extension representing the function, e.g. <code>Dockerfile.cpu</code>. For that, we will need to direct Docker to this specific file name.</p>
 <div class="highlight"><pre><span></span><code>sudo docker build -t &lt;imagename&gt; .
 sudo docker build -t &lt;imagename&gt; . -f Dockerfile.cpu
 </code></pre></div>
-
 <h3 id="run">Run</h3>
 <p>For an AI microservice in Docker, there are five main run commands to launch the container.</p>
 <table>
@@ -1064,29 +1058,24 @@ sudo docker build -t &lt;imagename&gt; . -f Dockerfile.cpu
 <p>The full command is as such.</p>
 <div class="highlight"><pre><span></span><code>sudo docker run -d -p <span class="m">5000</span>:5000 --log-opt max-size<span class="o">=</span>5m --log-opt max-file<span class="o">=</span><span class="m">5</span> --restart always --name &lt;containername&gt; &lt;imagename&gt;
 </code></pre></div>
-
 <p>We can also stop, start or restart the container if required.</p>
 <div class="highlight"><pre><span></span><code>sudo docker stop &lt;container-name/id&gt;
 sudo docker start &lt;container-name/id&gt;
 sudo docker restart &lt;container-name/id&gt;
 </code></pre></div>
-
 <h3 id="check-status">Check Status</h3>
 <p>This checks the statuses of each running container, or all containers.</p>
 <div class="highlight"><pre><span></span><code>sudo docker ps
 sudo docker ps -a
 </code></pre></div>
-
 <p>Shows resource usage for each running container.</p>
 <div class="highlight"><pre><span></span><code>sudo docker stats
 </code></pre></div>
-
 <h3 id="clean">Clean</h3>
 <p>To manually remove a container or image, used the below commands. Add <code>-f</code> to forcefully remove if the container is still running.</p>
 <div class="highlight"><pre><span></span><code>sudo docker rm &lt;container-id/name&gt;
 sudo docker rmi &lt;image-id/name&gt;
 </code></pre></div>
-
 <p>Each iteration of rebuilding and relaunching of containers will create a lot of intermediate images, and stopped containers. These can occupy a lot of space, so using <code>prune</code> can remove all these obsolete items at one go.</p>
 <div class="highlight"><pre><span></span><code>sudo docker image prune
 sudo docker container prune
@@ -1094,16 +1083,13 @@ sudo docker volume prune
 sudo docker network prune
 sudo docker system prune
 </code></pre></div>
-
 <h3 id="debug">Debug</h3>
 <p>We can check the console logs of the Flask app by opening up docker logs in live mode using <code>-f</code>. The logs are stored in <code>/var/lib/docker/containers/[container-id]/[container-id]-json</code>.</p>
 <div class="highlight"><pre><span></span><code>sudo docker logs -f container_name
 </code></pre></div>
-
 <p>At times, we might need to check what is inside the container.</p>
 <div class="highlight"><pre><span></span><code>sudo docker <span class="nb">exec</span> -it &lt;container name/id&gt; bash
 </code></pre></div>
-
 <h3 id="storage">Storage</h3>
 <p>By design, docker containers do not store persistent data. Thus, any data written in containers will not be available once the container is removed. There are three options to persist data, bind mount, volume, or tmpfs mount.</p>
 <p>More from <a href="https://4sysops.com/archives/introduction-to-docker-bind-mounts-and-volumes/">4sysops</a>, and <a href="https://docs.docker.com/storage/">docker</a></p>
@@ -1113,14 +1099,12 @@ sudo docker system prune
     --mount <span class="nv">type</span><span class="o">=</span>bind,source<span class="o">=</span>/Users/jake/Desktop/data,target<span class="o">=</span>/data,readonly <span class="se">\</span>
     --name &lt;containername&gt; &lt;imagename&gt;
 </code></pre></div>
-
 <p>Volume mount is the preferred mechanism for updating a file from a container into the file system. The volume folder is stored in the local filesystem managed by docker in <code>/var/lib/docker/volumes</code>.</p>
 <div class="highlight"><pre><span></span><code>docker run <span class="se">\</span>
     -p <span class="m">5000</span>:5000 <span class="se">\</span>
     --mount <span class="nv">type</span><span class="o">=</span>volume,source<span class="o">=</span>&lt;volumename&gt;,target<span class="o">=</span>/data <span class="se">\</span>
     --name &lt;containername&gt; &lt;imagename&gt;
 </code></pre></div>
-
 <table>
 <thead>
 <tr>
@@ -1152,7 +1136,6 @@ docker run -d --network &lt;name&gt; --name<span class="o">=</span>&lt;container
 <span class="c1"># list networks</span>
 docker network ls
 </code></pre></div>
-
 <p>Alternatively, we can launch the containers together using docker-compose, and they will automatically be in the same network.</p>
 <h2 id="docker-compose">Docker-Compose</h2>
 <p>When we need to manage multiple containers, it will be easier to set the build &amp; run configurations using Docker-Compose, in a ymal file called <code>docker-compose.yml</code>.</p>
@@ -1172,7 +1155,6 @@ services:
             - 5001:5000
         restart: always
 </code></pre></div>
-
 <p>When we are ready, we use the commands <code>docker-compose build</code> &amp; <code>docker-compose up -d</code> to build &amp; launch the containers respectively.</p>
                 
               
