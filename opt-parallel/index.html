@@ -406,13 +406,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#multiprocessing" class="md-nav__link">
-    Multiprocessing
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -665,13 +658,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#multiprocessing" class="md-nav__link">
-    Multiprocessing
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -691,6 +677,7 @@
                 
                 <h1 id="parallel-programming">Parallel Programming</h1>
 <p>Parallel programming means executing operations while using multiple CPU's processes (cores) or using multiple threads in a process. This speeds up the operation multitudes faster based on the number of processes or threads launched.</p>
+<p>Parallel processing can be done within a single machine or distributed in among a cluster. For the former, we can use multiprocessing or concurrent.futures which work similarity. An exhaustive list is given in this <a href="https://wiki.python.org/moin/ParallelProcessing">link</a>.</p>
 <h2 id="pythons-gil-problem">Python's GIL problem</h2>
 <p>Python has a GIL (Global Interpreter Lock), which prevent two threads from executing simultaneously in the same program. However, libraries like numpy bypass this limitation by running external code in C.</p>
 <p>Because of this GIL limitation, threads provide no benefit for CPU intensive tasks, and is only used for IO (Input/Ouput) tasks. CPU-limiting processes refer to one where most part of the life is spent in cpu, while IO-limiting processes refer to one where most part of the life is spent in i/o state.</p>
@@ -718,8 +705,7 @@
 </tr>
 </tbody>
 </table>
-<p>A great detailed explanation is provided by <a href="https://medium.com/@bfortuner/python-multithreading-vs-multiprocessing-73072ce5600b">Brendan Fortuner</a> and <a href="https://medium.com/towards-artificial-intelligence/the-why-when-and-how-of-using-python-multi-threading-and-multi-processing-afd1b8a8ecca">Thilina Rajapakse</a>.</p>
-<h2 id="multiprocessing">Multiprocessing</h2>
+<p>Great detailed explanations are provided by <a href="https://medium.com/@bfortuner/python-multithreading-vs-multiprocessing-73072ce5600b">Brendan Fortuner</a> and <a href="https://medium.com/towards-artificial-intelligence/the-why-when-and-how-of-using-python-multi-threading-and-multi-processing-afd1b8a8ecca">Thilina Rajapakse</a>.</p>
                 
               
               
