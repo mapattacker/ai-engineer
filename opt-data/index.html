@@ -422,6 +422,18 @@
   
 
           
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../opt.parallel.md" class="md-nav__link">
+        Parallellism
+      </a>
+    </li>
+  
+
+          
         </ul>
       </nav>
     </li>
@@ -730,6 +742,7 @@
 <span class="c1"># optimized numpy array</span>
 <span class="n">df</span><span class="p">[</span><span class="s1">&#39;distance&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">haversine</span><span class="p">(</span><span class="mf">40.671</span><span class="p">,</span> <span class="o">-</span><span class="mf">73.985</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;latitude&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;longitude&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
 </code></pre></div>
+
 <h3 id="querying">Querying</h3>
 <p>In pandas, there are various ways of querying, and the speed various with each type. </p>
 <p>In the example below, the fastest way is to convert the query column into a category data-type as it contains many duplicates, hence conversion into integers underthehood make it query more efficient. However, this might not always be the case, and using <code>isin</code> or <code>in1d</code> might suffice.</p>

@@ -428,6 +428,18 @@
   
 
           
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../opt.parallel.md" class="md-nav__link">
+        Parallellism
+      </a>
+    </li>
+  
+
+          
         </ul>
       </nav>
     </li>
@@ -736,6 +748,7 @@
 <span class="n">torch</span><span class="o">==</span><span class="mf">1.5</span><span class="o">.</span><span class="mi">0</span><span class="o">+</span><span class="n">cu101</span>
 <span class="n">torchvision</span><span class="o">==</span><span class="mf">0.6</span><span class="o">.</span><span class="mi">0</span><span class="o">+</span><span class="n">cu101</span>
 </code></pre></div>
+
 <p><code>pipreqs</code> also allow an option <code>--mode=compat</code>, which enables micro version updates only. This is important as it allows bug fixes or security patches installed within the micro versions with little chance that the code will break since it is a micro update.</p>
 <h2 id="docstrings">DocStrings</h2>
 <p>DocStrings should be present for every function &amp; method of a class. For primary functions, ensure that it provides 1) Description of the function, 2) Argument name, data type, and description, 3) Return description &amp; data type.</p>
@@ -769,6 +782,7 @@
     <span class="n">coco</span> <span class="o">=</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">boxw</span><span class="p">,</span> <span class="n">boxh</span>
     <span class="k">return</span> <span class="n">coco</span>
 </code></pre></div>
+
 <h2 id="isort">ISort</h2>
 <p>Sorts by alphabetical order the imported libraries, while splitting python base libraries as first order, with the 3rd party libraries as second order, and local script imports as the third.</p>
 <ul>
