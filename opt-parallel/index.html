@@ -406,6 +406,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#multiprocessing" class="md-nav__link">
+    Multiprocessing
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -658,6 +665,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#multiprocessing" class="md-nav__link">
+    Multiprocessing
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -680,7 +694,8 @@
 <h2 id="pythons-gil-problem">Python's GIL problem</h2>
 <p>Python has a GIL (Global Interpreter Lock), which prevent two threads from executing simultaneously in the same program. However, libraries like numpy bypass this limitation by running external code in C.</p>
 <p>Because of this GIL limitation, threads provide no benefit for CPU intensive tasks, and is only used for IO (Input/Ouput) tasks. CPU-limiting processes refer to one where most part of the life is spent in cpu, while IO-limiting processes refer to one where most part of the life is spent in i/o state.</p>
-<p>Given all these, we know when to use multi-processes and threading to run tasks in parallel.</p>
+<p>Why does IO task work when it can also only use a single thread in a process at a time? Let's take an example, one thread fires off a request to a URL and while it is waiting for a response, that thread can be swapped out for another thread that fires another request to another URL. Since a thread doesn’t have to do anything until it receives a response, it doesn’t really matter that only one thread is executing at a given time.</p>
+<p>Given all these, we know when to use multi-processes and threads to run tasks in parallel.</p>
 <table>
 <thead>
 <tr>
@@ -703,7 +718,8 @@
 </tr>
 </tbody>
 </table>
-<p>A great detailed explanation is provided by <a href="https://medium.com/@bfortuner/python-multithreading-vs-multiprocessing-73072ce5600b">Brendan Fortuner</a>.</p>
+<p>A great detailed explanation is provided by <a href="https://medium.com/@bfortuner/python-multithreading-vs-multiprocessing-73072ce5600b">Brendan Fortuner</a> and <a href="https://medium.com/towards-artificial-intelligence/the-why-when-and-how-of-using-python-multi-threading-and-multi-processing-afd1b8a8ecca">Thilina Rajapakse</a>.</p>
+<h2 id="multiprocessing">Multiprocessing</h2>
                 
               
               
