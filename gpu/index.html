@@ -14,7 +14,7 @@
     
     
       
-        <title>GPU - AI Engineer Guide</title>
+        <title>Using GPU - AI Engineer Guide</title>
       
     
     
@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#gpu" class="md-skip">
+        <a href="#using-gpu" class="md-skip">
           Skip to content
         </a>
       
@@ -93,7 +93,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              GPU
+              Using GPU
             
           </span>
         </div>
@@ -301,12 +301,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          GPU
+          Using GPU
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        GPU
+        Using GPU
       </a>
       
         
@@ -702,21 +702,22 @@
                   </a>
                 
                 
-                <h1 id="gpu">GPU</h1>
+                <h1 id="using-gpu">Using GPU</h1>
 <p>Neural Networks are using processed using GPU as can better compute multiple parallel processes required. Nvidia graphic cards are currently the defacto GPU used with all neural network libraries supporting it.</p>
 <h2 id="installing-cuda">Installing CUDA</h2>
-<p>For tensorflow and pytorch, they have compatibility setups for CUDA versions, and also for the former; cudnn, python and the compiler. You can view the requirements from <a href="https://www.tensorflow.org/install/source#gpu">tensorflow docs</a> and <a href="https://pytorch.org/get-started/locally/">pytorch docs</a>.</p>
+<p>For tensorflow and pytorch, they have compatibility setups for CUDA versions, and also for the former; cudnn, python and the compiler. You can view the requirements from the docs of <a href="https://www.tensorflow.org/install/source#gpu">tensorflow</a> and <a href="https://pytorch.org/get-started/locally/">pytorch</a>.</p>
 <figure>
   <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/gpu-tf.png?raw=true" />
   <figcaption>GPU setups compatible with tensorflow versions</a></figcaption>
 </figure>
 
-<p>Go to Nvidia's CUDA <a href="https://developer.nvidia.com/cuda-toolkit-archive">website</a>, and select the version required. You will be led to a selection screen to specify your OS. After that, follow the instructions to download and install CUDA as indicated.</p>
+<p>After verifying the version, go to Nvidia's CUDA <a href="https://developer.nvidia.com/cuda-toolkit-archive">website</a>, and select the version required. You will be led to a selection screen to specify your OS. </p>
 <figure>
   <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/gpu-cuda-install.png?raw=true" />
   <figcaption></a></figcaption>
 </figure>
 
+<p>As part of the CUDA installation, cudnn is installed. As part of CUDA driver installation, <code>nvidia-smi</code> is also installed.</p>
 <h2 id="verification">Verification</h2>
 <p>To check that CUDA is installed properly at the system level, we can use the following commands in the terminal to check.</p>
 <table>
@@ -729,7 +730,7 @@
 <tbody>
 <tr>
 <td><code>cat /proc/driver/nvidia/version</code></td>
-<td>Verify Nvidia driver version</td>
+<td>Verify driver &amp; gcc version</td>
 </tr>
 <tr>
 <td><code>nvcc -V</code></td>
@@ -737,7 +738,7 @@
 </tr>
 <tr>
 <td><code>nvidia-smi</code></td>
-<td>CUDA version, check memory usage</td>
+<td>CUDA &amp; driver versions, check memory usage</td>
 </tr>
 </tbody>
 </table>
