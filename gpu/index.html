@@ -323,6 +323,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#compatibility" class="md-nav__link">
+    Compatibility
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#removeuninstall-cuda" class="md-nav__link">
     Remove/Uninstall CUDA
   </a>
@@ -700,6 +707,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#compatibility" class="md-nav__link">
+    Compatibility
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#removeuninstall-cuda" class="md-nav__link">
     Remove/Uninstall CUDA
   </a>
@@ -761,6 +775,13 @@
                 <h1 id="using-gpu">Using GPU</h1>
 <p>Neural Networks are processed using GPU as they can better compute multiple parallel processes. Nvidia graphic cards are currently the defacto GPU used, with it supporting all neural network libraries.</p>
 <p>Unfortunately, it is sometimes a pain to install CUDA and get it working with our libraries, so hopefully this page serves as a guide to overcome the difficulties.</p>
+<h2 id="compatibility">Compatibility</h2>
+<p>For tensorflow and pytorch, they have compatibility setups for CUDA versions, and also for the former; cudnn, python and the compiler. You can view the requirements from the docs of <a href="https://www.tensorflow.org/install/source#gpu">tensorflow</a> and <a href="https://pytorch.org/get-started/locally/">pytorch</a>.</p>
+<figure>
+  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/gpu-tf.png?raw=true" />
+  <figcaption>GPU setups compatible with tensorflow versions</a></figcaption>
+</figure>
+
 <h2 id="removeuninstall-cuda">Remove/Uninstall CUDA</h2>
 <p>Sometimes, we need to remove legacy versions of CUDA so that we can install a new one to work with our libraries. To do that, we can use the following commands.</p>
 <div class="highlight"><pre><span></span><code>sudo rm /etc/apt/sources.list.d/cuda*
@@ -798,12 +819,7 @@ sudo apt install libcudnn7
 
 <p>Reboot the system.</p>
 <h2 id="installing-cuda">Installing CUDA</h2>
-<p>For tensorflow and pytorch, they have compatibility setups for CUDA versions, and also for the former; cudnn, python and the compiler. You can view the requirements from the docs of <a href="https://www.tensorflow.org/install/source#gpu">tensorflow</a> and <a href="https://pytorch.org/get-started/locally/">pytorch</a>.</p>
-<figure>
-  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/gpu-tf.png?raw=true" />
-  <figcaption>GPU setups compatible with tensorflow versions</a></figcaption>
-</figure>
-
+<p>For a more generic installation, we can do the following, though I have personally not succeeded in getting this work. Haha.</p>
 <p>After verifying the version, go to Nvidia's CUDA <a href="https://developer.nvidia.com/cuda-toolkit-archive">website</a>, and select the version required. You will be led to a selection screen to specify your OS. </p>
 <figure>
   <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/gpu-cuda-install.png?raw=true" />
@@ -859,10 +875,7 @@ sudo apt install libcudnn7
 </code></pre></div>
 
 <h2 id="why-so-hard">Why so Hard?</h2>
-<p>As to why it is so hard to get install CUDA. Watch this famous YouTube video.</p>
-<div class="video-wrapper">
-  <iframe width="1280" height="720" src="https://www.youtube.com/watch?v=IVpOyKCNZYw" frameborder="0" allowfullscreen></iframe>
-</div>
+<p>As to why it is so hard to get install CUDA. Watch this famous YouTube <a href="https://www.youtube.com/watch?v=IVpOyKCNZYw">video</a>.</p>
                 
               
               
