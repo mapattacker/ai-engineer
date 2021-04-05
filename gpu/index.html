@@ -323,6 +323,20 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#removeuninstall-cuda" class="md-nav__link">
+    Remove/Uninstall CUDA
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-cuda-101-in-ubuntu-18-20" class="md-nav__link">
+    Installing CUDA 10.1 in Ubuntu 18 &amp; 20
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#installing-cuda" class="md-nav__link">
     Installing CUDA
   </a>
@@ -330,8 +344,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#verification" class="md-nav__link">
-    Verification
+  <a href="#system-verification" class="md-nav__link">
+    System Verification
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#library-verification" class="md-nav__link">
+    Library Verification
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-so-hard" class="md-nav__link">
+    Why so Hard?
   </a>
   
 </li>
@@ -672,6 +700,20 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#removeuninstall-cuda" class="md-nav__link">
+    Remove/Uninstall CUDA
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-cuda-101-in-ubuntu-18-20" class="md-nav__link">
+    Installing CUDA 10.1 in Ubuntu 18 &amp; 20
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#installing-cuda" class="md-nav__link">
     Installing CUDA
   </a>
@@ -679,8 +721,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#verification" class="md-nav__link">
-    Verification
+  <a href="#system-verification" class="md-nav__link">
+    System Verification
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#library-verification" class="md-nav__link">
+    Library Verification
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-so-hard" class="md-nav__link">
+    Why so Hard?
   </a>
   
 </li>
@@ -704,6 +760,43 @@
                 
                 <h1 id="using-gpu">Using GPU</h1>
 <p>Neural Networks are processed using GPU as they can better compute multiple parallel processes. Nvidia graphic cards are currently the defacto GPU used, with it supporting all neural network libraries.</p>
+<p>Unfortunately, it is sometimes a pain to install CUDA and get it working with our libraries, so hopefully this page serves as a guide to overcome the difficulties.</p>
+<h2 id="removeuninstall-cuda">Remove/Uninstall CUDA</h2>
+<p>Sometimes, we need to remove legacy versions of CUDA so that we can install a new one to work with our libraries. To do that, we can use the following commands.</p>
+<div class="highlight"><pre><span></span><code>sudo rm /etc/apt/sources.list.d/cuda*
+sudo apt remove --autoremove nvidia-cuda-toolkit
+sudo apt remove --autoremove nvidia-*
+</code></pre></div>
+
+<h2 id="installing-cuda-101-in-ubuntu-18-20">Installing CUDA 10.1 in Ubuntu 18 &amp; 20</h2>
+<p>A great help from this medium article, <a href="https://medium.com/@exesse/cuda-10-1-installation-on-ubuntu-18-04-lts-d04f89287130">CUDA 10.1 installation on Ubuntu 20.04</a>.</p>
+<p>First we setup the correct CUDA PPA on your system. </p>
+<div class="highlight"><pre><span></span><code>sudo apt update
+
+sudo add-apt-repository ppa:graphics-driverssudo apt-key adv --fetch-keys  http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pubsudo bash -c <span class="s1">&#39;echo &quot;deb http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /&quot; &gt; /etc/apt/sources.list.d/cuda.list&#39;</span>
+
+sudo bash -c <span class="s1">&#39;echo &quot;deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /&quot; &gt; /etc/apt/sources.list.d/cuda_learn.list&#39;</span>
+</code></pre></div>
+
+<p>Then, install CUDA 10.1 packages</p>
+<div class="highlight"><pre><span></span><code>sudo apt update
+sudo apt install cuda-10-1
+sudo apt install libcudnn7
+</code></pre></div>
+
+<p>As the last step one need to specify PATH to CUDA in ‘.profile’ file. Open the file by running</p>
+<div class="highlight"><pre><span></span><code>sudo nano ~/.profile
+</code></pre></div>
+
+<p>And add the following lines at the end of the file.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># set PATH for cuda 10.1 installation</span>
+<span class="k">if</span> <span class="o">[</span> -d <span class="s2">&quot;/usr/local/cuda-10.1/bin/&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>/usr/local/cuda-10.1/bin<span class="si">${</span><span class="nv">PATH</span><span class="p">:+:</span><span class="si">${</span><span class="nv">PATH</span><span class="si">}}</span>
+    <span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>/usr/local/cuda-10.1/lib64<span class="si">${</span><span class="nv">LD_LIBRARY_PATH</span><span class="p">:+:</span><span class="si">${</span><span class="nv">LD_LIBRARY_PATH</span><span class="si">}}</span>
+<span class="k">fi</span>
+</code></pre></div>
+
+<p>Reboot the system.</p>
 <h2 id="installing-cuda">Installing CUDA</h2>
 <p>For tensorflow and pytorch, they have compatibility setups for CUDA versions, and also for the former; cudnn, python and the compiler. You can view the requirements from the docs of <a href="https://www.tensorflow.org/install/source#gpu">tensorflow</a> and <a href="https://pytorch.org/get-started/locally/">pytorch</a>.</p>
 <figure>
@@ -717,8 +810,8 @@
   <figcaption></a></figcaption>
 </figure>
 
-<p>As part of the CUDA installation, <code>cudnn</code> is installed. As part of CUDA driver installation, <code>nvidia-smi</code> is also installed.</p>
-<h2 id="verification">Verification</h2>
+<p>As part of the CUDA installation, <code>cudnn</code>, the relevant driver, and <code>nvidia-smi</code> are installed.</p>
+<h2 id="system-verification">System Verification</h2>
 <p>To check that CUDA is installed properly at the system level, we can use the following commands in the terminal to check.</p>
 <table>
 <thead>
@@ -742,6 +835,7 @@
 </tr>
 </tbody>
 </table>
+<h2 id="library-verification">Library Verification</h2>
 <p>To check that tensorflow and pytorch can detect the GPU and use it, we can use the following commands.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># tensorflow</span>
 <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
@@ -763,6 +857,12 @@
 <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">get_device_name</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="c1"># &#39;GeForce GTX 950M&#39;</span>
 </code></pre></div>
+
+<h2 id="why-so-hard">Why so Hard?</h2>
+<p>As to why it is so hard to get install CUDA. Watch this famous YouTube video.</p>
+<div class="video-wrapper">
+  <iframe width="1280" height="720" src="https://www.youtube.com/watch?v=IVpOyKCNZYw" frameborder="0" allowfullscreen></iframe>
+</div>
                 
               
               
