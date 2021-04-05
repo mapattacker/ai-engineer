@@ -14,7 +14,7 @@
     
     
       
-        <title>Nvidia GPU - AI Engineer Guide</title>
+        <title>GPU - AI Engineer Guide</title>
       
     
     
@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#nvidia-gpu" class="md-skip">
+        <a href="#gpu" class="md-skip">
           Skip to content
         </a>
       
@@ -93,7 +93,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Nvidia GPU
+              GPU
             
           </span>
         </div>
@@ -290,6 +290,66 @@
 
   
   
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          GPU
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        GPU
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installing-cuda" class="md-nav__link">
+    Installing CUDA
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification" class="md-nav__link">
+    Verification
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
   
     <li class="md-nav__item">
       <a href="../mlflow/" class="md-nav__link">
@@ -325,14 +385,14 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
       
-      <label class="md-nav__link" for="__nav_8">
+      <label class="md-nav__link" for="__nav_9">
         Optimization
         <span class="md-nav__icon md-icon"></span>
       </label>
       <nav class="md-nav" aria-label="Optimization" data-md-level="1">
-        <label class="md-nav__title" for="__nav_8">
+        <label class="md-nav__title" for="__nav_9">
           <span class="md-nav__icon md-icon"></span>
           Optimization
         </label>
@@ -391,14 +451,14 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_10" type="checkbox" id="__nav_10" >
       
-      <label class="md-nav__link" for="__nav_9">
+      <label class="md-nav__link" for="__nav_10">
         Deployment
         <span class="md-nav__icon md-icon"></span>
       </label>
       <nav class="md-nav" aria-label="Deployment" data-md-level="1">
-        <label class="md-nav__title" for="__nav_9">
+        <label class="md-nav__title" for="__nav_10">
           <span class="md-nav__icon md-icon"></span>
           Deployment
         </label>
@@ -472,14 +532,14 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_12" type="checkbox" id="__nav_12" >
       
-      <label class="md-nav__link" for="__nav_11">
+      <label class="md-nav__link" for="__nav_12">
         Testing
         <span class="md-nav__icon md-icon"></span>
       </label>
       <nav class="md-nav" aria-label="Testing" data-md-level="1">
-        <label class="md-nav__title" for="__nav_11">
+        <label class="md-nav__title" for="__nav_12">
           <span class="md-nav__icon md-icon"></span>
           Testing
         </label>
@@ -637,18 +697,71 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/cuda.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/gpu.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="nvidia-gpu">Nvidia GPU</h1>
+                <h1 id="gpu">GPU</h1>
+<p>Neural Networks are using processed using GPU as can better compute multiple parallel processes required. Nvidia graphic cards are currently the defacto GPU used with all neural network libraries supporting it.</p>
 <h2 id="installing-cuda">Installing CUDA</h2>
-<p>Go to Nvidia's CUDA <a href="https://developer.nvidia.com/cuda-toolkit-archive">website</a></p>
-<p>sudo sh cuda_10.0.130_410.48_linux.run</p>
+<p>For tensorflow and pytorch, they have compatibility setups for CUDA versions, and also for the former; cudnn, python and the compiler. You can view the requirements from <a href="https://www.tensorflow.org/install/source#gpu">tensorflow docs</a> and <a href="https://pytorch.org/get-started/locally/">pytorch docs</a>.</p>
+<figure>
+  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/gpu-tf.png?raw=true" />
+  <figcaption>GPU setups compatible with tensorflow versions</a></figcaption>
+</figure>
+
+<p>Go to Nvidia's CUDA <a href="https://developer.nvidia.com/cuda-toolkit-archive">website</a>, and select the version required. You will be led to a selection screen to specify your OS. After that, follow the instructions to download and install CUDA as indicated.</p>
+<figure>
+  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/gpu-cuda-install.png?raw=true" />
+  <figcaption></a></figcaption>
+</figure>
+
 <h2 id="verification">Verification</h2>
-<p><code>cat /proc/driver/nvidia/version</code>: Verify Nvidia driver version
-<code>nvcc -V</code>: Verify CUDA toolkit version</p>
+<p>To check that CUDA is installed properly at the system level, we can use the following commands in the terminal to check.</p>
+<table>
+<thead>
+<tr>
+<th>Noun</th>
+<th>Desc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cat /proc/driver/nvidia/version</code></td>
+<td>Verify Nvidia driver version</td>
+</tr>
+<tr>
+<td><code>nvcc -V</code></td>
+<td>Verify CUDA toolkit version</td>
+</tr>
+<tr>
+<td><code>nvidia-smi</code></td>
+<td>CUDA version, check memory usage</td>
+</tr>
+</tbody>
+</table>
+<p>To check that tensorflow and pytorch can detect the GPU and use it, we can use the following commands.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># tensorflow</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="c1"># return empty list if not available</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">list_physical_devices</span><span class="p">(</span><span class="s1">&#39;GPU&#39;</span><span class="p">)</span>
+
+
+<span class="c1"># pytorch</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span>
+<span class="c1"># True</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_device</span><span class="p">()</span>
+<span class="c1"># 0</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="c1"># &lt;torch.cuda.device at 0x7efce0b03be0&gt;</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">device_count</span><span class="p">()</span>
+<span class="c1"># 1</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">get_device_name</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="c1"># &#39;GeForce GTX 950M&#39;</span>
+</code></pre></div>
                 
               
               
@@ -664,6 +777,39 @@
       
         
 <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        <a href="../dvc/" class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Data Version Control
+            </div>
+          </div>
+        </a>
+      
+      
+        <a href="../mlflow/" class="md-footer__link md-footer__link--next" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Model Version
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
