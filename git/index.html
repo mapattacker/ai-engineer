@@ -973,6 +973,7 @@ git reset HEAD &lt;file.py&gt;
 
 <h2 id="delete-from-git-history">Delete from Git History</h2>
 <p><a href="https://rtyley.github.io/bfg-repo-cleaner/">BFG Repo-Cleaner</a> is a 3rd party java file used to remove files that are not accidentally uploaded, e.g., passwords, blobs. Download their file from the website and follow the instructions there, or from the example below.</p>
+<p>We cannot delete specific files and folders based on path, the reasoning given by the developer of BFG in <a href="https://stackoverflow.com/questions/21142986/remove-filenames-from-specific-path">stackoverflow</a>.</p>
 <table>
 <thead>
 <tr>
@@ -990,6 +991,10 @@ git reset HEAD &lt;file.py&gt;
 <td>delete certain file extensions</td>
 </tr>
 <tr>
+<td><code>bfg --delete-folders &lt;foldername&gt; repo-name.git</code></td>
+<td>delete all folders with the folder model</td>
+</tr>
+<tr>
 <td><code>cd repo-name.git</code></td>
 <td>go into git directory</td>
 </tr>
@@ -1003,6 +1008,7 @@ git reset HEAD &lt;file.py&gt;
 </tr>
 </tbody>
 </table>
+<p>After uploading the new git history to the repository, it is important to not push any of you or your team's legacy git history back to the repo.</p>
                 
               
               
