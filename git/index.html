@@ -869,7 +869,6 @@ git remote -v
 <span class="c1"># switch remote url to https</span>
 git remote set-url origin https://github.com/mapattacker/ai-engineer.git
 </code></pre></div>
-
 <hr>
 
 <h2 id="branches">Branches</h2>
@@ -889,7 +888,6 @@ git branch -d &lt;branchname&gt;
 <span class="c1"># delete remote branch</span>
 git push origin -d &lt;branchname&gt;
 </code></pre></div>
-
 <h3 id="workflow">Workflow</h3>
 <p>Below is a workflow typical in a project team. Image sourced from <a href="https://buddy.works/blog/5-types-of-git-workflows">Buddy</a>.</p>
 <p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/gitflow.png?raw=true" /></p>
@@ -911,7 +909,6 @@ git status
 <span class="c1"># check for code changes in a file</span>
 git diff &lt;filename&gt;
 </code></pre></div>
-
 <h3 id="commands_1">Commands</h3>
 <p>To commit your code, we first want to resolve any potential conflicts from the branch we want to merge to later (in case, new updates occurred). Then, we add the file or all files in a folder, followed by a commit msg, and then push to the remote (hosting service like github).</p>
 <div class="highlight"><pre><span></span><code>git merge &lt;branchtomergelater&gt;
@@ -919,7 +916,6 @@ git add &lt;fileOrfolder&gt;
 git commit -m <span class="s2">&quot;your commit msg&quot;</span>
 git push
 </code></pre></div>
-
 <p>It is essential to commit small, bite-size code changes to prevent the reviewer from being overwhelmed when validating your code during a merge request.</p>
 <h3 id="resets">Resets</h3>
 <p>Sometimes, we might accidentally add or commit our changes erroneously. To reset them, we need to use the <code>reset</code> command.</p>
@@ -931,7 +927,6 @@ git reset
 <span class="c1"># remove specific staging file</span>
 git reset HEAD &lt;file.py&gt;
 </code></pre></div>
-
 <h3 id="workflow_1">Workflow</h3>
 <p>The various git commands and how they interact at different stages are as illustrated below.</p>
 <p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/git.png?raw=true" /></p>

@@ -776,7 +776,6 @@
 <p><a href="https://dvc.org">DVC</a> is a library for ML versioning of blobs, which can include data and/or models. For this documentation, we will be using an example where we store the data versions into AWS S3 bucket. To start off, install the dvc library, together with AWS S3's accompanying library </p>
 <div class="highlight"><pre><span></span><code>pip install dvc<span class="o">[</span>s3<span class="o">]</span>
 </code></pre></div>
-
 <h2 id="dvc-init">DVC INIT</h2>
 <p><code>dvc init</code> will add a <code>.dvcignore</code> file, and more importantly, a <code>.dvc</code> folder. Within the latter, it contains: </p>
 <ul>
@@ -788,7 +787,6 @@
 <div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span><span class="s2">&quot;xxx&quot;</span>
 <span class="nb">export</span> <span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span><span class="s2">&quot;xxx&quot;</span>
 </code></pre></div>
-
 <h2 id="add-remote-link">Add Remote Link</h2>
 <p>We then add the remote links, by giving it a name, and the S3 URL. You can see that we are classifying the links as folders within an S3 bucket</p>
 <div class="highlight"><pre><span></span><code>dvc remote add babystroller s3://images/babystroller
@@ -796,7 +794,6 @@ dvc remote add rubbishbin s3://images/rubbishbin
 <span class="c1"># add as a default remote</span>
 dvc remote add -d safetycone s3://images/safetycone
 </code></pre></div>
-
 <p>This will update the <code>.dvc/config</code> file as shown below.</p>
 <div class="highlight"><pre><span></span><code>[core]
     remote = safetycone
@@ -807,7 +804,6 @@ dvc remote add -d safetycone s3://images/safetycone
 [&#39;remote &quot;rubbishbin&quot;&#39;]
     url = s3://images/rubbishbin
 </code></pre></div>
-
 <h2 id="push-data-to-s3">Push Data to S3</h2>
 <p>We create a folder and add the datasets in there. This will create a version of the data. The details are as follows:</p>
 <ul>

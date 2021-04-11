@@ -626,16 +626,49 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#gitlab-ci" class="md-nav__link">
+    Gitlab-CI
+  </a>
+  
+    <nav class="md-nav" aria-label="Gitlab-CI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#basics" class="md-nav__link">
     Basics
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#ymal-file" class="md-nav__link">
     Ymal File
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#github-actions" class="md-nav__link">
+    Github Actions
+  </a>
+  
+    <nav class="md-nav" aria-label="Github Actions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ymal-file_1" class="md-nav__link">
+    Ymal File
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -672,16 +705,49 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#gitlab-ci" class="md-nav__link">
+    Gitlab-CI
+  </a>
+  
+    <nav class="md-nav" aria-label="Gitlab-CI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#basics" class="md-nav__link">
     Basics
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#ymal-file" class="md-nav__link">
     Ymal File
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#github-actions" class="md-nav__link">
+    Github Actions
+  </a>
+  
+    <nav class="md-nav" aria-label="Github Actions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ymal-file_1" class="md-nav__link">
+    Ymal File
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -705,8 +771,8 @@
                 <h1 id="cicd">CI/CD</h1>
 <p>Continuous integration and continuous delivery is an important part of Devops, where a standard mode of operations are automated in a pipeline frequently, and reliably.</p>
 <p>This process is usually integrated with a version control platform like Github and Gitlab. Both popular platforms provide in-built CI/CD automation called <a href="https://github.com/features/actions">Github Actions</a> and <a href="https://docs.gitlab.com/ee/ci/">Gitlab-CI</a>. They are largely free, with some paid add-on tools.</p>
-<p>For the rest of the topic, I will be focused on the latter. The concept is largely the same so the knowledge is quite transferable.</p>
-<h2 id="basics">Basics</h2>
+<h2 id="gitlab-ci">Gitlab-CI</h2>
+<h3 id="basics">Basics</h3>
 <p>Gitlab CI is run by "runners", which are essentially google servers spun up when a <strong>job</strong> is activated. A series of jobs make up a <strong>pipeline</strong>, while certain jobs of a specific attribute are assigned to a <strong>stage</strong>. By default, all jobs in a stage needs to finish before the next stage's jobs starts.</p>
 <p>A typical pipeline workflow consists of the various stages.</p>
 <ol>
@@ -719,10 +785,11 @@
   <figcaption>A pipeline with various stages, and individual jobs, shown in Gitlab's interface</a></figcaption>
 </figure>
 
-<h2 id="ymal-file">Ymal File</h2>
+<h3 id="ymal-file">Ymal File</h3>
 <p>Gitlab-CI will auto run if a file called <code>.gitlab-ci.yml</code> is stored in the root of the repository. Inside the ymal file, containing mostly shell commands that tells runner what to execute. It can also refer to scripts stored in the repo so as to keep the ymal file short and concise.</p>
-<p>https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
-https://docs.gitlab.com/13.8/ee/ci/yaml/#rules</p>
+<h2 id="github-actions">Github Actions</h2>
+<h3 id="ymal-file_1">Ymal File</h3>
+<p>Github Actions will auto run if one or more ymal file is located in the folder <code>.github/workflows/</code>.</p>
                 
               
               

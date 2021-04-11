@@ -732,15 +732,12 @@
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">uvicorn</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;app:app&#39;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
 </code></pre></div>
-
 <p>If we run from the terminal, with the app residing in example.py.</p>
 <div class="highlight"><pre><span></span><code>uvicorn example:app --host<span class="o">=</span><span class="s1">&#39;0.0.0.0&#39;</span> --port<span class="o">=</span><span class="m">5000</span>
 </code></pre></div>
-
 <p>The documentation recommends that we use gunicorn which have richer features to better control over the workers processes.</p>
 <div class="highlight"><pre><span></span><code>gunicorn app:app --bind <span class="m">0</span>.0.0.0:5000 -w <span class="m">1</span> --log-level debug -k uvicorn.workers.UvicornWorker
 </code></pre></div>
-
 <hr>
 
 <h2 id="request-response-schema">Request-Response Schema</h2>
@@ -768,7 +765,6 @@
     <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Cat&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
-
 <p>We can define in pydantic as below, using multiple basemodels for each level in the JSON.</p>
 <ul>
 <li>If there are no values input like <code>y: float</code>, it will listed as a required field</li>
@@ -790,7 +786,6 @@
     <span class="n">boundingPoly</span><span class="p">:</span> <span class="n">_boundingPoly</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Human&quot;</span>
 </code></pre></div>
-
 <p>We do the same for the request schema and place them in the routing function.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
@@ -811,7 +806,6 @@
 
     <span class="k">return</span> <span class="n">pred_output</span>
 </code></pre></div>
-
 <hr>
 
 <h2 id="open-api">Open-API</h2>

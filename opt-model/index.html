@@ -915,14 +915,26 @@
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;ssd_mobilenet_v2_coco_2018_03_29/exported_model/&#39;</span> <span class="o">+</span> <span class="n">trace_filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">chrome_trace</span><span class="p">)</span>
 </code></pre></div>
+<p>For pytorch we can use the <code>torch.autograd.profiler</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torchvision.models</span> <span class="k">as</span> <span class="nn">models</span>
+<span class="kn">import</span> <span class="nn">torch.autograd.profiler</span> <span class="k">as</span> <span class="nn">profiler</span>
 
+<span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">resnet18</span><span class="p">()</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+<span class="n">inputs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">profiler</span><span class="o">.</span><span class="n">profile</span><span class="p">(</span><span class="n">record_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">prof</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">profiler</span><span class="o">.</span><span class="n">record_function</span><span class="p">(</span><span class="s2">&quot;model_inference&quot;</span><span class="p">):</span>
+        <span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+
+<span class="n">prof</span><span class="o">.</span><span class="n">export_chrome_trace</span><span class="p">(</span><span class="s2">&quot;trace.json&quot;</span><span class="p">)</span>
+</code></pre></div>
 <p>We can specify certain nodes that are more CPU efficient, to run within CPU, thereby decreasing the data transfer and improving the inference performance. </p>
 <p>For example all the NonMaxSuppression are placed for CPU processing since most of the flow operations happen in this block.</p>
 <div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">ssd_mobilenet_v2_optimized_graph_def</span><span class="o">.</span><span class="n">node</span><span class="p">:</span>
     <span class="k">if</span> <span class="s1">&#39;NonMaxSuppression&#39;</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
         <span class="n">node</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="s1">&#39;/device:CPU:0&#39;</span>
 </code></pre></div>
-
 <h3 id="references">References</h3>
 <ul>
 <li><a href="https://towardsdatascience.com/optimize-nvidia-gpu-performance-for-efficient-model-inference-f3e9874e9fdc">Optimize NVIDIA GPU performance for efficient model inference</a></li>
@@ -959,11 +971,9 @@ Source: <a href="https://blog.tensorflow.org/2018/04/speed-up-tensorflow-inferen
 <span class="n">model</span> <span class="o">=</span> <span class="n">InceptionV3</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="s1">&#39;imagenet&#39;</span><span class="p">)</span>
 <span class="n">tf</span><span class="o">.</span><span class="n">saved_model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">&#39;inceptionv3_saved_model&#39;</span><span class="p">)</span>
 </code></pre></div>
-
 <p>We can view the model details using the <code>saved_model_cli</code>.</p>
 <div class="highlight"><pre><span></span><code>!saved_model_cli show --all --dir &lt;model-directory&gt;
 </code></pre></div>
-
 <h3 id="benchmark-functions">Benchmark Functions</h3>
 <p>To check that the new optimized model has faster inference &amp; throughput, we want to prepare a function for loading the model... </p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">load_tf_saved_model_infer</span><span class="p">(</span><span class="n">input_saved_model_dir</span><span class="p">):</span>
@@ -974,7 +984,6 @@ Source: <a href="https://blog.tensorflow.org/2018/04/speed-up-tensorflow-inferen
     <span class="nb">print</span><span class="p">(</span><span class="n">infer</span><span class="o">.</span><span class="n">structured_outputs</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">infer</span>
 </code></pre></div>
-
 <p>We can use <strong>batch inference</strong> to send many images to the GPU at once promotes parallel processing and improve throughput.</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">batch_input</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
     <span class="n">batched_input</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">299</span><span class="p">,</span> <span class="mi">299</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
@@ -990,7 +999,6 @@ Source: <a href="https://blog.tensorflow.org/2018/04/speed-up-tensorflow-inferen
     <span class="n">batched_input</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="n">batched_input</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">batched_input</span>
 </code></pre></div>
-
 <p>... and lastly, a function for benchmarking the latency &amp; throughput.</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">benchmark</span><span class="p">(</span><span class="n">batched_input</span><span class="p">,</span> <span class="n">infer</span><span class="p">,</span> <span class="n">N_warmup_run</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">N_run</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;benchmark latency &amp; throughput</span>
@@ -1029,7 +1037,6 @@ Source: <a href="https://blog.tensorflow.org/2018/04/speed-up-tensorflow-inferen
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Throughput: </span><span class="si">{:.0f}</span><span class="s1"> images/s&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">N_run</span> <span class="o">*</span> <span class="n">batch_size</span> <span class="o">/</span> <span class="n">elapsed_time</span><span class="o">.</span><span class="n">sum</span><span class="p">()))</span>
     <span class="k">return</span> <span class="n">all_preds</span>
 </code></pre></div>
-
 <h3 id="trt-conversion">TRT Conversion</h3>
 <p>Tensorflow library has integrated Tensorrt, called <a href="https://docs.nvidia.com/deeplearning/frameworks/tf-trt-user-guide/index.html">TrtGraphConverterV2</a> so we can call its API to convert the existing model. Below is a simple snippet on how to use it.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">tensorflow.python.compiler.tensorrt</span> <span class="kn">import</span> <span class="n">trt_convert</span> <span class="k">as</span> <span class="n">trt</span>
@@ -1050,7 +1057,6 @@ Source: <a href="https://blog.tensorflow.org/2018/04/speed-up-tensorflow-inferen
 <span class="n">converter</span><span class="o">.</span><span class="n">convert</span><span class="p">()</span>
 <span class="n">converter</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">output_saved_model_dir</span><span class="p">)</span>
 </code></pre></div>
-
 <p>While below gives a function that allows more flexibility to change between various precision, and also calibrate the dataset when going to <code>int8</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">tensorflow.python.compiler.tensorrt</span> <span class="kn">import</span> <span class="n">trt_convert</span> <span class="k">as</span> <span class="n">trt</span>
 
@@ -1091,11 +1097,9 @@ Source: <a href="https://blog.tensorflow.org/2018/04/speed-up-tensorflow-inferen
     <span class="c1"># save tf-trt model</span>
     <span class="n">converter</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">output_saved_model_dir</span><span class="o">=</span><span class="n">output_saved_model_dir</span><span class="p">)</span>
 </code></pre></div>
-
 <p>We can check the signature of the new model again using the <code>saved_model_cli</code>.</p>
 <div class="highlight"><pre><span></span><code>!saved_model_cli show --all --dir &lt;new-model-directory&gt;
 </code></pre></div>
-
 <h3 id="others">Others</h3>
 <p>There are many other 3rd party optimization libraries, including:</p>
 <ul>
