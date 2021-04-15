@@ -492,6 +492,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#curl" class="md-nav__link">
+    CURL
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -743,6 +750,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#curl" class="md-nav__link">
+    CURL
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -886,6 +900,32 @@ gunicorn --bind <span class="m">0</span>.0.0.0:5000 -w <span class="m">2</span> 
 <h3 id="postman">Postman</h3>
 <p><a href="http://postman.com">Postman</a> is a popular GUI to easily send requests and see the responses. </p>
 <p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/postman.png?raw=true" /></p>
+<h3 id="curl">CURL</h3>
+<p>We can also use CURL in the terminal for commandline sending of requests.</p>
+<p>Here’s a simple test to see the API works, without sending the data.</p>
+<div class="highlight"><pre><span></span><code>curl --request POST localhost:5000/api
+</code></pre></div>
+<p>Here’s one complete request with data</p>
+<div class="highlight"><pre><span></span><code>curl --header <span class="s2">&quot;Content-Type: application/json&quot;</span> <span class="se">\</span>
+    --request POST <span class="se">\</span>
+    --data <span class="s1">&#39;{&quot;username&quot;:&quot;xyz&quot;,&quot;password&quot;:&quot;xyz&quot;}&#39;</span> <span class="se">\</span>
+    http://localhost:5000/api
+</code></pre></div>
+<p>To run multiple requests in parallel for stress testing</p>
+<div class="highlight"><pre><span></span><code>curl --header <span class="s2">&quot;Content-Type: application/json&quot;</span> <span class="se">\</span>
+    --request POST <span class="se">\</span>
+    --data <span class="s1">&#39;{&quot;username&quot;:&quot;xyz&quot;,&quot;password&quot;:&quot;xyz&quot;}&#39;</span> <span class="se">\</span>
+    http://localhost:5000/api <span class="p">&amp;</span>
+curl --header <span class="s2">&quot;Content-Type: application/json&quot;</span> <span class="se">\</span>
+    --request POST <span class="se">\</span>
+    --data <span class="s1">&#39;{&quot;username&quot;:&quot;xyz&quot;,&quot;password&quot;:&quot;xyz&quot;}&#39;</span> <span class="se">\</span>
+    http://localhost:5000/api <span class="p">&amp;</span>
+curl --header <span class="s2">&quot;Content-Type: application/json&quot;</span> <span class="se">\</span>
+    --request POST <span class="se">\</span>
+    --data <span class="s1">&#39;{&quot;username&quot;:&quot;xyz&quot;,&quot;password&quot;:&quot;xyz&quot;}&#39;</span> <span class="se">\</span>
+    http://localhost:5000/api <span class="p">&amp;</span>
+<span class="nb">wait</span>
+</code></pre></div>
 <h2 id="openapi">OpenAPI</h2>
 <p>OpenAPI is a standard API documentation specification in ymal or json format, originated from Swagger. It usually comes with a user interface, the most popular being <a href="https://petstore.swagger.io/?_ga=2.260024972.744460072.1616040410-1862236881.1616040410">SwaggerUI</a>.</p>
 <p>It provides all the information required about the API, with also an ability to test the API itself.</p>

@@ -764,7 +764,7 @@
 <h3 id="storage-memory">Storage &amp; Memory</h3>
 <p>We can reduce the memory required to store the dataframes if we reduce the datatype to its minimal or appropriate ones. This can also make faster queries if categorical dtypes are assigned properly. </p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">reduce_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">cat_col</span><span class="o">=</span><span class="p">[],</span> <span class="n">cat_percent</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;&quot;data memory optimization</span>
+    <span class="sd">&quot;&quot;&quot;&quot;maximium data memory optimization</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        cat_col (list): list of columm names to convert to category dtype</span>
