@@ -1156,7 +1156,7 @@ docker network ls
 <h2 id="docker-compose">Docker-Compose</h2>
 <p>When we need to manage multiple containers, it will be easier to set the build &amp; run configurations using Docker-Compose, in a ymal file called <code>docker-compose.yml</code>.</p>
 <p>The official Docker blog <a href="https://www.docker.com/blog/containerized-python-development-part-2/">post</a> gives a good introduction on this. </p>
-<div class="highlight"><pre><span></span><code>version: &quot;3&quot;
+<div class="highlight"><pre><span></span><code>version: &quot;3.2&quot;
 services:
     facedetection:
         build: ./facedetection
@@ -1164,6 +1164,10 @@ services:
         ports:
             - 5001:5000
         restart: always
+        volumes:
+            - type: bind
+              source: /Users/jake/Desktop/source
+              target: /model
     maskdetection:
         build: ./maskdetection
         container_name: maskdetection
