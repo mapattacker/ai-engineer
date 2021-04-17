@@ -793,6 +793,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:.2f}% o</span><span class="s2">f original size is reduced&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">((</span><span class="n">mem_start</span><span class="o">-</span><span class="n">mem_end</span><span class="p">)</span> <span class="o">/</span> <span class="n">mem_start</span> <span class="o">*</span> <span class="mi">100</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">df</span>
 </code></pre></div>
+
 <h3 id="looping">Looping</h3>
 <p>As a rule of thumb, never use crude for loops to iterate and change values in the dataframe. The <code>apply</code> method is already internally optimized, like using iterators in Cython.</p>
 <p>We can also used vectorization on pandas series or numpy arrays as suggested by this <a href="https://engineering.upside.com/a-beginners-guide-to-optimizing-pandas-code-for-speed-c09ef2c6a4d6">author</a>. </p>
@@ -817,6 +818,7 @@
 <span class="c1"># optimized numpy array</span>
 <span class="n">df</span><span class="p">[</span><span class="s1">&#39;distance&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">haversine</span><span class="p">(</span><span class="mf">40.671</span><span class="p">,</span> <span class="o">-</span><span class="mf">73.985</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;latitude&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;longitude&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
 </code></pre></div>
+
 <h3 id="querying">Querying</h3>
 <p>In pandas, there are various ways of querying, and the speed various with each type. </p>
 <p>In the example below, the fastest way is to convert the query column into a category data-type as it contains many duplicates, hence conversion into integers underthehood make it query more efficient. However, this might not always be the case, and using <code>isin</code> or <code>in1d</code> might suffice.</p>
@@ -842,6 +844,7 @@
 <span class="n">obj</span><span class="p">[</span><span class="s2">&quot;antecedents&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span><span class="p">[</span><span class="s2">&quot;antecedents&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">obj</span><span class="p">[</span><span class="n">obj</span><span class="p">[</span><span class="s2">&quot;antecedents&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">item</span><span class="p">][</span><span class="s2">&quot;consequents&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 </code></pre></div>
+
 <h2 id="graph">Graph</h2>
 <p>A graph data structure enables much faster query if there is a network of interconnectivity between each other, known as <strong>nodes</strong>. Information stored between each connection of two nodes are called <strong>links</strong>. </p>
 <p>A simple graph structure in python can be created using the <a href="https://networkx.org">networkx</a> library. However, this does not scale when the data become huge. For that, a graph database like <a href="https://neo4j.com">neo4j</a> is more appropriate.</p>

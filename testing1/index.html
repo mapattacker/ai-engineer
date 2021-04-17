@@ -894,12 +894,13 @@
 <p>We can add more configurations to pytest through a <code>pytest.ini</code> file. The commands can also be placed in a <code>tox.ini</code> file if using tox to launch pytest.</p>
 <div class="highlight"><pre><span></span><code><span class="k">[pytest]</span>
 <span class="na">junit_family</span><span class="o">=</span><span class="s">xunit1</span>
-<span class="na">filterwarnings</span> <span class="o">=</span><span class="s"></span>
-<span class="s">    ignore::DeprecationWarning</span>
-<span class="s">    ignore::RuntimeWarning</span>
-<span class="s">    ignore::UserWarning</span>
-<span class="s">    ignore::FutureWarning</span>
+<span class="na">filterwarnings</span> <span class="o">=</span>
+    <span class="na">ignore::DeprecationWarning</span>
+    <span class="na">ignore::RuntimeWarning</span>
+    <span class="na">ignore::UserWarning</span>
+    <span class="na">ignore::FutureWarning</span>
 </code></pre></div>
+
 <h3 id="fixtures">Fixtures</h3>
 <p>When creating test scripts, we often need to run some common code before we create the test case itself. Instead of repeating the same code in every test, we create fixtures that establish a baseline code for our tests. Some common fixtures include data loaders, or initialize database connections.</p>
 <p>Fixtures are define in the file <code>conftest.py</code> so that tests from multiple test modules in the directory can access the fixture function.</p>
@@ -916,6 +917,7 @@
     <span class="n">subject</span> <span class="o">=</span> <span class="n">square</span><span class="p">(</span><span class="n">input_value</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">subject</span> <span class="o">==</span> <span class="mi">16</span>
 </code></pre></div>
+
 <p>The test fixture have a scope argument, e.g. <code>@pytest.fixture(scope="session")</code> which set when the fixture will be destroyed. For example, the session scope is destroyed at the end of the test session (i.e. all the tests). By default, the scope is set to <code>function</code>, which mean the fixture is destroyed at the end of the test function when it was called.</p>
 <h3 id="parameterize">Parameterize</h3>
 <p>Parameterizing allows multiple inputs to be iterate over a test function. For the example below, there will be 3 tests being run.</p>
@@ -926,6 +928,7 @@
     <span class="n">subject</span> <span class="o">=</span> <span class="n">square</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
 </code></pre></div>
+
 <p>If we have multiple variables for each iteration, we can do the following.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;image, expect&quot;</span><span class="p">,</span> <span class="p">[</span>
      <span class="p">(</span><span class="s2">&quot;cone_dsl_00009.jpg&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
@@ -940,6 +943,7 @@
     <span class="n">detection_cnt</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">prediction</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">detection_cnt</span> <span class="o">==</span> <span class="n">expect</span>
 </code></pre></div>
+
 <h3 id="function-annotation">Function Annotation</h3>
 <p>While not a pytest functionality, <strong>Function Annotations</strong> are useful and easy to implement for checking the input and return types in pytest.</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -948,6 +952,7 @@
 <span class="n">foo</span><span class="o">.</span><span class="vm">__annotations__</span>
 <span class="c1"># {&#39;a&#39;: &lt;class &#39;int&#39;&gt;, &#39;b&#39;: &lt;class &#39;float&#39;&gt;, &#39;return&#39;: &lt;class &#39;bool&#39;&gt;}</span>
 </code></pre></div>
+
 <h3 id="mocking">Mocking</h3>
 <p>Mocking is often used in unit tests where we can mock or "fake" a library, function, return value etc., as we only want to test the unit/function itself, not other related stuff that are integrated with it.</p>
 <p>In the first example, we want to test the first function <code>log_metrics</code>, however we do not want to use the library <code>bedrock_client</code> as this logs the metrics to a server. </p>
@@ -974,6 +979,7 @@
     <span class="n">bedrock</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="s2">&quot;Recall&quot;</span><span class="p">,</span> <span class="n">recall</span><span class="p">)</span>
     <span class="n">bedrock</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="s2">&quot;F1&quot;</span><span class="p">,</span> <span class="n">f1</span><span class="p">)</span>
 </code></pre></div>
+
 <p>Hence, we use the <code>Mock()</code> method to create a mock <code>bedrock_client</code>, so that when the import is called, all the metrics will be stored within the mocked library. Note that we have to delete this mock instance at the end (<code>del sys.modules['bedrock_client.bedrock.api']</code>) so that it does not bring over to other test cases.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">train_pipeline</span> <span class="kn">import</span> <span class="n">evaluate</span><span class="p">,</span> <span class="n">log_metrics</span>
 <span class="kn">from</span> <span class="nn">unittest.mock</span> <span class="kn">import</span> <span class="n">Mock</span>
@@ -990,6 +996,7 @@
     <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">tmp_path</span> <span class="o">/</span> <span class="s2">&quot;results.json&quot;</span><span class="p">)</span>
     <span class="k">del</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;bedrock_client.bedrock.api&#39;</span><span class="p">]</span>
 </code></pre></div>
+
 <p>In the second example, we have an evaluate function that we want to test. However, we do not want to use the predict script <code>from predict import detectObj</code>, as that will be tested individually.</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">val_imgfolder</span><span class="p">,</span> <span class="n">val_txtfolder</span><span class="p">,</span> <span class="n">class_</span><span class="p">,</span> <span class="n">w_th</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">h_th</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">score_th</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">nms_iou</span><span class="o">=</span><span class="mf">0.4</span><span class="p">):</span>
 
@@ -1031,6 +1038,7 @@
     <span class="n">f1score</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">TP</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">TP</span> <span class="o">+</span> <span class="n">FP</span> <span class="o">+</span> <span class="n">FN</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">precision</span><span class="p">,</span> <span class="n">recall</span><span class="p">,</span> <span class="n">f1score</span>
 </code></pre></div>
+
 <p>Hence, again, we use the <code>Mock</code> function to create a mocked <code>predict</code> import, and from there, call a mocked <code>detectObj</code> function. We want this method to return a specific value in the <code>evaluate()</code> function, hence the line <code>detectObj.return_value = dummy_pred</code>. With this, we have added in a test case where we sent a fixed predicted return, so that we can have an expected result to compare.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">train_pipeline</span> <span class="kn">import</span> <span class="n">evaluate</span><span class="p">,</span> <span class="n">log_metrics</span>
 <span class="kn">from</span> <span class="nn">unittest.mock</span> <span class="kn">import</span> <span class="n">Mock</span>
@@ -1062,6 +1070,7 @@
     <span class="k">assert</span> <span class="n">precision</span> <span class="o">==</span> <span class="n">recall</span> <span class="o">==</span> <span class="n">f1</span> <span class="o">==</span> <span class="mi">1</span>
     <span class="k">del</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;predict&#39;</span><span class="p">]</span>
 </code></pre></div>
+
 <hr>
 
 <h2 id="tox">Tox</h2>
@@ -1074,33 +1083,53 @@
 
 
 <span class="k">[testenv:unit]</span>
-<span class="na">deps</span> <span class="o">=</span> <span class="s"></span>
-<span class="s">    pytest==5.3.5</span>
-<span class="s">    pytest-cov==2.10.1</span>
-<span class="s">    -r{toxinidir}/tests/unit_tests/requirements.txt</span>
+<span class="na">deps</span> <span class="o">=</span> 
+    <span class="na">pytest</span><span class="o">=</span><span class="s">=5.3.5</span>
+    <span class="na">pytest-cov</span><span class="o">=</span><span class="s">=2.10.1</span>
+    <span class="na">-r{toxinidir}/tests/unit_tests/requirements.txt</span>
 
 <span class="na">commands</span> <span class="o">=</span> <span class="s">pytest tests/unit_tests/ -v --cov=project --junitxml=report.xml</span>
 
 
 <span class="k">[testenv:integration]</span>
-<span class="na">deps</span> <span class="o">=</span> <span class="s"></span>
-<span class="s">    pytest==5.3.5</span>
-<span class="s">    Cython==0.29.17 </span>
-<span class="s">    numpy==1.19.2</span>
+<span class="na">deps</span> <span class="o">=</span> 
+    <span class="na">pytest</span><span class="o">=</span><span class="s">=5.3.5</span>
+    <span class="na">Cython</span><span class="o">=</span><span class="s">=0.29.17 </span>
+    <span class="na">numpy</span><span class="o">=</span><span class="s">=1.19.2</span>
 
-<span class="na">commands</span> <span class="o">=</span><span class="s"></span>
-<span class="s">    pip install -r {toxinidir}/project/requirements-serve.txt </span>
-<span class="s">    pytest tests/integration_tests/ -v --junitxml=report.xml</span>
+<span class="na">commands</span> <span class="o">=</span>
+    <span class="na">pip install -r {toxinidir}/project/requirements-serve.txt </span>
+    <span class="na">pytest tests/integration_tests/ -v --junitxml</span><span class="o">=</span><span class="s">report.xml</span>
+
+<span class="c1"># side tests -----------------------------</span>
+
+<span class="k">[testenv:lint]</span>
+<span class="na">deps</span> <span class="o">=</span>
+    <span class="na">flake8</span>
+<span class="na">commands</span> <span class="o">=</span> <span class="s">flake8 --select E,F,W association</span>
+
+<span class="k">[testenv:bandit]</span>
+<span class="na">deps</span> <span class="o">=</span> 
+    <span class="na">bandit</span>
+
+<span class="na">commands</span> <span class="o">=</span> <span class="s">bandit -r -ll association</span>
+
+<span class="k">[testenv:safety]</span>
+<span class="na">deps</span> <span class="o">=</span> 
+    <span class="na">safety</span>
+    <span class="na">-r{toxinidir}/association/requirements.txt</span>
+<span class="na">commands</span> <span class="o">=</span> <span class="s">safety check</span>
 
 
 <span class="k">[pytest]</span>
 <span class="na">junit_family</span><span class="o">=</span><span class="s">xunit1</span>
-<span class="na">filterwarnings</span> <span class="o">=</span><span class="s"></span>
-<span class="s">    ignore::DeprecationWarning</span>
-<span class="s">    ignore::RuntimeWarning</span>
-<span class="s">    ignore::UserWarning</span>
-<span class="s">    ignore::FutureWarning</span>
+<span class="na">filterwarnings</span> <span class="o">=</span>
+    <span class="na">ignore::DeprecationWarning</span>
+    <span class="na">ignore::RuntimeWarning</span>
+    <span class="na">ignore::UserWarning</span>
+    <span class="na">ignore::FutureWarning</span>
 </code></pre></div>
+
 <hr>
 
 <h2 id="test-coverage">Test Coverage</h2>
@@ -1118,10 +1147,12 @@
 <span class="o">----------------------------------------</span>
 <span class="n">TOTAL</span>                  <span class="mi">353</span>     <span class="mi">20</span>    <span class="mi">94</span><span class="o">%</span>
 </code></pre></div>
+
 <p>To ignore certain files or folders, add a <code>.coveragerc</code> file to where you call pytest, and add the following.</p>
 <div class="highlight"><pre><span></span><code><span class="k">[run]</span>
 <span class="na">omit</span> <span class="o">=</span> <span class="s">project/train.py</span>
 </code></pre></div>
+
 <p>Various report formats can be produced, and are as stated in their <a href="https://pytest-cov.readthedocs.io/en/latest/reporting.html">documentation</a>.</p>
                 
               
