@@ -14,7 +14,7 @@
     
     
       
-        <title>Using GPU - AI Engineer Guide</title>
+        <title>Schema Testing - AI Engineer Guide</title>
       
     
     
@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#using-gpu" class="md-skip">
+        <a href="#schema-validation" class="md-skip">
           Skip to content
         </a>
       
@@ -93,7 +93,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Using GPU
+              Schema Testing
             
           </span>
         </div>
@@ -290,98 +290,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Using GPU
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../gpu/" class="md-nav__link">
         Using GPU
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#compatibility" class="md-nav__link">
-    Compatibility
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#removeuninstall-cuda" class="md-nav__link">
-    Remove/Uninstall CUDA
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installing-cuda-101-in-ubuntu-18-20" class="md-nav__link">
-    Installing CUDA 10.1 in Ubuntu 18 &amp; 20
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installing-cuda" class="md-nav__link">
-    Installing CUDA
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#system-verification" class="md-nav__link">
-    System Verification
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#library-verification" class="md-nav__link">
-    Library Verification
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#kill-gpu-processes" class="md-nav__link">
-    Kill GPU processes
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#why-so-hard" class="md-nav__link">
-    Why so Hard?
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -569,12 +482,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_12" type="checkbox" id="__nav_12" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_12" type="checkbox" id="__nav_12" checked>
       
       <label class="md-nav__link" for="__nav_12">
         Testing
@@ -602,11 +517,49 @@
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../testing-schema/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Schema Testing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Schema Testing
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#config-validation" class="md-nav__link">
+    Config Validation
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -726,57 +679,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#compatibility" class="md-nav__link">
-    Compatibility
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#removeuninstall-cuda" class="md-nav__link">
-    Remove/Uninstall CUDA
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installing-cuda-101-in-ubuntu-18-20" class="md-nav__link">
-    Installing CUDA 10.1 in Ubuntu 18 &amp; 20
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installing-cuda" class="md-nav__link">
-    Installing CUDA
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#system-verification" class="md-nav__link">
-    System Verification
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#library-verification" class="md-nav__link">
-    Library Verification
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#kill-gpu-processes" class="md-nav__link">
-    Kill GPU processes
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#why-so-hard" class="md-nav__link">
-    Why so Hard?
+  <a href="#config-validation" class="md-nav__link">
+    Config Validation
   </a>
   
 </li>
@@ -793,120 +697,49 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/gpu.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/testing-schema.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="using-gpu">Using GPU</h1>
-<p>Neural Networks are processed using GPU as they can better compute multiple parallel processes. Nvidia graphic cards are currently the defacto GPU used, with it supporting all neural network libraries.</p>
-<p>Unfortunately, it is sometimes a pain to install CUDA and get it working with our libraries, so hopefully this page serves as a guide to overcome the difficulties.</p>
-<h2 id="compatibility">Compatibility</h2>
-<p>For tensorflow and pytorch, they have compatibility setups for CUDA versions, and also for the former; cudnn, python and the compiler. You can view the requirements from the docs of <a href="https://www.tensorflow.org/install/source#gpu">tensorflow</a> and <a href="https://pytorch.org/get-started/locally/">pytorch</a>.</p>
-<figure>
-  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/gpu-tf.png?raw=true" />
-  <figcaption>GPU setups compatible with tensorflow versions</a></figcaption>
-</figure>
-
-<h2 id="removeuninstall-cuda">Remove/Uninstall CUDA</h2>
-<p>Sometimes, we need to remove legacy versions of CUDA so that we can install a new one to work with our libraries. To do that, we can use the following commands.</p>
-<div class="highlight"><pre><span></span><code>sudo rm /etc/apt/sources.list.d/cuda*
-sudo apt remove --autoremove nvidia-cuda-toolkit
-sudo apt remove --autoremove nvidia-*
+                <h1 id="schema-validation">Schema Validation</h1>
+<p>There are quite a number of popular schema validation libraries available, but I will just stick to <a href="https://pydantic-docs.helpmanual.io/">Pydantic</a>, for the reasons that it is popular, touted to be the <a href="https://pydantic-docs.helpmanual.io/benchmarks/">fastest</a>, and used natively in FastAPI.</p>
+<h2 id="config-validation">Config Validation</h2>
+<p>The config file is one of the most frequently changed file in the repository, and for that reason, it is important to include in our unit-tests. </p>
+<p>The below shows an example using a config yaml file &amp; pydantic, with a custom validator.</p>
+<div class="highlight"><pre><span></span><code>modeldir: model
+modelname: nameofname
+format: dataframe # graph or dataframe
 </code></pre></div>
 
-<h2 id="installing-cuda-101-in-ubuntu-18-20">Installing CUDA 10.1 in Ubuntu 18 &amp; 20</h2>
-<p>A great help from this medium article, <a href="https://medium.com/@exesse/cuda-10-1-installation-on-ubuntu-18-04-lts-d04f89287130">CUDA 10.1 installation on Ubuntu 20.04</a>.</p>
-<p>First we setup the correct CUDA PPA on your system. </p>
-<div class="highlight"><pre><span></span><code>sudo apt update
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">sys</span>
 
-sudo add-apt-repository ppa:graphics-driverssudo apt-key adv --fetch-keys  http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pubsudo bash -c <span class="s1">&#39;echo &quot;deb http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /&quot; &gt; /etc/apt/sources.list.d/cuda.list&#39;</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationError</span><span class="p">,</span> <span class="n">validator</span>
 
-sudo bash -c <span class="s1">&#39;echo &quot;deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /&quot; &gt; /etc/apt/sources.list.d/cuda_learn.list&#39;</span>
+
+<span class="k">class</span> <span class="nc">configSchema</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">modeldir</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">modelname</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span>
+
+    <span class="nd">@validator</span><span class="p">(</span><span class="s1">&#39;format&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">format_list</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;dataframe&quot;</span><span class="p">,</span> <span class="s2">&quot;graph&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;must be either &#39;dataframe or &#39;graph&#39;&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span>
+
+
+<span class="k">def</span> <span class="nf">test_config</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;test for all key-values in config file&quot;&quot;&quot;</span>
+    <span class="n">cf</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;foldername/config.yml&quot;</span><span class="p">))</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">configSchema</span><span class="p">(</span><span class="o">**</span><span class="n">cf</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> 
 </code></pre></div>
-
-<p>Then, install CUDA 10.1 packages</p>
-<div class="highlight"><pre><span></span><code>sudo apt update
-sudo apt install cuda-10-1
-sudo apt install libcudnn7
-</code></pre></div>
-
-<p>As the last step one need to specify PATH to CUDA in ‘.profile’ file. Open the file by running</p>
-<div class="highlight"><pre><span></span><code>sudo nano ~/.profile
-</code></pre></div>
-
-<p>And add the following lines at the end of the file.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># set PATH for cuda 10.1 installation</span>
-<span class="k">if</span> <span class="o">[</span> -d <span class="s2">&quot;/usr/local/cuda-10.1/bin/&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-    <span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>/usr/local/cuda-10.1/bin<span class="si">${</span><span class="nv">PATH</span><span class="p">:+:</span><span class="si">${</span><span class="nv">PATH</span><span class="si">}}</span>
-    <span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>/usr/local/cuda-10.1/lib64<span class="si">${</span><span class="nv">LD_LIBRARY_PATH</span><span class="p">:+:</span><span class="si">${</span><span class="nv">LD_LIBRARY_PATH</span><span class="si">}}</span>
-<span class="k">fi</span>
-</code></pre></div>
-
-<p>Reboot the system.</p>
-<h2 id="installing-cuda">Installing CUDA</h2>
-<p>For a more generic installation, we can do the following, though I have personally not succeeded in getting this work. Haha.</p>
-<p>After verifying the version, go to Nvidia's CUDA <a href="https://developer.nvidia.com/cuda-toolkit-archive">website</a>, and select the version required. You will be led to a selection screen to specify your OS. </p>
-<figure>
-  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/gpu-cuda-install.png?raw=true" />
-  <figcaption></a></figcaption>
-</figure>
-
-<p>As part of the CUDA installation, <code>cudnn</code>, the relevant driver, and <code>nvidia-smi</code> are installed.</p>
-<h2 id="system-verification">System Verification</h2>
-<p>To check that CUDA is installed properly at the system level, we can use the following commands in the terminal to check.</p>
-<table>
-<thead>
-<tr>
-<th>Noun</th>
-<th>Desc</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>cat /proc/driver/nvidia/version</code></td>
-<td>Verify driver &amp; gcc version</td>
-</tr>
-<tr>
-<td><code>nvcc -V</code></td>
-<td>Verify CUDA toolkit version</td>
-</tr>
-<tr>
-<td><code>nvidia-smi</code></td>
-<td>CUDA &amp; driver versions, check memory usage</td>
-</tr>
-</tbody>
-</table>
-<h2 id="library-verification">Library Verification</h2>
-<p>To check that tensorflow and pytorch can detect the GPU and use it, we can use the following commands.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># tensorflow</span>
-<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
-<span class="c1"># return empty list if not available</span>
-<span class="n">tf</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">list_physical_devices</span><span class="p">(</span><span class="s1">&#39;GPU&#39;</span><span class="p">)</span>
-
-
-<span class="c1"># pytorch</span>
-<span class="kn">import</span> <span class="nn">torch</span>
-
-<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span>
-<span class="c1"># True</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_device</span><span class="p">()</span>
-<span class="c1"># 0</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="c1"># &lt;torch.cuda.device at 0x7efce0b03be0&gt;</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">device_count</span><span class="p">()</span>
-<span class="c1"># 1</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">get_device_name</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="c1"># &#39;GeForce GTX 950M&#39;</span>
-</code></pre></div>
-
-<h2 id="kill-gpu-processes">Kill GPU processes</h2>
-<p>Sometimes our GPU might be out of memory. We can use <code>nvidia-smi</code> to check what processes and application used are taking up the memory so that we can close the app. If we are unable to locate the application, we can kill the process directly as follows.</p>
-<div class="highlight"><pre><span></span><code><span class="n">sudo</span> <span class="n">kill</span> <span class="o">-</span><span class="mi">9</span> <span class="o">&lt;</span><span class="n">process</span> <span class="nb">id</span><span class="o">&gt;</span>
-</code></pre></div>
-
-<h2 id="why-so-hard">Why so Hard?</h2>
-<p>As to why it is so hard to get install CUDA. Watch this famous YouTube <a href="https://www.youtube.com/watch?v=IVpOyKCNZYw">video</a>.</p>
                 
               
               
@@ -925,7 +758,7 @@ sudo apt install libcudnn7
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
-        <a href="../dvc/" class="md-footer__link md-footer__link--prev" rel="prev">
+        <a href="../testing1/" class="md-footer__link md-footer__link--prev" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -934,19 +767,19 @@ sudo apt install libcudnn7
               <span class="md-footer__direction">
                 Previous
               </span>
-              Data Version Control
+              Overview & Pytest
             </div>
           </div>
         </a>
       
       
-        <a href="../mlflow/" class="md-footer__link md-footer__link--next" rel="next">
+        <a href="../testing2/" class="md-footer__link md-footer__link--next" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Model Version
+              ML Testing
             </div>
           </div>
           <div class="md-footer__button md-icon">
