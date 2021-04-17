@@ -550,8 +550,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#config-validation" class="md-nav__link">
-    Config Validation
+  <a href="#config" class="md-nav__link">
+    Config
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pandas" class="md-nav__link">
+    Pandas
   </a>
   
 </li>
@@ -679,8 +686,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#config-validation" class="md-nav__link">
-    Config Validation
+  <a href="#config" class="md-nav__link">
+    Config
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pandas" class="md-nav__link">
+    Pandas
   </a>
   
 </li>
@@ -704,7 +718,7 @@
                 
                 <h1 id="schema-validation">Schema Validation</h1>
 <p>There are quite a number of popular schema validation libraries available, but I will just stick to <a href="https://pydantic-docs.helpmanual.io/">Pydantic</a>, for the reasons that it is popular, touted to be the <a href="https://pydantic-docs.helpmanual.io/benchmarks/">fastest</a>, and used natively in FastAPI.</p>
-<h2 id="config-validation">Config Validation</h2>
+<h2 id="config">Config</h2>
 <p>The config file is one of the most frequently changed file in the repository, and for that reason, it is important to include in our unit-tests. </p>
 <p>The below shows an example using a config yaml file &amp; pydantic, with a custom validator.</p>
 <div class="highlight"><pre><span></span><code># config.yml
@@ -741,6 +755,9 @@ format: dataframe # graph or dataframe
     <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> 
 </code></pre></div>
+
+<h2 id="pandas">Pandas</h2>
+<p>Ok, I take back what I said on Pydantic. For validating pandas dataframes, it is slightly difficult to use that library, hence we will use a heavily library heavily inspired by Pydantic, called <a href="https://pandera.readthedocs.io/en/stable/index.html">pandera</a>.</p>
                 
               
               
