@@ -1256,6 +1256,11 @@ services:
 </table>
 <h2 id="docker-dashboard">Docker Dashboard</h2>
 <p>Docker in Windows &amp; Mac comes by default a docker dashboard, which gives you a easy GUI to see and manage your images and containers, rather than within the commandline. </p>
+<figure>
+  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/docker-dashboard.png?raw=true" />
+  <figcaption></a></figcaption>
+</figure>
+
 <p>However, this is lacking in Linux. A great free alternative (with more features) is <a href="https://www.portainer.io/">Portainer</a>. We just need to launch it using docker with the following commands, and the web-based GUI will be accessible via <code>localhost:9000</code>. After creating a user account, the rest of it is pretty intuitive.</p>
 <div class="highlight"><pre><span></span><code>sudo docker volume create portainer_data
 sudo docker run -d -p <span class="m">8000</span>:8000 -p <span class="m">9000</span>:9000 --name<span class="o">=</span>portainer --restart<span class="o">=</span>always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce
