@@ -541,6 +541,18 @@
             
   
   
+  
+    <li class="md-nav__item">
+      <a href="../testing-postman/" class="md-nav__link">
+        API Testing
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
     
   
   
@@ -739,7 +751,6 @@
     <span class="k">def</span> <span class="nf">predict_endpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;/predict&#39;</span><span class="p">,</span> <span class="n">json</span> <span class="o">=</span> <span class="n">request</span><span class="p">)</span>
 </code></pre></div>
-
 <p>We then launch it in the terminal using the command <code>locust</code>, and then the GUI can be access from <code>localhost:8089</code>.</p>
 <p>We can test the total number of users as 10, with a spawn rate of 1. This means that the API will be launched with only 1 user requesting, and after every 3-5 seconds (the wait_time), another new user will be added, until the total of 10 users are reached.</p>
 <figure>
@@ -762,7 +773,6 @@
 <p>Other commands are as follows:</p>
 <div class="highlight"><pre><span></span><code>locust -f locust_files/my_locust_file.py --headless -u <span class="m">1000</span> -r <span class="m">100</span> -run-time 1h30m
 </code></pre></div>
-
 <table>
 <thead>
 <tr>
@@ -811,7 +821,7 @@
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
-        <a href="../testing2/" class="md-footer__link md-footer__link--prev" rel="prev">
+        <a href="../testing-postman/" class="md-footer__link md-footer__link--prev" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -820,7 +830,7 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              ML Testing
+              API Testing
             </div>
           </div>
         </a>

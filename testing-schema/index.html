@@ -588,6 +588,18 @@
   
   
     <li class="md-nav__item">
+      <a href="../testing-postman/" class="md-nav__link">
+        API Testing
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../testing3/" class="md-nav__link">
         Other Tests
       </a>
@@ -726,7 +738,6 @@ modeldir: model
 modelname: nameofname
 format: dataframe # graph or dataframe
 </code></pre></div>
-
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="kn">import</span> <span class="nn">pytest</span>
@@ -755,7 +766,6 @@ format: dataframe # graph or dataframe
     <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> 
 </code></pre></div>
-
 <h2 id="pandas">Pandas</h2>
 <p>Ok, I take back what I said on Pydantic. For validating pandas dataframes, it is slightly difficult to use that library, hence we will use a library heavily inspired by Pydantic, called <a href="https://pandera.readthedocs.io/en/stable/index.html">pandera</a>.</p>
                 
