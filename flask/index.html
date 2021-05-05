@@ -859,6 +859,7 @@
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">)</span>
 </code></pre></div>
+
 <h2 id="gunicorn">Gunicorn</h2>
 <p>Flask as a server is meant for development, as it tries to remind you everytime you launch it. It has very limited parameters to manage the server, but luckily wrappers are available to connect Flask to a feature rich web server. Examples include timeout, and multiple workers.</p>
 <p><a href="https://gunicorn.org">Gunicorn</a> is one of the most popular, and also probably the easiest to use. The binding of the host as mentioned previously in flask, can be done in gunicorn as described below.</p>
@@ -867,7 +868,14 @@
 <span class="c1"># to see all flask stdout, we can change the log level to debug</span>
 gunicorn --bind <span class="m">0</span>.0.0.0:5000 -w <span class="m">2</span> --timeout<span class="o">=</span><span class="m">300</span> --log-level info serve_http:app
 </code></pre></div>
+
 <p>Gunicorn allows spinning of multiprocesses or threads. As to how to configure them, refer to this medium <a href="https://medium.com/building-the-system/gunicorn-3-means-of-concurrency-efbb547674b7">post</a>.</p>
+<p>Their documentation recommend the number of workers to be set as <code>(total-cpu * 2) + 1</code>. This can be automatically coded by adding gunicorn's config file <code>gunicorn.conf.py</code>. This will be automatically configured when launching gunicorn.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">multiprocessing</span>
+
+<span class="n">workers</span> <span class="o">=</span> <span class="p">(</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+</code></pre></div>
+
 <h2 id="testing">Testing</h2>
 <h3 id="python-requests">Python Requests</h3>
 <p>The python <code>requests</code> library provides a convenient function to test your model API. Its function is basically just a one-liner, e.g. <code>response = requests.post(url, headers=token, json=json_data)</code>, but below provides a complete script on how to use it with a JSON request to send over an image with model parameters.</p>
@@ -921,6 +929,7 @@ gunicorn --bind <span class="m">0</span>.0.0.0:5000 -w <span class="m">2</span> 
     <span class="n">j</span> <span class="o">=</span> <span class="n">send2api</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">token</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
 </code></pre></div>
+
 <h3 id="postman">Postman</h3>
 <p><a href="http://postman.com">Postman</a> is a popular GUI to easily send requests and see the responses. </p>
 <p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/postman.png?raw=true" /></p>
@@ -929,12 +938,14 @@ gunicorn --bind <span class="m">0</span>.0.0.0:5000 -w <span class="m">2</span> 
 <p>Here’s a simple test to see the API works, without sending the data.</p>
 <div class="highlight"><pre><span></span><code>curl --request POST localhost:5000/api
 </code></pre></div>
+
 <p>Here’s one complete request with data</p>
 <div class="highlight"><pre><span></span><code>curl --header <span class="s2">&quot;Content-Type: application/json&quot;</span> <span class="se">\</span>
     --request POST <span class="se">\</span>
     --data <span class="s1">&#39;{&quot;username&quot;:&quot;xyz&quot;,&quot;password&quot;:&quot;xyz&quot;}&#39;</span> <span class="se">\</span>
     http://localhost:5000/api
 </code></pre></div>
+
 <p>To run multiple requests in parallel for stress testing</p>
 <div class="highlight"><pre><span></span><code>curl --header <span class="s2">&quot;Content-Type: application/json&quot;</span> <span class="se">\</span>
     --request POST <span class="se">\</span>
@@ -950,6 +961,7 @@ curl --header <span class="s2">&quot;Content-Type: application/json&quot;</span>
     http://localhost:5000/api <span class="p">&amp;</span>
 <span class="nb">wait</span>
 </code></pre></div>
+
 <h2 id="openapi">OpenAPI</h2>
 <p>OpenAPI is a standard API documentation specification in ymal or json format, originated from Swagger. It usually comes with a user interface, the most popular being <a href="https://petstore.swagger.io/?_ga=2.260024972.744460072.1616040410-1862236881.1616040410">SwaggerUI</a>.</p>
 <p>It provides all the information required about the API, with also an ability to test the API itself.</p>
@@ -981,6 +993,7 @@ curl --header <span class="s2">&quot;Content-Type: application/json&quot;</span>
     <span class="n">app</span><span class="o">.</span><span class="n">add_api</span><span class="p">(</span><span class="s1">&#39;openapi.yml&#39;</span><span class="p">)</span>
     <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">)</span>
 </code></pre></div>
+
 <p>And point 3. </p>
 <div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;flask server with pydantic validation &amp; openapi integration&quot;&quot;&quot;</span>
 
@@ -1036,6 +1049,7 @@ curl --header <span class="s2">&quot;Content-Type: application/json&quot;</span>
     <span class="n">api</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
     <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">)</span>
 </code></pre></div>
+
 <p>You can refer to my <a href="https://github.com/mapattacker/Flask-OpenAPI">repo</a> for the full example.</p>
                 
               
