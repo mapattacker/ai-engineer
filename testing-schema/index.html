@@ -557,6 +557,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#api-request" class="md-nav__link">
+    API Request
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pandas" class="md-nav__link">
     Pandas
   </a>
@@ -705,6 +712,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#api-request" class="md-nav__link">
+    API Request
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pandas" class="md-nav__link">
     Pandas
   </a>
@@ -765,6 +779,69 @@ format: dataframe # graph or dataframe
         <span class="nb">print</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> 
+</code></pre></div>
+<h2 id="api-request">API Request</h2>
+<p>Pydantic can also be used in Flask to validate all incoming requests. To validate the request schema before passing to the code, we can write a decorator function.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">abort</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">make_response</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">logging</span> <span class="k">as</span> <span class="n">flog</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationError</span><span class="p">,</span> <span class="n">confloat</span><span class="p">,</span> <span class="n">conint</span><span class="p">,</span> <span class="n">validator</span>
+
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_weightage</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">recommender</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="n">confloat</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;recommender&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">recommender_list</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">v</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">recommender_list</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Recommender is not part of </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">recommender_list</span><span class="p">)))</span>
+
+<span class="k">class</span> <span class="nc">RequestSchema</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">productSKU</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">storeId</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">weightage</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_weightage</span><span class="p">]</span>
+    <span class="n">customerId</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">preceding_time_window</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">resultSize</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">conint</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">50</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">20</span>
+
+    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;weightage&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">weight_sum</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="n">sumw</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)):</span>
+            <span class="n">weight</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">weight</span>
+            <span class="n">sumw</span> <span class="o">=</span> <span class="n">weight</span> <span class="o">+</span> <span class="n">sumw</span>
+        <span class="k">if</span> <span class="n">sumw</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;sum of weightage is not equals to 1&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">validate_request</span><span class="p">(</span><span class="n">requestschema</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;decorator to validate request schema&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">requestschema</span><span class="p">(</span><span class="o">**</span><span class="n">request</span><span class="o">.</span><span class="n">json</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">app</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> - </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="p">[</span><span class="mi">422</span><span class="p">]))</span>
+                <span class="n">err_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+                <span class="n">abort</span><span class="p">(</span><span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">err_json</span><span class="p">),</span> <span class="mi">422</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">wrapper</span>
+    <span class="k">return</span> <span class="n">decorator</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/recommendation&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">])</span>
+<span class="nd">@validate_request</span><span class="p">(</span><span class="n">RequestSchema</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">fusion_api</span><span class="p">():</span>
+    <span class="n">req_content</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">json</span>    
+    <span class="c1"># do something</span>
+    <span class="k">return</span> <span class="n">predicted_results</span>
 </code></pre></div>
 <h2 id="pandas">Pandas</h2>
 <p>Ok, I take back what I said on Pydantic. For validating pandas dataframes, it is slightly difficult to use that library, hence we will use a library heavily inspired by Pydantic, called <a href="https://pandera.readthedocs.io/en/stable/index.html">pandera</a>.</p>
