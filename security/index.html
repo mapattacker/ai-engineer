@@ -806,13 +806,11 @@
 <div class="highlight"><pre><span></span><code>[bandit]
 skips: B104,B101
 </code></pre></div>
-
 <p>Here is a bash script to detect the presence of high vulnerabilities.</p>
 <div class="highlight"><pre><span></span><code>bandit -r ../<span class="nv">$module</span> -lll
 bandit --format json --recursive ../<span class="nv">$module</span> --output bandit.json
 <span class="nv">high_count</span><span class="o">=</span><span class="k">$(</span>cat bandit.json <span class="p">|</span> jq <span class="s1">&#39;[.results [] | select(.issue_severity==&quot;HIGH&quot;)]&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;. | length&#39;</span><span class="k">)</span>
 </code></pre></div>
-
 <h2 id="dependency-scan">Dependency Scan</h2>
 <p>This scans for vulnerabilities in python libraries. <a href="https://github.com/pyupio/safety">safety</a> is decent open-sourced library with the free database being updated once a month. However, it does not classify vulnerabilities by severity levels, nor does it scan for libraries which have their own open-source dependencies.</p>
 <table>
@@ -894,7 +892,6 @@ repos:
       - id: detect-secrets
         args: [--no-base64-string-scan]
 </code></pre></div>
-
 <p>Another alternative which I prefer is using tox to compile all the testing and security scans together in a single file. See my section on <a href="https://mapattacker.github.io/ai-engineer/testing1/#tox">testing</a> for more.</p>
 <h2 id="synk-advisor">Synk Advisor</h2>
 <p><a href="https://snyk.io/advisor/">Synk Advisor</a> is a great site to check the security of open-source libraries. Besides checking using known security vulnerabilities as a metric, it also establishes an overall health score using the library's popularity, maintenance, and community.</p>
