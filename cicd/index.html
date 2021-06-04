@@ -802,15 +802,15 @@
   <figcaption>Differences between CI-CD-CD.<a href="https://www.atlassian.com/continuous-delivery/principles/continuous-integration-vs-delivery-vs-deployment/"> Source</a></figcaption>
 </figure>
 
-<p>This process is usually integrated with a version control platform like Github and Gitlab. Both popular platforms provide in-built CI/CD automation called <a href="https://github.com/features/actions">Github Actions</a> and <a href="https://docs.gitlab.com/ee/ci/">Gitlab-CI</a>. They are largely free, with some paid add-on tools. Other popular CI/CD platforms include <a href="https://circleci.com">CircleCI</a> and <a href="https://travis-ci.com/plans">TravisCI</a>.</p>
+<p>This process is usually integrated with a version control platform like Github and Gitlab. Both popular platforms provide in-built CI/CD automation called <a href="https://github.com/features/actions">Github Actions</a> and <a href="https://docs.gitlab.com/ee/ci/">Gitlab-CI</a>. They are largely free, with some paid add-on tools. Other popular ones include <a href="https://circleci.com">CircleCI</a> and <a href="https://travis-ci.com/plans">TravisCI</a>.</p>
 <h2 id="gitlab-ci">Gitlab-CI</h2>
 <h3 id="basics">Basics</h3>
 <p>Gitlab CI is run by "runners", which are essentially google servers spun up when a <strong>job</strong> is activated. A series of jobs make up a <strong>pipeline</strong>, while certain jobs of a specific attribute are assigned to a <strong>stage</strong>. By default, all jobs in a stage needs to finish before the next stage's jobs starts.</p>
 <p>A typical pipeline workflow consists of the various stages.</p>
 <ol>
 <li>Test: security scans, unit-tests, integration tests</li>
-<li>Staging: deploy app to staging env</li>
-<li>Production: deploy app to production env </li>
+<li>Build: building a docker image</li>
+<li>Deploy: deployment of image to dev/staging/production</li>
 </ol>
 <figure>
   <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/ci-pipelines.png?raw=true" />
