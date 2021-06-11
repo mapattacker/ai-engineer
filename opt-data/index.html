@@ -832,6 +832,7 @@
 <h3 id="querying">Querying</h3>
 <p>In pandas, there are various ways of querying, and the speed various with each type. </p>
 <p>In the example below, the fastest way is to convert the query column into a category data-type as it contains many duplicates, hence conversion into integers underthehood make it query more efficient. However, this might not always be the case, and using <code>isin</code> or <code>in1d</code> might suffice.</p>
+<p>More information <a href="https://stackoverflow.com/questions/17071871/how-do-i-select-rows-from-a-dataframe-based-on-column-values">here</a>.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Unoptimized, 0.01288s</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;antecedents&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">item</span><span class="p">]</span>
 
@@ -844,7 +845,7 @@
 <span class="n">result</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;antecedents&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">item</span><span class="p">])]</span>
 
 <span class="c1"># with numpy, 0.004175s, x3.1</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;antecedents&quot;</span><span class="p">],</span> <span class="p">[</span><span class="n">item</span><span class="p">])]</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;antecedents&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="p">[</span><span class="n">item</span><span class="p">])]</span>
 
 <span class="c1"># with indexing, 0.004342s x3.0</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;antecedents&quot;</span><span class="p">)</span>

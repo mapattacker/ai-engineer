@@ -601,6 +601,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#latency-profiler" class="md-nav__link">
+    Latency Profiler
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#load-test" class="md-nav__link">
     Load Test
   </a>
@@ -733,6 +740,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#latency-profiler" class="md-nav__link">
+    Latency Profiler
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#load-test" class="md-nav__link">
     Load Test
   </a>
@@ -782,6 +796,36 @@
 <h2 id="memory-leak">Memory Leak</h2>
 <p>Memory leak is an insidious fault in the code that can consume the entire memory (RAM or GPU) over time &amp; crash the application, together with other applications in the same server. To detect this, we usually need to run multiple requests over a period of time to the API to see if the memory builds up. We can use an app I developed to do this; <a href="https://github.com/mapattacker/streamlit-memoryleak">memoryleak-checker</a>.</p>
 <p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/memory.png?raw=true" /></p>
+<h2 id="latency-profiler">Latency Profiler</h2>
+<p>If the latency is not up to par, we can profile our code to identify bottlenecks in the latency line by line. This is done using the library <a href="https://github.com/rkern/line_profiler">line-profiler</a>.</p>
+<p>To use the library, we first add the decorator <code>@profile</code> to the functions or methods you want to analyse.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@profile</span>
+<span class="k">def</span> <span class="nf">zvalue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+    <span class="n">vec</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">length</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+    <span class="n">df_filtered</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;SKU&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="p">[</span><span class="n">item</span><span class="p">])]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_filtered</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">z_value</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">loc</span> <span class="o">=</span> <span class="p">[</span><span class="n">length</span> <span class="o">+</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">df_filtered</span><span class="o">.</span><span class="n">lag</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">df_filtered</span><span class="o">.</span><span class="n">quantity</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">))):</span>
+            <span class="n">vec</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">z_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rolling_zscore</span><span class="p">(</span><span class="n">vec</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">vec</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:],</span> <span class="n">decay</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">decay</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">z_value</span>
+</code></pre></div>
+<p>Then we create the report by using the <code>kernprof -l</code> command; a <code>.lprof</code> report is generated. Following which, we view the report with the <code>python -m line_profiler</code> command.</p>
+<div class="highlight"><pre><span></span><code>kernprof -l &lt;script_name&gt;.py
+python -m line_profiler &lt;script_name&gt;.py.lprof
+</code></pre></div>
+<figure>
+  <img src="https://raw.githubusercontent.com/mapattacker/ai-engineer/master/images/line-profiler.png" style="width:100%" />
+  <figcaption>Profile Result</figcaption>
+</figure>
+
 <h2 id="load-test">Load Test</h2>
 <p>Load testing is the process of determination of behavior of system when multiple users access it at the same time. </p>
 <p><a href="https://locust.io/">Locust</a> is a popular open source load testing library developed in python. We install it using <code>pip install locust</code>. And write the following script, saving it as <code>locustfile.py</code>.</p>
