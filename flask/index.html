@@ -996,7 +996,8 @@
     <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="multi-threading">Multi-Threading</h3>
-<p>We can use <code>concurrent.futures</code> to send requests using multi-threading. The response time is similar, 0.359s, x2.85 faster. This is because of Python's Global Interpretor Lock (GIL), whereby only one thread can run one time. Python uses thread-switching to change to another thread to start another task, rendering multi-threading as an async, not parallel process.</p>
+<p>We can use <code>concurrent.futures</code> to send requests using multi-threading. The response time is similar, 0.359s, x2.85 faster. </p>
+<p>This is because of Python's Global Interpretor Lock (GIL), whereby only one thread can run one time. Python uses thread-switching to change to another thread to start another task, rendering multi-threading as an async, not parallel process.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ThreadPoolExecutor</span><span class="p">,</span> <span class="n">as_completed</span>
 
