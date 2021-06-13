@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#parallel-programming" class="md-skip">
+        <a href="#parallellism-concurrency" class="md-skip">
           Skip to content
         </a>
       
@@ -421,6 +421,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#joblib" class="md-nav__link">
+    Joblib
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -685,6 +692,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#joblib" class="md-nav__link">
+    Joblib
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -702,7 +716,7 @@
                   </a>
                 
                 
-                <h1 id="parallel-programming">Parallel Programming</h1>
+                <h1 id="parallellism-concurrency">Parallellism &amp; Concurrency</h1>
 <p>Parallel programming means executing operations while using multiple CPU's processes (cores) or using multiple threads in a process. This speeds up the operation multitudes faster based on the number of processes or threads launched.</p>
 <p>Parallel processing can be done within a single machine or distributed in among a cluster. For the former, we can use <code>multiprocessing</code> or <code>concurrent.futures</code> which work similarity. An exhaustive list is given in this <a href="https://wiki.python.org/moin/ParallelProcessing">link</a>.</p>
 <h2 id="pythons-gil-problem">Python's GIL problem</h2>
@@ -737,6 +751,33 @@
 </tbody>
 </table>
 <p>Great detailed explanations are provided by <a href="https://medium.com/@bfortuner/python-multithreading-vs-multiprocessing-73072ce5600b">Brendan Fortuner</a> and <a href="https://medium.com/towards-artificial-intelligence/the-why-when-and-how-of-using-python-multi-threading-and-multi-processing-afd1b8a8ecca">Thilina Rajapakse</a>.</p>
+<h2 id="joblib">Joblib</h2>
+<p>Joblib makes embarrassingly parallel for loops written in a list comprehension very simple, with the following syntax.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
+
+<span class="n">variable_name</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=&lt;</span><span class="n">no_of_jobs</span><span class="o">&gt;</span><span class="p">)(</span>
+    <span class="n">delayed</span><span class="p">(</span><span class="o">&lt;</span><span class="n">func_name</span><span class="o">&gt;</span><span class="p">)(</span><span class="o">&lt;</span><span class="n">arg1</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">arg2</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">arg3</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">list_to_iterate</span><span class="o">&gt;</span><span class="p">)</span>
+</code></pre></div>
+<p>Given an example below of a typical sequential synchronous list comprehension.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_x</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200000</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">+=</span> <span class="n">x</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="n">sum_all_x</span> <span class="o">=</span> <span class="p">[</span><span class="n">compute_x</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+</code></pre></div>
+<p>We can run this in parallel with multiprocessing in joblib as this. By default it uses the backend <code>loky</code>, which is more performant and robust than <code>multiprocessing</code>, taken from the older <code>multiprocessing.Pool</code> library.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
+
+<span class="n">sum_all_x</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)(</span>
+    <span class="n">delayed</span><span class="p">(</span><span class="n">compute_x</span><span class="p">)(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</code></pre></div>
+<p>However, if this is an I/O intensive task, using <code>threading</code> to run it asynchronously is preferred. </p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
+
+<span class="n">sum_all_x</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;threading&quot;</span><span class="p">)(</span>
+    <span class="n">delayed</span><span class="p">(</span><span class="n">compute_x</span><span class="p">)(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</code></pre></div>
                 
               
               
