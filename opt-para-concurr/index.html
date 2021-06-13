@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#parallellism-concurrency" class="md-skip">
+        <a href="#concurrency-parallellism" class="md-skip">
           Skip to content
         </a>
       
@@ -756,14 +756,13 @@
                   </a>
                 
                 
-                <h1 id="parallellism-concurrency">Parallellism &amp; Concurrency</h1>
+                <h1 id="concurrency-parallellism">Concurrency &amp; Parallellism</h1>
 <p>Parallel programming means executing operations while using multiple CPU's processes (cores) or using multiple threads in a process. This speeds up the operation multitudes faster based on the number of processes or threads launched.</p>
-<p>Parallel processing can be done within a single machine or distributed in among a cluster. For the former, we can use <code>multiprocessing</code> or <code>concurrent.futures</code> which work similarity. An exhaustive list is given in this <a href="https://wiki.python.org/moin/ParallelProcessing">link</a>.</p>
 <h2 id="pythons-gil-problem">Python's GIL problem</h2>
-<p>Python has a GIL (Global Interpreter Lock), which prevent two threads from executing simultaneously in the same program. However, libraries like numpy bypass this limitation by running external code in C.</p>
-<p>Because of this GIL limitation, threads provide no benefit for CPU intensive tasks, and is only used for IO (Input/Ouput) tasks. CPU-limiting processes refer to one where most part of the life is spent in cpu, while IO-limiting processes refer to one where most part of the life is spent in i/o state, i.e. instructing another program or process to run.</p>
+<p>Python has a <strong>Global Interpreter Lock</strong> (GIL), which prevent two threads from executing simultaneously in the same program. However, libraries like numpy bypass this limitation by running external code in C.</p>
+<p>Because of this GIL limitation, threads provide no benefit for <strong>CPU intensive tasks</strong>, and is only used for <strong>Input/Ouput (IO) tasks</strong>. CPU-limiting processes refer to one where most part of the life is spent in cpu, while IO-limiting processes refer to one where most part of the life is spent in i/o state, i.e. instructing another program to run something.</p>
 <p>Why does IO task work when it can also only use a single thread in a process at a time? Let's take an example, one thread fires off a request to a URL and while it is waiting for a response, that thread can be swapped out for another thread that fires another request to another URL. Since a thread doesn’t have to do anything until it receives a response, it doesn’t really matter that only one thread is executing at a given time. This makes multi-threading in Python as a <strong>concurrent</strong> or <strong>asychronous</strong> process.</p>
-<p>Given all these, we know when to use multi-processes and threads to run tasks in parallel.</p>
+<p>Given all these, we know when to use multi-processes and threads to run tasks with improved latency.</p>
 <table>
 <thead>
 <tr>
@@ -781,12 +780,12 @@
 <td>only for IO-intensive tasks because fo GIL</td>
 </tr>
 <tr>
-<td>Parallel Process</td>
-<td>Asynchronous Process</td>
+<td>E.g. complex calculations</td>
+<td>E.g. networking, file read-write, database query</td>
 </tr>
 <tr>
-<td>E.g. complex calculations</td>
-<td>E.g. networking, file read-write</td>
+<td>Parallel Process</td>
+<td>Asynchronous Process</td>
 </tr>
 </tbody>
 </table>
