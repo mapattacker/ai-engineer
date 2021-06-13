@@ -426,6 +426,26 @@
     Joblib
   </a>
   
+    <nav class="md-nav" aria-label="Joblib">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parallel" class="md-nav__link">
+    Parallel
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#async" class="md-nav__link">
+    Async
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -697,6 +717,26 @@
     Joblib
   </a>
   
+    <nav class="md-nav" aria-label="Joblib">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parallel" class="md-nav__link">
+    Parallel
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#async" class="md-nav__link">
+    Async
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -766,12 +806,14 @@
 
 <span class="n">sum_all_x</span> <span class="o">=</span> <span class="p">[</span><span class="n">compute_x</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
 </code></pre></div>
+<h3 id="parallel">Parallel</h3>
 <p>We can run this in parallel with multiprocessing in joblib as this. By default it uses the backend <code>loky</code>, which is more performant and robust than <code>multiprocessing</code>, taken from the older <code>multiprocessing.Pool</code> library.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
 
 <span class="n">sum_all_x</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)(</span>
     <span class="n">delayed</span><span class="p">(</span><span class="n">compute_x</span><span class="p">)(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
 </code></pre></div>
+<h3 id="async">Async</h3>
 <p>However, if this is an I/O intensive task, using <code>threading</code> to run it asynchronously is preferred. </p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
 
