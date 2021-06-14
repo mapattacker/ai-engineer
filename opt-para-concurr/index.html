@@ -448,6 +448,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#concurrent-futures" class="md-nav__link">
+    Concurrent Futures
+  </a>
+  
+    <nav class="md-nav" aria-label="Concurrent Futures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parallel_1" class="md-nav__link">
+    Parallel
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#async_1" class="md-nav__link">
+    Async
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -739,6 +766,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#concurrent-futures" class="md-nav__link">
+    Concurrent Futures
+  </a>
+  
+    <nav class="md-nav" aria-label="Concurrent Futures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parallel_1" class="md-nav__link">
+    Parallel
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#async_1" class="md-nav__link">
+    Async
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -803,21 +857,61 @@
         <span class="n">x</span> <span class="o">+=</span> <span class="n">x</span>
     <span class="k">return</span> <span class="n">x</span>
 
-<span class="n">sum_all_x</span> <span class="o">=</span> <span class="p">[</span><span class="n">compute_x</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+<span class="n">list_to_iterate</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">]</span>
+<span class="n">sum_all_x</span> <span class="o">=</span> <span class="p">[</span><span class="n">compute_x</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">list_to_iterate</span><span class="p">]</span>
 </code></pre></div>
 <h3 id="parallel">Parallel</h3>
-<p>We can run this in parallel with multiprocessing in joblib as this. By default it uses the backend <code>loky</code>, which is more performant and robust than <code>multiprocessing</code>, taken from the older <code>multiprocessing.Pool</code> library.</p>
+<p>We can run this in parallel with multiprocessing in joblib as this. By default it uses the backend <code>loky</code>, which is more robust than <code>multiprocessing</code>, taken from the older <code>multiprocessing.Pool</code> library. However, it might not always be faster.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
 
 <span class="n">sum_all_x</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)(</span>
-    <span class="n">delayed</span><span class="p">(</span><span class="n">compute_x</span><span class="p">)(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+    <span class="n">delayed</span><span class="p">(</span><span class="n">compute_x</span><span class="p">)(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">list_to_iterate</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="async">Async</h3>
 <p>However, if this is an I/O intensive task, using <code>threading</code> to run it asynchronously is preferred. </p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
 
 <span class="n">sum_all_x</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;threading&quot;</span><span class="p">)(</span>
-    <span class="n">delayed</span><span class="p">(</span><span class="n">compute_x</span><span class="p">)(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+    <span class="n">delayed</span><span class="p">(</span><span class="n">compute_x</span><span class="p">)(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">list_to_iterate</span><span class="err">`</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="concurrent-futures">Concurrent Futures</h2>
+<p><code>concurrent.futures</code> is an in-built library that can easily run multi-processing or threading tasks.</p>
+<h3 id="parallel_1">Parallel</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ProcessPoolExecutor</span><span class="p">,</span> <span class="n">as_completed</span>
+
+<span class="k">with</span> <span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+    <span class="n">futures</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">list_to_iterate</span><span class="p">:</span>
+        <span class="n">futures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">compute_x</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span> <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">as_completed</span><span class="p">(</span><span class="n">futures</span><span class="p">)]</span>
+</code></pre></div>
+<h3 id="async_1">Async</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ThreadPoolExecutor</span><span class="p">,</span> <span class="n">as_completed</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">wiki_page_urls</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;https://en.wikipedia.org/wiki/Ocean&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;https://en.wikipedia.org/wiki/Island&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;https://en.wikipedia.org/wiki/this_page_does_not_exist&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;https://en.wikipedia.org/wiki/Shark&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">get_wiki_page_existence</span><span class="p">(</span><span class="n">wiki_page_url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">wiki_page_url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+    <span class="n">page_status</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="n">page_status</span> <span class="o">=</span> <span class="s2">&quot;exists&quot;</span>
+    <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
+        <span class="n">page_status</span> <span class="o">=</span> <span class="s2">&quot;does not exist&quot;</span>
+    <span class="k">return</span> <span class="n">wiki_page_url</span> <span class="o">+</span> <span class="s2">&quot; - &quot;</span> <span class="o">+</span> <span class="n">page_status</span>
+
+<span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+    <span class="n">futures</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">wiki_page_urls</span><span class="p">:</span>
+        <span class="n">futures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">get_wiki_page_existence</span><span class="p">,</span> <span class="n">wiki_page_url</span><span class="o">=</span><span class="n">url</span><span class="p">))</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span> <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">as_completed</span><span class="p">(</span><span class="n">futures</span><span class="p">)]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </code></pre></div>
                 
               
