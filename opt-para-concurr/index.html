@@ -422,6 +422,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#joblib" class="md-nav__link">
     Joblib
   </a>
@@ -754,6 +761,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#joblib" class="md-nav__link">
     Joblib
   </a>
@@ -872,14 +886,8 @@
 </tbody>
 </table>
 <p>Great detailed explanations are provided by <a href="https://medium.com/@bfortuner/python-multithreading-vs-multiprocessing-73072ce5600b">Brendan Fortuner</a> and <a href="https://medium.com/towards-artificial-intelligence/the-why-when-and-how-of-using-python-multi-threading-and-multi-processing-afd1b8a8ecca">Thilina Rajapakse</a>.</p>
-<h2 id="joblib">Joblib</h2>
-<p><a href="https://joblib.readthedocs.io/en/latest/parallel.html">Joblib</a> makes embarrassingly parallel for loops written in a list comprehension very simple, with the following syntax.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
-
-<span class="n">variable_name</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=&lt;</span><span class="n">no_of_jobs</span><span class="o">&gt;</span><span class="p">)(</span>
-    <span class="n">delayed</span><span class="p">(</span><span class="o">&lt;</span><span class="n">func_name</span><span class="o">&gt;</span><span class="p">)(</span><span class="o">&lt;</span><span class="n">arg1</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">arg2</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">arg3</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">list_to_iterate</span><span class="o">&gt;</span><span class="p">)</span>
-</code></pre></div>
-<p>Given an example below of a typical sequential synchronous list comprehension.</p>
+<h2 id="examples">Examples</h2>
+<p>Below are two examples of an CPU-bound job...</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_x</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200000</span><span class="p">):</span>
         <span class="n">x</span> <span class="o">+=</span> <span class="n">x</span>
@@ -887,6 +895,32 @@
 
 <span class="n">list_to_iterate</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">]</span>
 <span class="n">sum_all_x</span> <span class="o">=</span> <span class="p">[</span><span class="n">compute_x</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">list_to_iterate</span><span class="p">]</span>
+</code></pre></div>
+<p>and an IO-bound job where it is requesting data from a website.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">wiki_page_urls</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;https://en.wikipedia.org/wiki/Ocean&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;https://en.wikipedia.org/wiki/Island&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;https://en.wikipedia.org/wiki/this_page_does_not_exist&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;https://en.wikipedia.org/wiki/Shark&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">get_wiki_page_existence</span><span class="p">(</span><span class="n">wiki_page_url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">wiki_page_url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+    <span class="n">page_status</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="n">page_status</span> <span class="o">=</span> <span class="s2">&quot;exists&quot;</span>
+    <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
+        <span class="n">page_status</span> <span class="o">=</span> <span class="s2">&quot;does not exist&quot;</span>
+    <span class="k">return</span> <span class="n">wiki_page_url</span> <span class="o">+</span> <span class="s2">&quot; - &quot;</span> <span class="o">+</span> <span class="n">page_status</span>
+</code></pre></div>
+<h2 id="joblib">Joblib</h2>
+<p><a href="https://joblib.readthedocs.io/en/latest/parallel.html">Joblib</a> makes embarrassingly parallel for loops written in a list comprehension very simple, with the following syntax.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
+
+<span class="n">variable_name</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=&lt;</span><span class="n">no_of_jobs</span><span class="o">&gt;</span><span class="p">)(</span>
+    <span class="n">delayed</span><span class="p">(</span><span class="o">&lt;</span><span class="n">func_name</span><span class="o">&gt;</span><span class="p">)(</span><span class="o">&lt;</span><span class="n">arg1</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">arg2</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">arg3</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">list_to_iterate</span><span class="o">&gt;</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="parallel">Parallel</h3>
 <p>We can run this in parallel with multiprocessing in joblib as this. By default it uses the backend <code>loky</code>, which is more robust than <code>multiprocessing</code>, taken from the older <code>multiprocessing.Pool</code> library. However, it might not always be faster.</p>
@@ -940,31 +974,12 @@
 </code></pre></div>
 <h3 id="async_1">Async</h3>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ThreadPoolExecutor</span><span class="p">,</span> <span class="n">as_completed</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">wiki_page_urls</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;https://en.wikipedia.org/wiki/Ocean&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;https://en.wikipedia.org/wiki/Island&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;https://en.wikipedia.org/wiki/this_page_does_not_exist&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;https://en.wikipedia.org/wiki/Shark&quot;</span><span class="p">,</span>
-<span class="p">]</span>
-
-<span class="k">def</span> <span class="nf">get_wiki_page_existence</span><span class="p">(</span><span class="n">wiki_page_url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
-    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">wiki_page_url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
-    <span class="n">page_status</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
-    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
-        <span class="n">page_status</span> <span class="o">=</span> <span class="s2">&quot;exists&quot;</span>
-    <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
-        <span class="n">page_status</span> <span class="o">=</span> <span class="s2">&quot;does not exist&quot;</span>
-    <span class="k">return</span> <span class="n">wiki_page_url</span> <span class="o">+</span> <span class="s2">&quot; - &quot;</span> <span class="o">+</span> <span class="n">page_status</span>
 
 <span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
     <span class="n">futures</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">wiki_page_urls</span><span class="p">:</span>
         <span class="n">futures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">get_wiki_page_existence</span><span class="p">,</span> <span class="n">wiki_page_url</span><span class="o">=</span><span class="n">url</span><span class="p">))</span>
     <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span> <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">as_completed</span><span class="p">(</span><span class="n">futures</span><span class="p">)]</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="multiprocessing">Multiprocessing</h2>
 <p>The <code>multiprocessing</code> module is another in-built library that supports both multi-processing <code>multiprocessing.Pool</code> or threading <code>multiprocessing.pool.ThreadPool</code> tasks.</p>
