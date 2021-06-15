@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#concurrency-parallellism" class="md-skip">
+        <a href="#concurrency" class="md-skip">
           Skip to content
         </a>
       
@@ -475,6 +475,20 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#multiprocessing" class="md-nav__link">
+    Multiprocessing
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#numba" class="md-nav__link">
+    Numba
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -793,6 +807,20 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#multiprocessing" class="md-nav__link">
+    Multiprocessing
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#numba" class="md-nav__link">
+    Numba
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -810,7 +838,7 @@
                   </a>
                 
                 
-                <h1 id="concurrency-parallellism">Concurrency &amp; Parallellism</h1>
+                <h1 id="concurrency">Concurrency</h1>
 <p>Parallel programming means executing operations while using multiple CPU's processes (cores) or using multiple threads in a process. This speeds up the operation multitudes faster based on the number of processes or threads launched.</p>
 <h2 id="pythons-gil-problem">Python's GIL problem</h2>
 <p>Python has a <strong>Global Interpreter Lock</strong> (GIL), which prevent two threads from executing simultaneously in the same program. However, libraries like numpy bypass this limitation by running external code in C.</p>
@@ -852,10 +880,10 @@
     <span class="n">delayed</span><span class="p">(</span><span class="o">&lt;</span><span class="n">func_name</span><span class="o">&gt;</span><span class="p">)(</span><span class="o">&lt;</span><span class="n">arg1</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">arg2</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">arg3</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">list_to_iterate</span><span class="o">&gt;</span><span class="p">)</span>
 </code></pre></div>
 <p>Given an example below of a typical sequential synchronous list comprehension.</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_x</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_x</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200000</span><span class="p">):</span>
         <span class="n">x</span> <span class="o">+=</span> <span class="n">x</span>
-    <span class="k">return</span> <span class="n">x</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 
 <span class="n">list_to_iterate</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">]</span>
 <span class="n">sum_all_x</span> <span class="o">=</span> <span class="p">[</span><span class="n">compute_x</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">list_to_iterate</span><span class="p">]</span>
@@ -872,18 +900,43 @@
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
 
 <span class="n">sum_all_x</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;threading&quot;</span><span class="p">)(</span>
-    <span class="n">delayed</span><span class="p">(</span><span class="n">compute_x</span><span class="p">)(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">list_to_iterate</span><span class="err">`</span><span class="p">)</span>
+    <span class="n">delayed</span><span class="p">(</span><span class="n">compute_x</span><span class="p">)(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">list_to_iterate</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="concurrent-futures">Concurrent Futures</h2>
 <p><code>concurrent.futures</code> is an in-built library that can easily run multi-processing or threading tasks.</p>
 <h3 id="parallel_1">Parallel</h3>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ProcessPoolExecutor</span><span class="p">,</span> <span class="n">as_completed</span>
 
-<span class="k">with</span> <span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
-    <span class="n">futures</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">list_to_iterate</span><span class="p">:</span>
-        <span class="n">futures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">compute_x</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span> <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">as_completed</span><span class="p">(</span><span class="n">futures</span><span class="p">)]</span>
+<span class="k">def</span> <span class="nf">multiproc</span><span class="p">(</span><span class="n">list_to_iterate</span><span class="p">,</span> <span class="n">workers</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+        <span class="n">futures</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">list_to_iterate</span><span class="p">:</span>
+            <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">compute_x</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span> <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">as_completed</span><span class="p">(</span><span class="n">futures</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="c1"># alternatively, we can use the map function for a more concise result</span>
+<span class="c1"># however, it does not allow multiple args to the worker function</span>
+<span class="k">def</span> <span class="nf">multiproc</span><span class="p">(</span><span class="n">list_to_iterate</span><span class="p">,</span> <span class="n">workers</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+        <span class="n">futures</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">compute_x</span><span class="p">,</span> <span class="n">list_to_iterate</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">future</span> <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">futures</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="c1"># to do that, we need to use another library to wrap the worker functio</span>
+<span class="c1"># and additional args together</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+
+<span class="k">def</span> <span class="nf">multiproc</span><span class="p">(</span><span class="n">list_to_iterate</span><span class="p">,</span> <span class="n">workers</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+        <span class="n">wrap</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">compute_x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">futures</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">wrap</span><span class="p">,</span> <span class="n">list_to_iterate</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">future</span> <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">futures</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">multiproc</span><span class="p">(</span><span class="n">list_to_iterate</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="async_1">Async</h3>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ThreadPoolExecutor</span><span class="p">,</span> <span class="n">as_completed</span>
@@ -913,6 +966,20 @@
 
 <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </code></pre></div>
+<h2 id="multiprocessing">Multiprocessing</h2>
+<p>The <code>multiprocessing</code> module is another in-built library that supports both multi-processing <code>multiprocessing.Pool</code> or threading <code>multiprocessing.pool.ThreadPool</code> tasks.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="k">as</span> <span class="nn">mp</span>
+
+<span class="k">def</span> <span class="nf">multiproc</span><span class="p">(</span><span class="n">list_to_iterate</span><span class="p">,</span> <span class="n">workers</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">pool</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">workers</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">compute_x</span><span class="p">,</span> <span class="n">list_to_iterate</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">multiproc</span><span class="p">(</span><span class="n">list_to_iterate</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="numba">Numba</h2>
+<p><a href="http://numba.pydata.org">Numba</a> is one of the unique cases where has true parallel multi-threading, being able to overcome the GIL.</p>
                 
               
               
