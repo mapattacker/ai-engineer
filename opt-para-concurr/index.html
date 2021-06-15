@@ -14,7 +14,7 @@
     
     
       
-        <title>Parallel & Concurrent - AI Engineer Guide</title>
+        <title>Concurrency & Parallelism - AI Engineer Guide</title>
       
     
     
@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#concurrency" class="md-skip">
+        <a href="#concurrency-parallelism" class="md-skip">
           Skip to content
         </a>
       
@@ -93,7 +93,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Parallel & Concurrent
+              Concurrency & Parallelism
             
           </span>
         </div>
@@ -393,12 +393,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Parallel & Concurrent
+          Concurrency & Parallelism
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Parallel & Concurrent
+        Concurrency & Parallelism
       </a>
       
         
@@ -444,8 +444,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#async" class="md-nav__link">
-    Async
+  <a href="#concurrent" class="md-nav__link">
+    Concurrent
   </a>
   
 </li>
@@ -471,8 +471,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#async_1" class="md-nav__link">
-    Async
+  <a href="#concurrent_1" class="md-nav__link">
+    Concurrent
   </a>
   
 </li>
@@ -498,8 +498,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#async_2" class="md-nav__link">
-    Async
+  <a href="#concurrent_2" class="md-nav__link">
+    Concurrent
   </a>
   
 </li>
@@ -803,8 +803,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#async" class="md-nav__link">
-    Async
+  <a href="#concurrent" class="md-nav__link">
+    Concurrent
   </a>
   
 </li>
@@ -830,8 +830,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#async_1" class="md-nav__link">
-    Async
+  <a href="#concurrent_1" class="md-nav__link">
+    Concurrent
   </a>
   
 </li>
@@ -857,8 +857,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#async_2" class="md-nav__link">
-    Async
+  <a href="#concurrent_2" class="md-nav__link">
+    Concurrent
   </a>
   
 </li>
@@ -892,7 +892,7 @@
                   </a>
                 
                 
-                <h1 id="concurrency">Concurrency</h1>
+                <h1 id="concurrency-parallelism">Concurrency &amp; Parallelism</h1>
 <p>Parallel programming means executing operations while using multiple CPU's processes (cores) or using multiple threads in a process. This speeds up the operation multitudes faster based on the number of processes or threads launched.</p>
 <h2 id="pythons-gil-problem">Python's GIL problem</h2>
 <p>Python has a <strong>Global Interpreter Lock</strong> (GIL), which prevent two threads from executing simultaneously in the same program. However, libraries like numpy bypass this limitation by running external code in C.</p>
@@ -920,12 +920,12 @@
 <td>E.g. networking, file read-write, database query</td>
 </tr>
 <tr>
-<td>Parallel Process</td>
-<td>Asynchronous Process</td>
+<td>True Parallel Process</td>
+<td>Concurrent Process</td>
 </tr>
 </tbody>
 </table>
-<p>Great detailed explanations are provided by <a href="https://medium.com/@bfortuner/python-multithreading-vs-multiprocessing-73072ce5600b">Brendan Fortuner</a> and <a href="https://medium.com/towards-artificial-intelligence/the-why-when-and-how-of-using-python-multi-threading-and-multi-processing-afd1b8a8ecca">Thilina Rajapakse</a>.</p>
+<p>Great detailed explanations are provided by <a href="https://medium.com/@bfortuner/python-multithreading-vs-multiprocessing-73072ce5600b">Brendan Fortuner</a>, <a href="https://medium.com/towards-artificial-intelligence/the-why-when-and-how-of-using-python-multi-threading-and-multi-processing-afd1b8a8ecca">Thilina Rajapakse</a>, and <a href="https://testdriven.io/blog/concurrency-parallelism-asyncio/">testdrive.io</a></p>
 <h2 id="examples">Examples</h2>
 <p>Below are two examples of embarassingly parallel tasks, one a CPU-bound job...</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_x</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
@@ -969,7 +969,7 @@
 <span class="n">sum_all_x</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)(</span>
     <span class="n">delayed</span><span class="p">(</span><span class="n">compute_x</span><span class="p">)(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">list_to_iterate</span><span class="p">)</span>
 </code></pre></div>
-<h3 id="async">Async</h3>
+<h3 id="concurrent">Concurrent</h3>
 <p>However, if this is an I/O intensive task, using <code>threading</code> to run it asynchronously is preferred. </p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
 
@@ -989,6 +989,7 @@
         <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span> <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">as_completed</span><span class="p">(</span><span class="n">futures</span><span class="p">)]</span>
     <span class="k">return</span> <span class="n">result</span>
 
+
 <span class="c1"># alternatively, we can use the map function for a more concise result</span>
 <span class="c1"># however, it does not allow multiple args to the worker function</span>
 <span class="k">def</span> <span class="nf">multiproc</span><span class="p">(</span><span class="n">list_to_iterate</span><span class="p">,</span> <span class="n">workers</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
@@ -996,6 +997,7 @@
         <span class="n">futures</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">compute_x</span><span class="p">,</span> <span class="n">list_to_iterate</span><span class="p">)</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">future</span> <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">futures</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">result</span>
+
 
 <span class="c1"># to do that, we need to use another library to wrap the worker function</span>
 <span class="c1"># and additional args together</span>
@@ -1012,7 +1014,7 @@
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">multiproc</span><span class="p">(</span><span class="n">list_to_iterate</span><span class="p">)</span>
 </code></pre></div>
-<h3 id="async_1">Async</h3>
+<h3 id="concurrent_1">Concurrent</h3>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ThreadPoolExecutor</span><span class="p">,</span> <span class="n">as_completed</span>
 
 <span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
@@ -1034,7 +1036,7 @@
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">multiproc</span><span class="p">(</span><span class="n">list_to_iterate</span><span class="p">)</span>
 </code></pre></div>
-<h3 id="async_2">Async</h3>
+<h3 id="concurrent_2">Concurrent</h3>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="k">as</span> <span class="nn">mp</span>
 
 <span class="k">def</span> <span class="nf">multithread</span><span class="p">(</span><span class="n">list_to_iterate</span><span class="p">,</span> <span class="n">workers</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
