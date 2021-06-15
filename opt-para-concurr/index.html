@@ -487,6 +487,26 @@
     Multiprocessing
   </a>
   
+    <nav class="md-nav" aria-label="Multiprocessing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parallel_2" class="md-nav__link">
+    Parallel
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#async_2" class="md-nav__link">
+    Async
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -826,6 +846,26 @@
     Multiprocessing
   </a>
   
+    <nav class="md-nav" aria-label="Multiprocessing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parallel_2" class="md-nav__link">
+    Parallel
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#async_2" class="md-nav__link">
+    Async
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -887,11 +927,11 @@
 </table>
 <p>Great detailed explanations are provided by <a href="https://medium.com/@bfortuner/python-multithreading-vs-multiprocessing-73072ce5600b">Brendan Fortuner</a> and <a href="https://medium.com/towards-artificial-intelligence/the-why-when-and-how-of-using-python-multi-threading-and-multi-processing-afd1b8a8ecca">Thilina Rajapakse</a>.</p>
 <h2 id="examples">Examples</h2>
-<p>Below are two examples of an CPU-bound job...</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_x</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200000</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">+=</span> <span class="n">x</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<p>Below are two examples of embarassingly parallel tasks, one a CPU-bound job...</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_x</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="mf">0.8</span><span class="p">)</span>        
+    <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
 
 <span class="n">list_to_iterate</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">]</span>
 <span class="n">sum_all_x</span> <span class="o">=</span> <span class="p">[</span><span class="n">compute_x</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">list_to_iterate</span><span class="p">]</span>
@@ -957,7 +997,7 @@
         <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">future</span> <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">futures</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">result</span>
 
-<span class="c1"># to do that, we need to use another library to wrap the worker functio</span>
+<span class="c1"># to do that, we need to use another library to wrap the worker function</span>
 <span class="c1"># and additional args together</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 
@@ -983,6 +1023,7 @@
 </code></pre></div>
 <h2 id="multiprocessing">Multiprocessing</h2>
 <p>The <code>multiprocessing</code> module is another in-built library that supports both multi-processing <code>multiprocessing.Pool</code> or threading <code>multiprocessing.pool.ThreadPool</code> tasks.</p>
+<h3 id="parallel_2">Parallel</h3>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="k">as</span> <span class="nn">mp</span>
 
 <span class="k">def</span> <span class="nf">multiproc</span><span class="p">(</span><span class="n">list_to_iterate</span><span class="p">,</span> <span class="n">workers</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
@@ -992,6 +1033,17 @@
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">multiproc</span><span class="p">(</span><span class="n">list_to_iterate</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="async_2">Async</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="k">as</span> <span class="nn">mp</span>
+
+<span class="k">def</span> <span class="nf">multithread</span><span class="p">(</span><span class="n">list_to_iterate</span><span class="p">,</span> <span class="n">workers</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">pool</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">ThreadPool</span><span class="p">(</span><span class="n">workers</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">get_wiki_page_existence</span><span class="p">,</span> <span class="n">wiki_page_urls</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">multithread</span><span class="p">(</span><span class="n">list_to_iterate</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="numba">Numba</h2>
 <p><a href="http://numba.pydata.org">Numba</a> is one of the unique cases where has true parallel multi-threading, being able to overcome the GIL.</p>
