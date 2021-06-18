@@ -933,7 +933,7 @@
      <span class="s2">&quot;psn&quot;</span><span class="p">:</span> <span class="s2">&quot;http://localhost:5004/test&quot;</span><span class="p">}</span>
 
 
-<span class="k">def</span> <span class="nf">call_recommender</span><span class="p">(</span><span class="n">rre</span><span class="p">,</span> <span class="n">api_urls</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">call_recommender_sync</span><span class="p">(</span><span class="n">rre</span><span class="p">,</span> <span class="n">api_urls</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;call individual recommenders &amp; get predictions&quot;&quot;&quot;</span>
     <span class="n">url</span> <span class="o">=</span> <span class="n">api_urls</span><span class="p">[</span><span class="n">rre</span><span class="p">]</span>
     <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;resultSize&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
@@ -946,7 +946,7 @@
     <span class="c1"># synchronous, 1.024s ---------</span>
     <span class="n">concat_list</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">rre</span> <span class="ow">in</span> <span class="n">api_urls</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-        <span class="n">predictions</span> <span class="o">=</span> <span class="n">call_recommender</span><span class="p">(</span><span class="n">rre</span><span class="p">,</span> <span class="n">api_urls</span><span class="p">)</span>
+        <span class="n">predictions</span> <span class="o">=</span> <span class="n">call_recommender_sync</span><span class="p">(</span><span class="n">rre</span><span class="p">,</span> <span class="n">api_urls</span><span class="p">)</span>
         <span class="n">concat_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;result&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">concat_list</span><span class="p">)}</span>
@@ -960,7 +960,7 @@
 <span class="kn">import</span> <span class="nn">json</span>
 
 <span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">from</span> <span class="nn">aiohttp</span> <span class="kn">import</span> <span class="n">ClientSession</span>
+<span class="kn">from</span> <span class="nn">aiohttp</span>
 <span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span>
 
 <span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -972,28 +972,27 @@
      <span class="s2">&quot;psn&quot;</span><span class="p">:</span> <span class="s2">&quot;http://localhost:5004/test&quot;</span><span class="p">}</span>
 
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">call_recommender_async</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">rre</span><span class="p">,</span> <span class="n">api_urls</span><span class="p">):</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">call_recommender_async</span><span class="p">(</span><span class="n">rre</span><span class="p">,</span> <span class="n">api_urls</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;call individual recommenders &amp; get predictions&quot;&quot;&quot;</span>
     <span class="n">url</span> <span class="o">=</span> <span class="n">api_urls</span><span class="p">[</span><span class="n">rre</span><span class="p">]</span>
     <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;resultSize&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
-    <span class="k">async</span> <span class="k">with</span> <span class="n">session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">)</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
-        <span class="n">prediction</span> <span class="o">=</span> <span class="k">await</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">aiohttp</span><span class="o">.</span><span class="n">ClientSession</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+        <span class="k">async</span> <span class="k">with</span> <span class="n">session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">)</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+            <span class="n">prediction</span> <span class="o">=</span> <span class="k">await</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">rre</span><span class="p">)</span>
 
 <span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/recommendation&quot;</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">fusion_api</span><span class="p">():</span>
     <span class="c1"># asynchronous, 0.356s, x2.87 ---------</span>
-    <span class="k">async</span> <span class="k">with</span> <span class="n">ClientSession</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
-        <span class="n">concat_list</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">rre</span> <span class="ow">in</span> <span class="n">api_urls</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">predictions</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">call_recommender_async</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">rre</span><span class="p">,</span> <span class="n">api_urls</span><span class="p">))</span>
-            <span class="n">concat_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
-        <span class="n">concat_list</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">concat_list</span><span class="p">)</span>
-
+    <span class="n">concat_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">rre</span> <span class="ow">in</span> <span class="n">api_urls</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">predictions</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">call_recommender_async</span><span class="p">(</span><span class="n">rre</span><span class="p">,</span> <span class="n">api_urls</span><span class="p">))</span>
+        <span class="n">concat_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+    <span class="n">concat_list</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">concat_list</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;result&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">concat_list</span><span class="p">)}</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="multi-threading">Multi-Threading</h3>
 <p>We can use <code>concurrent.futures</code> to send requests using multi-threading. The response time is similar, 0.359s, x2.85 faster. </p>
@@ -1020,7 +1019,7 @@
     <span class="n">prediction</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">prediction</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">rre</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">multithr</span><span class="p">(</span><span class="n">api_urls</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">multithread</span><span class="p">(</span><span class="n">api_urls</span><span class="p">):</span>
     <span class="n">futures</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">rre</span> <span class="ow">in</span> <span class="n">api_urls</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -1030,7 +1029,7 @@
 <span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/recommendation&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">fusion_api</span><span class="p">():</span>
     <span class="c1"># multi-threading, 0.359s, x2.85 ---------</span>
-    <span class="n">concat_list</span> <span class="o">=</span> <span class="n">multithr</span><span class="p">(</span><span class="n">api_urls</span><span class="p">)</span>
+    <span class="n">concat_list</span> <span class="o">=</span> <span class="n">multithread</span><span class="p">(</span><span class="n">api_urls</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;result&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">concat_list</span><span class="p">)}</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
