@@ -585,32 +585,32 @@
     Mocking
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Mocking">
+      <ul class="md-nav__list">
         
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
+          <li class="md-nav__item">
   <a href="#mock-function-without-return" class="md-nav__link">
     Mock Function without Return
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#mock-function-with-mock-return" class="md-nav__link">
     Mock Function with Mock Return
   </a>
   
-    <nav class="md-nav" aria-label="Mock Function with Mock Return">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
   <a href="#without-mocking" class="md-nav__link">
     Without Mocking
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -815,32 +815,32 @@
     Mocking
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Mocking">
+      <ul class="md-nav__list">
         
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
+          <li class="md-nav__item">
   <a href="#mock-function-without-return" class="md-nav__link">
     Mock Function without Return
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#mock-function-with-mock-return" class="md-nav__link">
     Mock Function with Mock Return
   </a>
   
-    <nav class="md-nav" aria-label="Mock Function with Mock Return">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
   <a href="#without-mocking" class="md-nav__link">
     Without Mocking
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -1017,7 +1017,7 @@
 <h3 id="mocking">Mocking</h3>
 <p>Mocking is often used in unit tests where we can mock or "fake" a library, function, return value etc., as we only want to test the unit/function itself, not other related stuff that are integrated with it.</p>
 <p>In the first example, we want to test the first function <code>log_metrics</code>, however we do not want to use the library <code>bedrock_client</code> as this logs the metrics to a server. </p>
-<h2 id="mock-function-without-return">Mock Function without Return</h2>
+<h4 id="mock-function-without-return">Mock Function without Return</h4>
 <div class="highlight"><pre><span></span><code><span class="c1"># train_pipeline.py</span>
 <span class="k">def</span> <span class="nf">log_metrics</span><span class="p">(</span><span class="n">precision</span><span class="p">,</span> <span class="n">recall</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="s2">&quot;logs/results.json&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Log metrics to bedrock &amp; results.json&quot;&quot;&quot;</span>
@@ -1057,7 +1057,7 @@
     <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">tmp_path</span> <span class="o">/</span> <span class="s2">&quot;results.json&quot;</span><span class="p">)</span>
     <span class="k">del</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;bedrock_client.bedrock.api&#39;</span><span class="p">]</span>
 </code></pre></div>
-<h2 id="mock-function-with-mock-return">Mock Function with Mock Return</h2>
+<h4 id="mock-function-with-mock-return">Mock Function with Mock Return</h4>
 <p>In the second example, we have an evaluate function that we want to test. However, we do not want to use the predict script <code>from predict import detectObj</code>, as that will be tested individually.</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">val_imgfolder</span><span class="p">,</span> <span class="n">val_txtfolder</span><span class="p">,</span> <span class="n">class_</span><span class="p">,</span> <span class="n">w_th</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">h_th</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">score_th</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">nms_iou</span><span class="o">=</span><span class="mf">0.4</span><span class="p">):</span>
 
@@ -1130,8 +1130,9 @@
     <span class="k">assert</span> <span class="n">precision</span> <span class="o">==</span> <span class="n">recall</span> <span class="o">==</span> <span class="n">f1</span> <span class="o">==</span> <span class="mi">1</span>
     <span class="k">del</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;predict&#39;</span><span class="p">]</span>
 </code></pre></div>
-<h3 id="without-mocking">Without Mocking</h3>
-<p>An alternative, if left with no force, to mocking within the testing script, is to add in an <code>if-else</code> condition with <code>if "pytest" in sys.modules:</code> within the operational script. This will check if pytest is imported in the environment, and if so, you can input a dummy value.</p>
+<h4 id="without-mocking">Without Mocking</h4>
+<p>An alternative, to mocking within the testing script, is to add in an <code>if-else</code> condition with <code>if "pytest" in sys.modules:</code> within the operational script. This will check if pytest is imported in the environment, and if so, you can input a dummy value.</p>
+<p>This is especially useful for scripts that lie outside any class or functions.</p>
 <div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="s2">&quot;pytest&quot;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
     <span class="n">modelname</span> <span class="o">=</span> <span class="s2">&quot;return value&quot;</span>
 <span class="k">else</span><span class="p">:</span>
