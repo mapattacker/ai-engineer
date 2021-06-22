@@ -574,6 +574,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#pytest" class="md-nav__link">
+    Pytest
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#postman" class="md-nav__link">
     Postman
   </a>
@@ -713,6 +720,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#pytest" class="md-nav__link">
+    Pytest
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#postman" class="md-nav__link">
     Postman
   </a>
@@ -771,6 +785,27 @@
                 
                 
                 <h1 id="api-tests">API Tests</h1>
+<h2 id="pytest">Pytest</h2>
+<p>To conduct unit or integration tests in pytest, we can use Flask's <code>test_client()</code> method and call it as a fixture.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;project&quot;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">app</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">client</span><span class="p">():</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">test_client</span><span class="p">()</span>
+    <span class="k">yield</span> <span class="n">app</span>
+
+
+<span class="k">def</span> <span class="nf">test_health_check</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;status check&quot;&quot;&quot;</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span> <span class="o">==</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;ok&quot;</span><span class="p">}</span>
+</code></pre></div>
 <h2 id="postman">Postman</h2>
 <p><a href="https://www.postman.com">Postman</a> allows us to write unit-test cases easily. This is done by creating a folder called collections from the left panel, and inside it, we can create individual requests, with a proper unit-test name for them.</p>
 <figure>
