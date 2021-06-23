@@ -871,6 +871,11 @@
 <div class="highlight"><pre><span></span><code>kernprof -l &lt;script_name&gt;.py
 python -m line_profiler &lt;script_name&gt;.py.lprof
 </code></pre></div>
+<figure>
+  <img src="https://raw.githubusercontent.com/mapattacker/ai-engineer/master/images/line-profiler.png" style="width:100%" />
+  <figcaption>Profile Result</figcaption>
+</figure>
+
 <h2 id="memory-profiler">Memory Profiler</h2>
 <p>Another libray that works similarly but for memory is <a href="https://github.com/pythonprofilers/memory_profiler">memory_profiler</a>. Same as before, we just need to add <code>@profile</code> at the function, followed by the command <code>python -m memory_profiler &lt;script&gt;.py</code></p>
 <p>This will generate a report in the terminal as shown.</p>
@@ -887,11 +892,6 @@ python -m line_profiler &lt;script_name&gt;.py.lprof
     <span class="m">20</span>  <span class="m">319</span>.242 MiB   <span class="m">88</span>.645 MiB           <span class="m">1</span>       <span class="nv">predictor</span> <span class="o">=</span> Predict<span class="o">(</span>config.PARAMS<span class="o">[</span><span class="m">0</span>:5<span class="o">]</span>, config.l0, api_model_name<span class="o">)</span>
     <span class="m">21</span>  <span class="m">319</span>.242 MiB    <span class="m">0</span>.000 MiB           <span class="m">1</span>       <span class="k">return</span> predictor
 </code></pre></div>
-<figure>
-  <img src="https://raw.githubusercontent.com/mapattacker/ai-engineer/master/images/line-profiler.png" style="width:100%" />
-  <figcaption>Profile Result</figcaption>
-</figure>
-
 <h2 id="load-test">Load Test</h2>
 <p>Load testing is the process of determination of behavior of system when multiple users access it at the same time. </p>
 <p><a href="https://locust.io/">Locust</a> is a popular open source load testing library developed in python. We install it using <code>pip install locust</code>. And write the following script, saving it as <code>locustfile.py</code>.</p>
