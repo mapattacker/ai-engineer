@@ -615,6 +615,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#memory-profiler" class="md-nav__link">
+    Memory Profiler
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#load-test" class="md-nav__link">
     Load Test
   </a>
@@ -761,6 +768,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#memory-profiler" class="md-nav__link">
+    Memory Profiler
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#load-test" class="md-nav__link">
     Load Test
   </a>
@@ -856,6 +870,22 @@
 <p>Then we create the report by using the <code>kernprof -l</code> command; a <code>.lprof</code> report is generated. Following which, we view the report with the <code>python -m line_profiler</code> command.</p>
 <div class="highlight"><pre><span></span><code>kernprof -l &lt;script_name&gt;.py
 python -m line_profiler &lt;script_name&gt;.py.lprof
+</code></pre></div>
+<h2 id="memory-profiler">Memory Profiler</h2>
+<p>Another libray that works similarly but for memory is <a href="https://github.com/pythonprofilers/memory_profiler">memory_profiler</a>. Same as before, we just need to add <code>@profile</code> at the function, followed by the command <code>python -m memory_profiler &lt;script&gt;.py</code></p>
+<p>This will generate a report in the terminal as shown.</p>
+<div class="highlight"><pre><span></span><code>Line <span class="c1">#    Mem usage    Increment  Occurences   Line Contents</span>
+<span class="o">============================================================</span>
+    <span class="m">12</span>   <span class="m">76</span>.180 MiB   <span class="m">76</span>.180 MiB           <span class="m">1</span>   @profile
+    <span class="m">13</span>                                         def load_model<span class="o">(</span>config<span class="o">)</span>:
+    <span class="m">14</span>   <span class="m">76</span>.180 MiB    <span class="m">0</span>.000 MiB           <span class="m">1</span>       <span class="nv">api_model_name</span> <span class="o">=</span> os.path.join<span class="o">(</span>config.modeldir, config.model_name<span class="o">)</span>
+    <span class="m">15</span>
+    <span class="m">16</span>  <span class="m">230</span>.598 MiB  <span class="m">154</span>.418 MiB           <span class="m">1</span>       <span class="nv">model</span> <span class="o">=</span> pickle.load<span class="o">(</span>open<span class="o">(</span>api_model_name, <span class="s2">&quot;rb&quot;</span><span class="o">))</span>
+    <span class="m">17</span>  <span class="m">230</span>.598 MiB    <span class="m">0</span>.000 MiB           <span class="m">1</span>       <span class="k">if</span> not isinstance<span class="o">(</span>model, dict<span class="o">)</span>:
+    <span class="m">18</span>                                                 raise ValueError<span class="o">(</span><span class="s2">&quot;WARNING: this pickle file at {} is not a dict&quot;</span>.format<span class="o">(</span>api_model_name<span class="o">))</span>
+    <span class="m">19</span>
+    <span class="m">20</span>  <span class="m">319</span>.242 MiB   <span class="m">88</span>.645 MiB           <span class="m">1</span>       <span class="nv">predictor</span> <span class="o">=</span> Predict<span class="o">(</span>config.PARAMS<span class="o">[</span><span class="m">0</span>:5<span class="o">]</span>, config.l0, api_model_name<span class="o">)</span>
+    <span class="m">21</span>  <span class="m">319</span>.242 MiB    <span class="m">0</span>.000 MiB           <span class="m">1</span>       <span class="k">return</span> predictor
 </code></pre></div>
 <figure>
   <img src="https://raw.githubusercontent.com/mapattacker/ai-engineer/master/images/line-profiler.png" style="width:100%" />

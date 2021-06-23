@@ -1193,11 +1193,16 @@ services:
             options:
                 max-size: &quot;10m&quot;
                 max-file: &quot;5&quot;
+        deploy:
+          resources:
+            limits:
+              cpus: &#39;0.001&#39;
+              memory: 50M
         volumes:
             - type: bind
               source: /Users/jake/Desktop/source
               target: /model
-        restart: always
+        restart: unless-stopped
     maskdetection:
         build: ./maskdetection
         container_name: maskdetection
@@ -1213,7 +1218,7 @@ services:
                         &quot;trd&quot;:&quot;http://172.17.0.1:5003/product-trending&quot;,
                         &quot;psn&quot;:&quot;http://172.17.0.1:5004/product-personalised&quot;}&#39;
             - &#39;resultSize=10&#39;
-        restart: always
+        restart: unless-stopped
 </code></pre></div>
 <p>The commands follows docker commands closely, with some of the more important ones as follows.</p>
 <table>

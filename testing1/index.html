@@ -1134,10 +1134,10 @@
 <p>An alternative, to mocking within the testing script, is to add in an <code>if-else</code> condition with <code>if "pytest" in sys.modules:</code> within the operational script. This will check if pytest is imported in the environment, and if so, you can input a dummy value.</p>
 <p>This is especially useful for scripts that lie outside any class or functions.</p>
 <div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="s2">&quot;pytest&quot;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
-    <span class="n">modelname</span> <span class="o">=</span> <span class="s2">&quot;return value&quot;</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;return value&quot;</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="n">modelpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">modeldir</span><span class="p">,</span> <span class="n">convert_model_name</span><span class="p">)</span>
-    <span class="n">modelname</span> <span class="o">=</span> <span class="n">load_model_item2vec_sku</span><span class="p">(</span><span class="n">modelpath</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">load_model_item2vec_sku</span><span class="p">(</span><span class="n">modelpath</span><span class="p">)</span>
 </code></pre></div>
 <hr>
 
