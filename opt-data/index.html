@@ -844,12 +844,12 @@
 <span class="c1"># with isin, 0.00440s, x2.9</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;antecedents&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">item</span><span class="p">])]</span>
 
-<span class="c1"># with numpy, 0.004175s, x3.1</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;antecedents&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="p">[</span><span class="n">item</span><span class="p">])]</span>
-
 <span class="c1"># with indexing, 0.004342s x3.0</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;antecedents&quot;</span><span class="p">)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">item</span><span class="p">])]</span>
+
+<span class="c1"># with numpy, 0.004175s, x3.1</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;antecedents&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="p">[</span><span class="n">item</span><span class="p">])]</span>
 
 <span class="c1"># using category datatype, 0.000608s, x211.8</span>
 <span class="n">df</span><span class="p">[</span><span class="s2">&quot;antecedents&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;antecedents&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>

@@ -595,25 +595,32 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#memory-leak" class="md-nav__link">
-    Memory Leak
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
 </li>
       
         <li class="md-nav__item">
+  <a href="#memory-leak" class="md-nav__link">
+    Memory Leak
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#profiling" class="md-nav__link">
+    Profiling
+  </a>
+  
+    <nav class="md-nav" aria-label="Profiling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#latency-profiler" class="md-nav__link">
     Latency Profiler
   </a>
   
-    <nav class="md-nav" aria-label="Latency Profiler">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
   <a href="#memory-profiler" class="md-nav__link">
@@ -754,25 +761,32 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#memory-leak" class="md-nav__link">
-    Memory Leak
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
 </li>
       
         <li class="md-nav__item">
+  <a href="#memory-leak" class="md-nav__link">
+    Memory Leak
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#profiling" class="md-nav__link">
+    Profiling
+  </a>
+  
+    <nav class="md-nav" aria-label="Profiling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#latency-profiler" class="md-nav__link">
     Latency Profiler
   </a>
   
-    <nav class="md-nav" aria-label="Latency Profiler">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
   <a href="#memory-profiler" class="md-nav__link">
@@ -855,10 +869,13 @@
 <p>We can export the entire unit-tests script as a file json, and pass it to someone.</p>
 <h3 id="newman">Newman</h3>
 <p>With the collections in json format, we can run that script in the commandline in our CI/CD pipeline, requiring installing npm &amp; then newman, <code>npm install newman</code>. See more from Postman's <a href="https://learning.postman.com/docs/running-collections/using-newman-cli/command-line-integration-with-newman/#:%7E:text=Newman%20is%20a%20command%20line,directly%20from%20the%20command%20line.&amp;text=Newman%20maintains%20feature%20parity%20with,the%20collection%20runner%20in%20Postman.">website</a>.</p>
-<h3 id="memory-leak">Memory Leak</h3>
+<h2 id="memory-leak">Memory Leak</h2>
 <p>Memory leak is an insidious fault in the code that can consume the entire memory (RAM or GPU) over time &amp; crash the application, together with other applications in the same server. To detect this, we usually need to run multiple requests over a period of time to the API to see if the memory builds up. We can use an app I developed to do this; <a href="https://github.com/mapattacker/streamlit-memoryleak">memoryleak-checker</a>.</p>
 <p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/memory.png?raw=true" /></p>
-<h2 id="latency-profiler">Latency Profiler</h2>
+<h2 id="profiling">Profiling</h2>
+<p>After detecting potential issues, we will need to profile the code to see how to can resolve or improve on the issue. </p>
+<p><a href="https://jakevdp.github.io/PythonDataScienceHandbook/01.07-timing-and-profiling.html">Jake VanderPlas</a> provides an excellent description on how to do it using magic commands in jupyter notebooks.</p>
+<h3 id="latency-profiler">Latency Profiler</h3>
 <p>If the latency is not up to par, we can profile our code to identify bottlenecks in the latency line by line. This is done using the library <a href="https://github.com/rkern/line_profiler">line-profiler</a>.</p>
 <p>To use the library, we first add the decorator <code>@profile</code> to the functions or methods you want to analyse.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@profile</span>
@@ -890,7 +907,7 @@ python -m line_profiler &lt;script_name&gt;.py.lprof
 
 <h3 id="memory-profiler">Memory Profiler</h3>
 <p>Another libray that works similarly but for memory is <a href="https://github.com/pythonprofilers/memory_profiler">memory_profiler</a>. Same as before, we just need to add <code>@profile</code> at the function or method, followed by the command <code>python -m memory_profiler &lt;script&gt;.py</code></p>
-<p>This will generate a report in the terminal as shown.</p>
+<p>This will generate a report in the terminal as shown. For variables that consume a lot of memory, but are not required downstream, we can delete it via <code>del &lt;variable-name&gt;</code>.</p>
 <div class="highlight"><pre><span></span><code>Line <span class="c1">#    Mem usage    Increment  Occurences   Line Contents</span>
 <span class="o">============================================================</span>
     <span class="m">12</span>   <span class="m">76</span>.180 MiB   <span class="m">76</span>.180 MiB           <span class="m">1</span>   @profile
