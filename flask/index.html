@@ -1080,11 +1080,10 @@
 <p>It has very limited parameters to manage the server, but luckily wrappers are available to connect Flask to a feature rich web server. One of the best is <a href="https://gunicorn.org">Gunicorn</a>; a mature, fully featured server and process manager. It allows automated worker production and management through simple configurations.</p>
 <h3 id="command">Command</h3>
 <div class="highlight"><pre><span></span><code><span class="c1"># gunicorn --bind &lt;flask-ip&gt;:&lt;flask-port&gt; &lt;flask-script&gt;:&lt;flask-app&gt;</span>
-gunicorn --bind <span class="m">0</span>.0.0.0:5000 --preload serve_http:app
+gunicorn --bind <span class="m">0</span>.0.0.0:5000 serve_http:app
 </code></pre></div>
 <h3 id="config-file">Config File</h3>
 <p>Rather than entering all the configs when launching gunicorn, we can hard code some of them in a config file <code>gunicorn.conf.py</code>. With this, we can adjust the workers based on the machine's cores. Gunicorn's documentation recommend the number of workers to be set as <code>(total-cpu * 2) + 1</code>. One of the most important config besides workers is the <code>preload</code>, this allows the preloading of your model in memory and shared among all the workers. If not, each of your worker will load the model separately and consume a lot, if not all the RAM in the machine.</p>
-<p>With the below, our gunicorn command can be reduced to just <code>gunicorn --bind 0.0.0.0:5000 app:app</code></p>
 <div class="highlight"><pre><span></span><code><span class="c1"># gunicorn.conf.py</span>
 <span class="c1"># to see all flask stdout, we can change the log level to debug</span>
 
