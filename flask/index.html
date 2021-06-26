@@ -502,6 +502,26 @@
     Gunicorn
   </a>
   
+    <nav class="md-nav" aria-label="Gunicorn">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#command" class="md-nav__link">
+    Command
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#config-file" class="md-nav__link">
+    Config File
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -806,6 +826,26 @@
     Gunicorn
   </a>
   
+    <nav class="md-nav" aria-label="Gunicorn">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#command" class="md-nav__link">
+    Command
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#config-file" class="md-nav__link">
+    Config File
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1037,16 +1077,17 @@
 </code></pre></div>
 <h2 id="gunicorn">Gunicorn</h2>
 <p>Flask as a server is meant for development, as it tries to remind you everytime you launch it, giving the message <code>WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.</code></p>
-<p>It has very limited parameters to manage the server, but luckily wrappers are available to connect Flask to a feature rich web server. Examples include timeout, and multiple workers.</p>
-<p><a href="https://gunicorn.org">Gunicorn</a> is one of the most popular, and also probably the easiest to use. The binding of the host as mentioned previously in flask, can be done in gunicorn as described below.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># gunicorn -w 2 flaskscript:flaskapp</span>
-<span class="c1"># it uses port 8000 by default, but we can change it</span>
-<span class="c1"># to see all flask stdout, we can change the log level to debug</span>
-gunicorn --bind <span class="m">0</span>.0.0.0:5000 --preload -w <span class="m">2</span> --timeout<span class="o">=</span><span class="m">10</span> --log-level info serve_http:app
+<p>It has very limited parameters to manage the server, but luckily wrappers are available to connect Flask to a feature rich web server. One of the best is <a href="https://gunicorn.org">Gunicorn</a>; a mature, fully featured server and process manager. It allows automated worker production and management through simple configurations.</p>
+<h3 id="command">Command</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># gunicorn --bind &lt;flask-ip&gt;:&lt;flask-port&gt; &lt;flask-script&gt;:&lt;flask-app&gt;</span>
+gunicorn --bind <span class="m">0</span>.0.0.0:5000 --preload serve_http:app
 </code></pre></div>
+<h3 id="config-file">Config File</h3>
 <p>Rather than entering all the configs when launching gunicorn, we can hard code some of them in a config file <code>gunicorn.conf.py</code>. With this, we can adjust the workers based on the machine's cores. Gunicorn's documentation recommend the number of workers to be set as <code>(total-cpu * 2) + 1</code>. One of the most important config besides workers is the <code>preload</code>, this allows the preloading of your model in memory and shared among all the workers. If not, each of your worker will load the model separately and consume a lot, if not all the RAM in the machine.</p>
 <p>With the below, our gunicorn command can be reduced to just <code>gunicorn --bind 0.0.0.0:5000 app:app</code></p>
 <div class="highlight"><pre><span></span><code><span class="c1"># gunicorn.conf.py</span>
+<span class="c1"># to see all flask stdout, we can change the log level to debug</span>
+
 <span class="kn">import</span> <span class="nn">multiprocessing</span>
 
 <span class="n">workers</span> <span class="o">=</span> <span class="p">(</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
