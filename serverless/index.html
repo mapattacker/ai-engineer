@@ -928,7 +928,7 @@ zappa init
 </code></pre></div>
 <p>Then, we will deploy it to the cloud, by stating the stage. Behind the scenes, it does all these:</p>
 <ul>
-<li>New user policy is created for lambda execution</li>
+<li>New user role is created for lambda execution</li>
 <li>Zappa will do some wrapping of your code &amp; libraries, then package it as a zip</li>
 <li>The zip will be uploaded to an S3 bucket stated in zappa_settings.json</li>
 <li>Zip file is deleted</li>
@@ -947,37 +947,40 @@ zappa init
 </thead>
 <tbody>
 <tr>
-<td>zappa init</td>
+<td><code>zappa init</code></td>
 <td>create a <code>zappa_settings.json</code> file</td>
 </tr>
 <tr>
-<td>zappa deploy <stage></td>
+<td><code>zappa deploy &lt;stage&gt;</code></td>
 <td>deploy stage as specified in json</td>
 </tr>
 <tr>
-<td>zappa update <stage></td>
+<td><code>zappa update &lt;stage&gt;</code></td>
 <td>update stage</td>
 </tr>
 <tr>
-<td>zappa undeploy <stage></td>
+<td><code>zappa undeploy &lt;stage&gt;</code></td>
 <td>delete lambda &amp; API Gateway</td>
 </tr>
 <tr>
-<td>zappa package <stage></td>
+<td><code>zappa package &lt;stage&gt;</code></td>
 <td>zip all files together</td>
 </tr>
 <tr>
-<td>zappa tail <stage></td>
+<td><code>zappa tail &lt;stage&gt;</code></td>
 <td>print tail logs from CloudWatch</td>
 </tr>
 <tr>
-<td>zappa status</td>
+<td><code>zappa status</code></td>
 <td>check status</td>
 </tr>
 </tbody>
 </table>
 <h3 id="lambda-execution-role">Lambda Execution Role</h3>
-<p>The default execution role created by zappa is too liberal. From the author "It grants access to all actions for all resources for types CloudWatch, S3, Kinesis, SNS, SQS, DynamoDB, and Route53; lambda:InvokeFunction for all Lambda resources; Put to all X-Ray resources; and all Network Interface operations to all EC2 resources".</p>
+<p>The default execution role created by zappa is too liberal. From the author:</p>
+<blockquote>
+<p>It grants access to all actions for all resources for types CloudWatch, S3, Kinesis, SNS, SQS, DynamoDB, and Route53; lambda:InvokeFunction for all Lambda resources; Put to all X-Ray resources; and all Network Interface operations to all EC2 resources</p>
+</blockquote>
 <p>To set a manual policy, we need to set the "manage_roles" to <code>false</code> and include either the "role_name" or "role_arn". We then create the role &amp; policies in AWS. </p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
     <span class="nt">&quot;dev&quot;</span><span class="p">:</span> <span class="p">{</span>
