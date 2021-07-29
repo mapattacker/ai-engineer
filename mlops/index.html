@@ -14,7 +14,7 @@
     
     
       
-        <title>Security - AI Engineer Guide</title>
+        <title>MLOps - AI Engineer Guide</title>
       
     
     
@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#security-scans" class="md-skip">
+        <a href="#mlops" class="md-skip">
           Skip to content
         </a>
       
@@ -93,7 +93,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Security
+              MLOps
             
           </span>
         </div>
@@ -245,11 +245,20 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../mlops/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         MLOps
       </a>
+      
     </li>
   
 
@@ -350,77 +359,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Security
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../security/" class="md-nav__link">
         Security
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#source-code-scan" class="md-nav__link">
-    Source Code Scan
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dependency-scan" class="md-nav__link">
-    Dependency Scan
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#secrets-scan" class="md-nav__link">
-    Secrets Scan
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#pre-commit" class="md-nav__link">
-    Pre-Commit
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#synk-advisor" class="md-nav__link">
-    Synk Advisor
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -713,49 +656,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#source-code-scan" class="md-nav__link">
-    Source Code Scan
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dependency-scan" class="md-nav__link">
-    Dependency Scan
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#secrets-scan" class="md-nav__link">
-    Secrets Scan
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#pre-commit" class="md-nav__link">
-    Pre-Commit
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#synk-advisor" class="md-nav__link">
-    Synk Advisor
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -766,139 +666,26 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/security.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/mlops.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="security-scans">Security Scans</h1>
-<p>If your work moves to production, you will definitely want to ensure that you have done your part to identify &amp; resolve any security vulnerabilities present in the source code. We can use various open-sourced libraries to help out. They should, ideally be placed in a precommit, or added to the repository's CI automated pipeline.</p>
-<h2 id="source-code-scan">Source Code Scan</h2>
-<p>Also known as Static Application Security Test (SAST), the most popular python src scanning is <a href="https://bandit.readthedocs.io/en/latest/">bandit</a>. Each vulnerability detected is classified by their severity &amp; confidence level.</p>
+                <h1 id="mlops">MLOps</h1>
+<p>A machine learning lifecycle doesn't follow the typical software development lifecycle, though the essential parts of <strong>automation</strong>, <strong>traceability</strong>, and <strong>monitoring</strong> are still key to its success. This is where a modified form of CI/CD for machine learning comes in, i.e. MLOps.</p>
+<p><strong>Maturity Model</strong></p>
+<p>A maturity model is a tool that helps people assess the current effectiveness of a person or group and supports figuring out what capabilities they need to acquire next in order to improve their performance. You can use it as a metric for establishing the progressive requirements needed to measure the maturity of a machine learning production environment and its associated processes.</p>
+<p>Both <a href="https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning">Google</a> and <a href="https://docs.microsoft.com/en-us/azure/architecture/example-scenario/mlops/mlops-maturity-model">Azure</a> provide a good detail description of an MLOps maturity model. </p>
+<p>I have taken part of Azure's and summarised it below.</p>
 <table>
-<thead>
-<tr>
-<th>Desc</th>
-<th>CMD</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Installation</td>
-<td><code>pip install bandit</code></td>
-</tr>
-<tr>
-<td>Single File</td>
-<td><code>bandit your_file.py</code></td>
-</tr>
-<tr>
-<td>Directory</td>
-<td><code>bandit -r ~/your_repos/project</code></td>
-</tr>
-<tr>
-<td>Display only High Severities</td>
-<td><code>bandit -r ~/your_repos/project -lll</code></td>
-</tr>
-<tr>
-<td>Json Report</td>
-<td><code>bandit --format json --recursive project/ -l --output bandit.json</code></td>
-</tr>
-</tbody>
+  <tr>
+    <th>1: NO MLOps</th>
+    <th>2: DevOps, No MLOps</th> 
+    <th>3: Automated Training</th>
+    <th>4: Automated Deployment</th>
+    <th>5: Automated Retraining</th>
+  </tr>
 </table>
-<p>We can skip certain vulnerabilities, by placing <code>.bandit</code> file at directory to check with the contents as such.</p>
-<div class="highlight"><pre><span></span><code>[bandit]
-skips: B104,B101
-</code></pre></div>
-<p>Here is a bash script to detect the presence of high vulnerabilities.</p>
-<div class="highlight"><pre><span></span><code>bandit -r ../<span class="nv">$module</span> -lll
-bandit --format json --recursive ../<span class="nv">$module</span> --output bandit.json
-<span class="nv">high_count</span><span class="o">=</span><span class="k">$(</span>cat bandit.json <span class="p">|</span> jq <span class="s1">&#39;[.results [] | select(.issue_severity==&quot;HIGH&quot;)]&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;. | length&#39;</span><span class="k">)</span>
-</code></pre></div>
-<h2 id="dependency-scan">Dependency Scan</h2>
-<p>This scans for vulnerabilities in python libraries. <a href="https://github.com/pyupio/safety">safety</a> is decent open-sourced library with the free database being updated once a month. However, it does not classify vulnerabilities by severity levels, nor does it scan for libraries which have their own open-source dependencies.</p>
-<table>
-<thead>
-<tr>
-<th>Desc</th>
-<th>CMD</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Installation</td>
-<td><code>pip install safety</code></td>
-</tr>
-<tr>
-<td>Check installed packages in VM</td>
-<td><code>safety check</code></td>
-</tr>
-<tr>
-<td>Check requirements.txt, does not include dependencies</td>
-<td><code>safety check -r requirements.txt</code></td>
-</tr>
-<tr>
-<td>Full Report</td>
-<td><code>safety check</code></td>
-</tr>
-<tr>
-<td>Json Report</td>
-<td><code>safety check --json --output insecure_report.json</code></td>
-</tr>
-</tbody>
-</table>
-<h2 id="secrets-scan">Secrets Scan</h2>
-<p><a href="https://github.com/Yelp/detect-secrets">detect-secrets</a> scans for the presence of a variety of secrets &amp; passwords. It creates a json output, with the key "results" filled if any secrets are detected. There are other libraries that does the same job, like <a href="https://github.com/awslabs/git-secrets">aws's git-secrets</a>.</p>
-<table>
-<thead>
-<tr>
-<th>Desc</th>
-<th>CMD</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Installation</td>
-<td><code>pip install detect-secrets</code></td>
-</tr>
-<tr>
-<td>Directory</td>
-<td><code>detect-secrets scan directory/*</code></td>
-</tr>
-</tbody>
-</table>
-<hr>
-
-<h2 id="pre-commit">Pre-Commit</h2>
-<p>Pre-commit is a git hook that you preconfig to run certain scripts, in this case, the above ones before committing to git. This prevents the hassle of committing sensitive info, or avoid the hassle of cleaning up the git history later.</p>
-<p>A useful compilation is done by <a href="https://www.laac.dev/blog/automating-convention-linting-formatting-python/">laac.dev</a>.</p>
-<ul>
-<li>Installation: <code>pip install pre-commit</code></li>
-<li>create config file at root of project: <code>.pre-commit-config.yaml</code></li>
-<li>Installation (into git hook): <code>pre-commit install</code></li>
-<li>Uninstallation (from git hook): <code>pre-commit uninstall</code></li>
-<li>Add Files for Commit: <code>git add files.py</code></li>
-<li>Run Commit, and Precommit will autorun: <code>git commit -m 'something'</code></li>
-<li>Skip Hook: <code>SKIP=flake8 git commit -m "something"</code></li>
-</ul>
-<p>Here is an example of the <code>.pre-commit-config.yaml</code></p>
-<div class="highlight"><pre><span></span><code>default_language_version:
-  python: python3
-repos:
-  - repo: https://github.com/PyCQA/bandit
-    rev: 1.7
-    hooks:
-      - id: bandit
-        args: [-lll]
-  - repo: https://github.com/Yelp/detect-secrets
-    rev: v0.13.0
-    hooks:
-      - id: detect-secrets
-        args: [--no-base64-string-scan]
-</code></pre></div>
-<p>Another alternative which I prefer is using tox to compile all the testing and security scans together in a single file. See my section on <a href="https://mapattacker.github.io/ai-engineer/testing1/#tox">testing</a> for more.</p>
-<h2 id="synk-advisor">Synk Advisor</h2>
-<p><a href="https://snyk.io/advisor/">Synk Advisor</a> is a great site to check the security of open-source libraries. Besides checking using known security vulnerabilities as a metric, it also establishes an overall health score using the library's popularity, maintenance, and community.</p>
-<p><img alt="" src="https://github.com/mapattacker/ai-engineer/blob/master/images/security-synk.png?raw=true" /></p>
                 
               
               
@@ -917,7 +704,7 @@ repos:
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
-        <a href="../mlflow/" class="md-footer__link md-footer__link--prev" rel="prev">
+        <a href="../cicd/" class="md-footer__link md-footer__link--prev" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -926,19 +713,19 @@ repos:
               <span class="md-footer__direction">
                 Previous
               </span>
-              Model Version
+              CI/CD
             </div>
           </div>
         </a>
       
       
-        <a href="../opt-model/" class="md-footer__link md-footer__link--next" rel="next">
+        <a href="../virtual_env/" class="md-footer__link md-footer__link--next" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Model
+              Virtual Environment
             </div>
           </div>
           <div class="md-footer__button md-icon">

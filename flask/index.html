@@ -232,6 +232,36 @@
   
   
     <li class="md-nav__item">
+      <a href="../cicd/" class="md-nav__link">
+        CI/CD
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mlops/" class="md-nav__link">
+        MLOps
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../virtual_env/" class="md-nav__link">
         Virtual Environment
       </a>
@@ -340,14 +370,14 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
       
-      <label class="md-nav__link" for="__nav_9">
+      <label class="md-nav__link" for="__nav_11">
         Optimization
         <span class="md-nav__icon md-icon"></span>
       </label>
       <nav class="md-nav" aria-label="Optimization" data-md-level="1">
-        <label class="md-nav__title" for="__nav_9">
+        <label class="md-nav__title" for="__nav_11">
           <span class="md-nav__icon md-icon"></span>
           Optimization
         </label>
@@ -408,14 +438,14 @@
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_10" type="checkbox" id="__nav_10" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_12" type="checkbox" id="__nav_12" checked>
       
-      <label class="md-nav__link" for="__nav_10">
+      <label class="md-nav__link" for="__nav_12">
         Deployment
         <span class="md-nav__icon md-icon"></span>
       </label>
       <nav class="md-nav" aria-label="Deployment" data-md-level="1">
-        <label class="md-nav__title" for="__nav_10">
+        <label class="md-nav__title" for="__nav_12">
           <span class="md-nav__icon md-icon"></span>
           Deployment
         </label>
@@ -629,14 +659,14 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_12" type="checkbox" id="__nav_12" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_14" type="checkbox" id="__nav_14" >
       
-      <label class="md-nav__link" for="__nav_12">
+      <label class="md-nav__link" for="__nav_14">
         Testing
         <span class="md-nav__icon md-icon"></span>
       </label>
       <nav class="md-nav" aria-label="Testing" data-md-level="1">
-        <label class="md-nav__title" for="__nav_12">
+        <label class="md-nav__title" for="__nav_14">
           <span class="md-nav__icon md-icon"></span>
           Testing
         </label>
@@ -736,21 +766,6 @@
     <li class="md-nav__item">
       <a href="../monitoring/" class="md-nav__link">
         Monitoring
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../cicd/" class="md-nav__link">
-        CI/CD
       </a>
     </li>
   
@@ -913,6 +928,8 @@
 <p>Below is a simple flask app to serve an ML model's prediction. Assuming this app is named <code>serve_http.py</code>, we can launch this flask app locally via <code>python serve_http.py</code>. The API can be accessed via <code>http://localhost:5000/</code>.</p>
 <p>It is important to set the <code>host="0.0.0.0"</code>, so that it binds to all network interfaces of the container, and will be callable from the outside.</p>
 <div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;flask app for model prediction&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">traceback</span>
+
 <span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span>
 
 <span class="kn">from</span> <span class="nn">predict</span> <span class="kn">import</span> <span class="n">detectObj</span>
@@ -937,19 +954,24 @@
         <span class="n">min_width</span> <span class="o">=</span> <span class="n">features</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;min_width&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="mf">0.03</span>
         <span class="n">maxResults</span> <span class="o">=</span> <span class="n">features</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;maxResults&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">20</span>
         <span class="n">score_th</span> <span class="o">=</span> <span class="n">features</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;score_th&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="mf">0.3</span>
-        <span class="n">nms_iou</span> <span class="o">=</span> <span class="n">features</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nms_iou&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="mf">0.4</span>
+        <span class="n">nms_iou</span> <span class="o">=</span> <span class="n">features</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nms_iou&quot;</span><span class="p">)</span> <span class="c1"># using .get will return None if request does not include key-value</span>
 
         <span class="c1"># get pred-output</span>
-        <span class="n">pred_bbox</span> <span class="o">=</span> <span class="n">detectObj</span><span class="p">(</span>
-            <span class="n">decodedImage</span><span class="p">,</span> <span class="n">min_height</span><span class="p">,</span> <span class="n">min_width</span><span class="p">,</span> <span class="n">maxResults</span><span class="p">,</span> <span class="n">score_th</span><span class="p">,</span> <span class="n">nms_iou</span>
-        <span class="p">)</span>
+        <span class="n">pred_bbox</span> <span class="o">=</span> <span class="n">detectObj</span><span class="p">(</span><span class="n">decodedImage</span><span class="p">,</span> 
+                            <span class="n">min_height</span><span class="p">,</span> 
+                            <span class="n">min_width</span><span class="p">,</span> 
+                            <span class="n">maxResults</span><span class="p">,</span> 
+                            <span class="n">score_th</span><span class="p">,</span> 
+                            <span class="n">nms_iou</span><span class="p">)</span>
 
         <span class="c1"># format to response json output</span>
         <span class="n">json_output</span> <span class="o">=</span> <span class="n">array2json</span><span class="p">(</span><span class="n">pred_bbox</span><span class="p">,</span> <span class="n">class_mapper</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">json_output</span>
 
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="n">tb</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">()</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">tb</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;errorMessages&quot;</span><span class="p">:</span> <span class="n">tb</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)}</span>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
