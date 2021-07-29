@@ -255,9 +255,38 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          MLOps
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         MLOps
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#maturity-model" class="md-nav__link">
+    Maturity Model
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -656,6 +685,21 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#maturity-model" class="md-nav__link">
+    Maturity Model
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -673,27 +717,32 @@
                 
                 <h1 id="mlops">MLOps</h1>
 <p>A machine learning lifecycle doesn't follow the typical software development lifecycle, though the essential parts of <strong>automation</strong>, <strong>traceability</strong>, and <strong>monitoring</strong> are still key to its success. This is where a modified form of CI/CD for machine learning comes in, i.e. MLOps.</p>
-<p><strong>Maturity Model</strong></p>
-<p>A maturity model is a tool that helps people assess the current effectiveness of a person or group and supports figuring out what capabilities they need to acquire next in order to improve their performance. You can use it as a metric for establishing the progressive requirements needed to measure the maturity of a machine learning production environment and its associated processes.</p>
+<h2 id="maturity-model">Maturity Model</h2>
+<p>A maturity model is a tool that helps people assess the current effectiveness of a person or group and supports figuring out what capabilities they need to acquire next in order to improve their performance. </p>
+<p>We can use it as a metric for establishing the progressive requirements needed to measure the maturity of a machine learning production environment and its associated processes.</p>
 <p>Both <a href="https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning">Google</a> and <a href="https://docs.microsoft.com/en-us/azure/architecture/example-scenario/mlops/mlops-maturity-model">Azure</a> provide a good detail description of an MLOps maturity model. </p>
 <p>I have taken part of Azure's and summarised it below.</p>
 <table>
-  <tr>
-    <th>-</th>
-    <th>1: NO MLOps</th>
-    <th>2: DevOps, No MLOps</th> 
-    <th>3: Auto Training</th>
-    <th>4: Auto Deployment</th>
-    <th>5: Auto Retraining</th>
-  </tr>
-  <tr>
-    <th>Highlights</th>
-    <th>Entire lifecycle is manual</th> 
-    <th>Automated app builds and unit-tests</th>
-    <th>Training is centrally managed & traceable</th>
-    <th>Full traceability from deployment back to original data</th>
-    <th>Full system automation and monitoring</th>
-  </tr>
+    <thead>
+        <tr>
+            <th>-</th>
+            <th>1: NO MLOps</th>
+            <th>2: DevOps, No MLOps</th> 
+            <th>3: Auto Training</th>
+            <th>4: Auto Deployment</th>
+            <th>5: Auto Retraining</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Highlights</th>
+            <th>Entire lifecycle is manual</th> 
+            <th>Automated app builds and unit-tests</th>
+            <th>Training is centrally managed & traceable</th>
+            <th>Full traceability from deployment back to original data</th>
+            <th>Full system automation and monitoring</th>
+        </tr>
+    </tbody>
 </table>
                 
               
