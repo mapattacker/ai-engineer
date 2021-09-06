@@ -1033,7 +1033,7 @@
 
 <span class="k">COPY</span> requirements-serve.txt .
 <span class="k">RUN</span> pip install --upgrade pip
-<span class="k">RUN</span> pip install -r requirements-serve.txt
+<span class="k">RUN</span> pip install --no-cache-dir -r requirements-serve.txt
 
 <span class="k">COPY</span> . .
 
@@ -1213,7 +1213,9 @@ docker network ls
 <div class="highlight"><pre><span></span><code>version: &quot;3.2&quot;
 services:
     facedetection:
-        build: ./facedetection
+        build: 
+            context: ./project
+            dockerfile: Dockerfile-api
         container_name: facedetection
         ports:
             - 5001:5000
