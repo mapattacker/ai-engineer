@@ -614,6 +614,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#class" class="md-nav__link">
+    Class
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#fixtures" class="md-nav__link">
     Fixtures
   </a>
@@ -830,6 +837,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#class" class="md-nav__link">
+    Class
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#fixtures" class="md-nav__link">
     Fixtures
   </a>
@@ -915,7 +929,7 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/testing1.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/testing-pytest.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
@@ -1005,6 +1019,23 @@
 <span class="s">    ignore::RuntimeWarning</span>
 <span class="s">    ignore::UserWarning</span>
 <span class="s">    ignore::FutureWarning</span>
+</code></pre></div>
+<h3 id="class">Class</h3>
+<p>We can place our classes in classes to better organise them. Note that the class name must start with a <code>Test_*</code> for pytest to register, and each method name must have <code>test_</code>. Below is an example</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Test_personalised</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">test_ucf_present_no_customer_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">RequestSchema</span><span class="p">(</span><span class="o">**</span><span class="n">data1</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">json</span><span class="p">())[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;msg&quot;</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="n">msg</span> <span class="o">==</span> <span class="s2">&quot;error msg 1&quot;</span>
+
+    <span class="k">def</span> <span class="nf">test_adl_present_no_customer_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">RequestSchema</span><span class="p">(</span><span class="o">**</span><span class="n">data2</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">json</span><span class="p">())[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;msg&quot;</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="n">msg</span> <span class="o">==</span> <span class="s2">&quot;error msg 2&quot;</span>
 </code></pre></div>
 <h3 id="fixtures">Fixtures</h3>
 <p>When creating test scripts, we often need to run some common code before we create the test case itself. Instead of repeating the same code in every test, we create fixtures that establish a baseline code for our tests. Some common fixtures include data loaders, or initialize database connections.</p>
