@@ -86,6 +86,28 @@ git push
 
 It is essential to commit small, bite-size code changes to prevent the reviewer from being overwhelmed when validating your code during a merge request.
 
+### Resets
+
+Sometimes, we might accidentally add or commit our changes erroneously. To reset them, we need to use the `reset` command.
+
+```bash
+# put latest commit history to staging
+git reset --soft HEAD~1
+
+# remove all staging files
+git reset
+# remove specific staging file
+git reset HEAD <file.py>
+```
+
+### Revert
+
+If we want to revert commits in the remote, we can use the following.
+
+```python
+# git push -f origin <commit-hash>:<branch-name>
+git push -f origin 4a30214b819:master
+```
 
 ### Workflow
 
@@ -113,10 +135,15 @@ We can add tags, usually for release versions, so that it is easy to revert back
 
 [BFG Repo-Cleaner](https://rtyley.github.io/bfg-repo-cleaner/) is a 3rd party java file used to remove files that are not accidentally uploaded, e.g., passwords, blobs. Download their file from the website and follow the instructions there, or from the example below.
 
+We cannot delete specific files and folders based on path, the reasoning given by the developer of BFG in [stackoverflow](https://stackoverflow.com/questions/21142986/remove-filenames-from-specific-path).
+
 | CMD | Desc |
 |-|-|
 | `git clone --mirror git@gitlab.com:project/repo-name.git` | clone only the .git |
-| `bfg --delete-files "*.{png,jpg,gif}" repo-name.git` | delete certain file extensions |
+| `java -jar bfg-<version>.jar --delete-files "*.{png,jpg,gif}" repo-name.git` | delete certain file extensions |
+| `java -jar bfg-<version>.jar --delete-folders <foldername> repo-name.git` | delete all folders with the folder model |
 | `cd repo-name.git` | go into git directory |
 | `git reflog expire --expire=now --all && git gc --prune=now --aggressive` | delete old files |
 | `git push --force` | push updated git to remote |
+
+After uploading the new git history to the repository, it is important to not push any of you or your team's legacy git history back to the repo.

@@ -5,6 +5,7 @@ Ah... the new world of microservices. Docker is the company that stands at the f
 Some facts:
 
  * All Docker images are linux, usually either alpine or debian
+ * alpine installations will need `apk`, while debian uses `apt`
  * Docker is not the only container service available, but the most widely used
 
 ## Basics
@@ -13,7 +14,7 @@ There are various `nouns` that are important in the Docker world.
 
 | Noun | Desc |
 |-|-|
-| Image |  Installed version of an application |
+| Image | Installed version of an application |
 | Container |  Launched instance of an application from an image |
 | Container Registry |  a hosting platform to store your images. E.g. Docker Container Registry (DCR), AWS Elastic Container Registry (ECR) |
 | Dockerfile |  A file containing instructions to build an image |
@@ -48,7 +49,7 @@ RUN apt-get install ffmpeg libsm6 libxext6 -y
 
 COPY requirements-serve.txt .
 RUN pip install --upgrade pip
-RUN pip install -r requirements-serve.txt
+RUN pip install --no-cache-dir -r requirements-serve.txt
 
 COPY . .
 
@@ -134,7 +135,7 @@ For an AI microservice in Docker, there are five main run commands to launch the
 | Cmd | Desc |
 |-|-|
 |  `-d` |  detached mode |
-|  `-p 5000:5000` |  Map the Flask port from container to the outside world |
+|  `-p 5000:5000` |  Expose Flask port system-port:container-port |
 |  `--log-opt max-size=5m --log-opt max-file=5` |  limit the logs stored by Docker, by default it is unlimited |
 |  `--restart always` |  in case the server crash & restarts, the container will also restart |
 |  `--name <containername>` |  as a rule of thumb, always name the image & container |
@@ -182,6 +183,8 @@ Each iteration of rebuilding and relaunching of containers will create a lot of 
 ```bash
 sudo docker image prune
 sudo docker container prune
+sudo docker volume prune
+sudo docker network prune
 sudo docker system prune
 ```
 
@@ -199,6 +202,37 @@ At times, we might need to check what is inside the container.
 sudo docker exec -it <container name/id> bash
 ```
 
+### Storage
+
+By design, docker containers do not store persistent data. Thus, any data written in containers will not be available once the container is removed. There are three options to persist data, bind mount, volume, or tmpfs mount.
+
+More from [4sysops](https://4sysops.com/archives/introduction-to-docker-bind-mounts-and-volumes/), and [docker](https://docs.docker.com/storage/)
+
+Bind mount provides a direct connection of a local folder's file system to the container's system. We can easily swap a file within the local folder and it will be immediately reflected within the container. This is helpful when we need to change a new model after training.
+
+```bash
+docker run \
+    -p 5000:5000 \
+    --mount type=bind,source=/Users/jake/Desktop/data,target=/data,readonly \
+    --name <containername> <imagename>
+```
+
+Volume mount is the preferred mechanism for updating a file from a container into the file system. The volume folder is stored in the local filesystem managed by docker in `/var/lib/docker/volumes`.
+
+```bash
+docker run \
+    -p 5000:5000 \
+    --mount type=volume,source=<volumename>,target=/data \
+    --name <containername> <imagename>
+```
+
+| Cmd | Desc |
+|-|-|
+| `docker volume inspect volume_name` | inspect the volume; view mounted directory in docker |
+| `docker volume ls` | view all volumes in docker |
+| `docker rm volume` | delete volume |
+
+
 ### Network
 
 For different containers to communicate to each other, we need to set a fixed network as the IP will change with each instance. We can do so by creating a network and setting it in when the container is launched.
@@ -214,27 +248,111 @@ docker network ls
 
 Alternatively, we can launch the containers together using docker-compose, and they will automatically be in the same network.
 
-### Docker-Compose
+For sending REST-APIs between docker containers in the same network, the IP address will be `http://host.docker.internal` for Mac & Windows, and `http://172.17.0.1` for Linux.
 
-When we need to manage multiple containers, it will be easier to set the build & run configurations using Docker-Compose, in a ymal file called `docker-compose.yml`.
+## Docker-Compose
+
+When we need to manage multiple containers, it will be easier to set the build & run configurations using Docker-Compose, in a ymal file called `docker-compose.yml`. We need to install it first using `sudo apt  install docker-compose`.
 
 The official Docker blog [post](https://www.docker.com/blog/containerized-python-development-part-2/) gives a good introduction on this. 
 
 ```yml
-version: "3"
+version: "3.2"
 services:
     facedetection:
-        build: ./facedetection
+        build: 
+            context: ./project
+            dockerfile: Dockerfile-api
+        # if Dockerfile name is not changed, can just use below
+        # build: ./project
         container_name: facedetection
         ports:
             - 5001:5000
-        restart: always
+        logging:
+            options:
+                max-size: "10m"
+                max-file: "5"
+        deploy:
+          resources:
+            limits:
+              cpus: '0.001'
+              memory: 50M
+        volumes:
+            - type: bind
+              source: /Users/jake/Desktop/source
+              target: /model
+        restart: unless-stopped
     maskdetection:
         build: ./maskdetection
         container_name: maskdetection
         ports:
             - 5001:5000
-        restart: always
+        logging:
+            options:
+                max-size: "10m"
+                max-file: "5"
+        environment:
+            - 'api_url={"asc":"http://172.17.0.1:5001/product-association",
+                        "sml":"http://172.17.0.1:5002/product-similarity",
+                        "trd":"http://172.17.0.1:5003/product-trending",
+                        "psn":"http://172.17.0.1:5004/product-personalised"}'
+            - 'resultSize=10'
+        restart: unless-stopped
 ```
 
-When we are ready, we use the commands `docker-compose build` & `docker-compose up -d` to build & launch the containers respectively.
+The commands follows docker commands closely, with some of the more important ones as follows.
+
+| Cmd | Desc |
+|-|-|
+| `docker-compose build` | build images |
+| `docker-compose pull` | pull image from a registry; must input key `image` |
+| `docker-compose up` | run containers |
+| `docker-compose up servicename` | run specific containers |
+| `docker-compose up -d` | run containers in detached mode |
+| `docker-compose ps` | view containers' statuses |
+| `docker-compose stop` | stop containers |
+| `docker-compose start` | start containers |
+
+## Docker Dashboard
+
+Docker in Windows & Mac comes by default a docker dashboard, which gives you a easy GUI to see and manage your images and containers, rather than within the commandline. 
+
+<figure>
+  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/docker-dashboard.png?raw=true" />
+  <figcaption></a></figcaption>
+</figure>
+
+However, this is lacking in Linux. A great free alternative (with more features) is [Portainer](https://www.portainer.io/). We just need to launch it using docker with the following commands, and the web-based GUI will be accessible via `localhost:9000`. After creating a user account, the rest of it is pretty intuitive.
+
+```bash
+sudo docker volume create portainer_data
+sudo docker run -d -p 8000:8000 -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce
+```
+
+The home page, showing the local docker connection, and some summary statistics. 
+
+<figure>
+  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/portainer1.png?raw=true" />
+  <figcaption></a></figcaption>
+</figure>
+
+On clicking that, an overview of the local docker is shown.
+
+<figure>
+  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/portainer2.png?raw=true" />
+  <figcaption></a></figcaption>
+</figure>
+
+Entering the container panel, we have various options to control our containers.
+
+<figure>
+  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/portainer3.png?raw=true" />
+  <figcaption></a></figcaption>
+</figure>
+
+We can even go into the container, by clicking the console link.
+
+<figure>
+  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/portainer4.png?raw=true" />
+  <figcaption></a></figcaption>
+</figure>
