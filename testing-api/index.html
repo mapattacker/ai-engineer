@@ -635,6 +635,33 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pytest-docker-api" class="md-nav__link">
+    Pytest Docker API
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-code" class="md-nav__link">
+    Test Code
+  </a>
+  
+    <nav class="md-nav" aria-label="Test Code">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ci-pipeline" class="md-nav__link">
+    CI Pipeline
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#postman" class="md-nav__link">
     Postman
   </a>
@@ -787,6 +814,33 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pytest-docker-api" class="md-nav__link">
+    Pytest Docker API
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-code" class="md-nav__link">
+    Test Code
+  </a>
+  
+    <nav class="md-nav" aria-label="Test Code">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ci-pipeline" class="md-nav__link">
+    CI Pipeline
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#postman" class="md-nav__link">
     Postman
   </a>
@@ -886,6 +940,139 @@
     <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span>
     <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span> <span class="o">==</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;ok&quot;</span><span class="p">}</span>
+</code></pre></div>
+<h2 id="pytest-docker-api">Pytest Docker API</h2>
+<p>We can use <a href="https://github.com/avast/pytest-docker">pytest-docker</a> plugin to do automated integrated tests for containerised APIs within pytest. What it does is to launch the container using docker-compose, and apply as a fixture so that all tests can have access to the container(s). It then shuts down the container(s) automatically after all tests are completed.</p>
+<p>The integration test code below generates a dummy <code>docker-compose-test.yml</code>, so do include this in <code>.gitignore</code></p>
+<h2 id="test-code">Test Code</h2>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+
+<span class="kn">from</span> <span class="nn">requests.exceptions</span> <span class="kn">import</span> <span class="ne">ConnectionError</span>
+
+
+<span class="c1"># ----------------</span>
+<span class="c1"># Global Variables</span>
+
+<span class="n">service_name</span> <span class="o">=</span> <span class="s2">&quot;model-prediction&quot;</span>
+<span class="n">container_port</span> <span class="o">=</span> <span class="mi">5000</span>
+<span class="n">endpoint</span> <span class="o">=</span> <span class="s2">&quot;prediction&quot;</span>
+<span class="n">docker_compose_name</span> <span class="o">=</span> <span class="s2">&quot;docker-compose-api.yml&quot;</span>
+<span class="n">dockerfile_name</span> <span class="o">=</span> <span class="s2">&quot;Dockerfile-api&quot;</span>
+<span class="n">model_source_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SOURCE_MOUNT&quot;</span><span class="p">]</span>
+<span class="n">MODEL_FILE</span> <span class="o">=</span> <span class="s2">&quot;model.pkl&quot;</span>
+<span class="n">request</span> <span class="o">=</span> \
+<span class="p">{</span>
+    <span class="s2">&quot;your_request&quot;</span><span class="p">:</span> <span class="s2">&quot;xxxx&quot;</span>
+<span class="p">}</span>
+
+
+<span class="c1"># -----------------</span>
+<span class="c1"># Utility Functions</span>
+
+<span class="k">def</span> <span class="nf">gen_docker_compose_test</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;change docker-compose.yml for testing&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">docker_compose_name</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">list_doc</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># delete image url</span>
+    <span class="k">del</span> <span class="n">list_doc</span><span class="p">[</span><span class="s2">&quot;services&quot;</span><span class="p">][</span><span class="n">service_name</span><span class="p">][</span><span class="s2">&quot;image&quot;</span><span class="p">]</span>
+    <span class="c1"># add build folder &amp; dockerfile name</span>
+    <span class="n">list_doc</span><span class="p">[</span><span class="s2">&quot;services&quot;</span><span class="p">][</span><span class="n">service_name</span><span class="p">][</span><span class="s2">&quot;build&quot;</span><span class="p">]</span> <span class="o">=</span> \
+        <span class="p">{</span><span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="s2">&quot;project/&quot;</span><span class="p">,</span> <span class="s2">&quot;dockerfile&quot;</span><span class="p">:</span> <span class="n">dockerfile_name</span><span class="p">}</span>
+    <span class="c1"># edit model source path folder</span>
+    <span class="n">list_doc</span><span class="p">[</span><span class="s2">&quot;services&quot;</span><span class="p">][</span><span class="n">service_name</span><span class="p">][</span><span class="s2">&quot;volumes&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;source&quot;</span><span class="p">]</span> <span class="o">=</span> \
+        <span class="n">model_source_path</span>
+    <span class="c1"># change model name in env</span>
+    <span class="n">list_doc</span><span class="p">[</span><span class="s2">&quot;services&quot;</span><span class="p">][</span><span class="n">service_name</span><span class="p">][</span><span class="s2">&quot;environment&quot;</span><span class="p">]</span> <span class="o">=</span> \
+        <span class="p">[</span><span class="s1">&#39;WORKERS=max&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;MODEL_NAME=</span><span class="si">{MODEL_FILE}</span><span class="s1">&#39;</span><span class="p">]</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;docker-compose-test.yml&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">list_doc</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">is_responsive</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">ConnectionError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="c1"># -------------------------------------</span>
+<span class="c1"># Setup Fixtures to Launch Container(s)</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">docker_compose_file</span><span class="p">(</span><span class="n">pytestconfig</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;set docker-compose*.yml file path&quot;&quot;&quot;</span>
+    <span class="n">gen_docker_compose_test</span><span class="p">()</span>
+    <span class="n">compose_filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pytestconfig</span><span class="o">.</span><span class="n">rootdir</span><span class="p">),</span> <span class="s2">&quot;docker-compose-test.yml&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">compose_filepath</span>
+
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">http_service</span><span class="p">(</span><span class="n">docker_ip</span><span class="p">,</span> <span class="n">docker_services</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;ensure HTTP service is up and responsive&quot;&quot;&quot;</span>
+    <span class="n">host_port</span> <span class="o">=</span> <span class="n">docker_services</span><span class="o">.</span><span class="n">port_for</span><span class="p">(</span><span class="n">service_name</span><span class="p">,</span> <span class="n">container_port</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;http://</span><span class="si">{docker_ip}</span><span class="s2">:</span><span class="si">{host_port}</span><span class="s2">&quot;</span>
+    <span class="n">docker_services</span><span class="o">.</span><span class="n">wait_until_responsive</span><span class="p">(</span>
+        <span class="n">timeout</span><span class="o">=</span><span class="mf">60.0</span><span class="p">,</span> <span class="n">pause</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">is_responsive</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">url</span>
+
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">docker_cleanup</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;remove images &amp; containers, default only &#39;down -v&#39;&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot;down -v --rmi all&quot;</span>
+
+
+<span class="c1"># -------------------------------</span>
+<span class="c1"># Integration Test Cases</span>
+
+<span class="k">def</span> <span class="nf">test_sample_request</span><span class="p">(</span><span class="n">http_service</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;test sample request and returns more than 1 sku&quot;&quot;&quot;</span>
+    <span class="c1"># http_service refers to previous fixture, returning the url</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{http_service}</span><span class="s2">/</span><span class="si">{endpoint}</span><span class="s2">&quot;</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">request</span><span class="p">)</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+    <span class="n">sku_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s2">&quot;sku&quot;</span><span class="p">])</span>
+    <span class="k">assert</span> <span class="n">sku_count</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</code></pre></div>
+<h3 id="ci-pipeline">CI Pipeline</h3>
+<p>Below is an example Gitlab-CI job to run this integration test.</p>
+<p>There are various points to note:
+  * base image to use the stated which have all the essential libraries bundled.
+  * If we are mounting a file/model to the API, we need to use the SOURCE_MOUNT path indicated so that docker-in-docker service can access it
+  * If we are using tox, in tox.ini, we need to enable access to env variables from host os to access the SOURCE_MOUNT variable using this command <code>passenv = *</code></p>
+<div class="highlight"><pre><span></span><code><span class="nt">integration-tests</span><span class="p">:</span>
+  <span class="nt">stage</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">test</span>
+  <span class="nt">timeout</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">10m</span>
+  <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sassy19a/dockercompose-py3-awscli2</span>
+  <span class="nt">services</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker:dind</span>
+  <span class="nt">variables</span><span class="p">:</span>
+    <span class="nt">SOURCE_MOUNT</span><span class="p">:</span> <span class="s">&quot;/builds/shared/$CI_PROJECT_PATH&quot;</span>
+  <span class="nt">before_script</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">pip3 install tox</span>
+    <span class="c1"># download model file for mounting</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">aws s3 cp &quot;${S3_MODEL_DIRECTORY}/association/rules.pkl&quot; $SOURCE_MOUNT/rules.pkl</span>
+  <span class="nt">script</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">tox -e integration</span>
+  <span class="nt">artifacts</span><span class="p">:</span>
+    <span class="nt">when</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">always</span>
+    <span class="nt">reports</span><span class="p">:</span>
+      <span class="nt">junit</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">report.xml</span>
+  <span class="nt">rules</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">if</span><span class="p">:</span> <span class="s">&#39;$CI_PIPELINE_SOURCE</span><span class="nv"> </span><span class="s">==</span><span class="nv"> </span><span class="s">&quot;merge_request_event&quot;&#39;</span>
+      <span class="nt">changes</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">project/*.py</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">project/Dockerfile-api</span>
 </code></pre></div>
 <h2 id="postman">Postman</h2>
 <p><a href="https://www.postman.com">Postman</a> allows us to write unit-test cases easily. This is done by creating a folder called collections from the left panel, and inside it, we can create individual requests, with a proper unit-test name for them.</p>
