@@ -824,7 +824,7 @@
 <span class="sd">        verbose (bool): prints reduction percentage</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">mem_start</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">memory_usage</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-    <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
     <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
         <span class="n">dtype_</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span>
         <span class="k">if</span> <span class="n">dtype_</span> <span class="o">==</span> <span class="nb">float</span><span class="p">:</span>
@@ -832,9 +832,9 @@
         <span class="k">elif</span> <span class="n">dtype_</span> <span class="o">==</span> <span class="nb">int</span><span class="p">:</span>
             <span class="n">min_</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">min_</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="n">downcast</span><span class="o">=</span><span class="s1">&#39;integer&#39;</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
                 <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="n">downcast</span><span class="o">=</span><span class="s1">&#39;unsigned&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="n">downcast</span><span class="o">=</span><span class="s1">&#39;integer&#39;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">dtype_</span> <span class="o">==</span> <span class="nb">object</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cat_col</span><span class="p">:</span>
                 <span class="n">dup_percent</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span> <span class="o">/</span> <span class="n">size</span><span class="p">)</span>
@@ -843,6 +843,7 @@
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
         <span class="n">mem_end</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">memory_usage</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:.2f}% o</span><span class="s2">f original size is reduced&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">((</span><span class="n">mem_start</span><span class="o">-</span><span class="n">mem_end</span><span class="p">)</span> <span class="o">/</span> <span class="n">mem_start</span> <span class="o">*</span> <span class="mi">100</span><span class="p">))</span>
+
     <span class="k">return</span> <span class="n">df</span>
 </code></pre></div>
 <h3 id="looping">Looping</h3>
