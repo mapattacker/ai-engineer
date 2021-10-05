@@ -1046,10 +1046,12 @@
 </code></pre></div>
 <h3 id="ci-pipeline">CI Pipeline</h3>
 <p>Below is an example Gitlab-CI job to run this integration test.</p>
-<p>There are various points to note:
-  * base image to use the stated which have all the essential libraries bundled.
-  * If we are mounting a file/model to the API, we need to use the SOURCE_MOUNT path indicated so that docker-in-docker service can access it
-  * If we are using tox, in tox.ini, we need to enable access to env variables from host os to access the SOURCE_MOUNT variable using this command <code>passenv = *</code></p>
+<p>There are various points to note:</p>
+<ul>
+<li>base image to use the stated which have all the essential libraries bundled.</li>
+<li>If we are mounting a file/model to the API, we need to use the SOURCE_MOUNT path indicated so that docker-in-docker service can access it</li>
+<li>If we are using tox, in tox.ini, we need to enable access to env variables from host os to access the SOURCE_MOUNT variable using this command <code>passenv = *</code></li>
+</ul>
 <div class="highlight"><pre><span></span><code><span class="nt">integration-tests</span><span class="p">:</span>
   <span class="nt">stage</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">test</span>
   <span class="nt">timeout</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">10m</span>
