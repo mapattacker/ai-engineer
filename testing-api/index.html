@@ -944,6 +944,7 @@
 <h2 id="pytest-docker-api">Pytest Docker API</h2>
 <p>We can use <a href="https://github.com/avast/pytest-docker">pytest-docker</a> plugin to do automated integrated tests for containerised APIs within pytest. What it does is to launch the container using docker-compose, and apply as a fixture so that all tests can have access to the container(s). It then shuts down the container(s) automatically after all tests are completed.</p>
 <p>The integration test code below generates a dummy <code>docker-compose-test.yml</code>, so do include this in <code>.gitignore</code></p>
+<p>Note that we will have to add a dummy GET request to the root endpoint, where pytest-docker will ping at this line <code>docker_services.wait_until_responsive</code>.</p>
 <h2 id="test-code">Test Code</h2>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">json</span>
