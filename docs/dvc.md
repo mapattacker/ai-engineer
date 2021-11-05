@@ -1,89 +1,193 @@
 # Data Version Control
 
-[DVC](https://dvc.org) is a library for ML versioning of blobs, which can include data and/or models. For this documentation, we will be using an example where we store the data versions into AWS S3 bucket. To start off, install the dvc library, together with AWS S3's accompanying library 
+[DVC](https://dvc.org) is a popular data version control library that implements data versioning together with Git. 
+
+The purpose of data versioning in MLOps is that we can trace for each training run, what is the data version used.
+
+
+## TL;DR
+
+```bash
+# setting up -------
+dvc init
+dvc remote add <remote-name> <s3-bucket-url>
+
+git add .dvc/
+git commit -m "add dvc config"
+git push
+
+
+# store a data version -------
+dvc add -r <remote-name> <data-directory>
+dvc push
+
+git add <data-directory>.dvc
+git commit -m "data-version-commit-message"
+git push
+
+
+# pull a data version -------
+git pull # OR
+git checkout <git-commit-hash>
+
+dvc pull -r <remote-name> <data-directory>.dvc
+```
+
+
+## Setting Up
+
+### Install
 
 ```bash
 pip install dvc[s3]
 ```
 
-## DVC INIT
+### Initialisation
 
-`dvc init` will add a `.dvcignore` file, and more importantly, a `.dvc` folder. Within the latter, it contains: 
-    
- * `cache` folder: stores the data versions & corresponding hashes, which will be uploaded to the S3. These will not be uploaded to the repository, as there is a `.gitignore` file automatically created, that excludes this folder.
- * `config` file: stores the s3 bucket URLs
-
-## Add S3 Keys
-
-To allow DVC to push & pull data via S3 bucket, we need to set the AWS Access & Secret Keys, either through AWS CLI `aws configure`, or save them as environment variables in the OS.
-
-```bash
-export AWS_SECRET_ACCESS_KEY="xxx"
-export AWS_ACCESS_KEY_ID="xxx"
+```
+cd <repository-root>
+dvc init
 ```
 
-## Add Remote Link
+Initialisation creates the following:
+
+ * `.dvcignore` file: exclude files from DVC
+ * `.dvc` folder
+    * `cache` folder: stores data version and corresponding hash keys. They will not be uploaded to git as a `.gitignorefile` is added to this folder to exclude
+    * `config` file: stores all dvc remote urls (e.g. s3 bucket links)
+
+
+### Add Remote Link
 
 We then add the remote links, by giving it a name, and the S3 URL. You can see that we are classifying the links as folders within an S3 bucket
 
 ```bash
-dvc remote add babystroller s3://images/babystroller
-dvc remote add rubbishbin s3://images/rubbishbin
-# add as a default remote
-dvc remote add -d safetycone s3://images/safetycone
+# dvc remote add <remote-name> <s3-bucket-link>
+dvc remote add tp1 s3://rre/data/tp1
 ```
 
 This will update the `.dvc/config` file as shown below.
 
-```
-[core]
-    remote = safetycone
-['remote "babystroller"']
-    url = s3://images/babystroller
-['remote "safetycone"']
-    url = s3://images/safetycone
-['remote "rubbishbin"']
-    url = s3://images/rubbishbin
+```bash
+['remote "tp1"']
+    url = s3://rre/data/tp1
 ```
 
-## Push Data to S3
-
-We create a folder and add the datasets in there. This will create a version of the data. The details are as follows:
-
- * Add folder <foldername> with data
- * `dvc add <foldername>`
- * a file called `<foldername>.dvc` will be created
- * `.dvc/cache` folder containing the data version & hashes will be created
- * the `<foldername>` is automatically added to `.gitignore` so that the data will not be uploaded to the repository
- * Push data version to S3: `dvc push -r <remote name> <foldername>.dvc`
-
-We need to be mindful to set the remote name to the correct link else it will just use the default (core) link.
-
-
-## Update Git
-
-We then git commit the `<foldername>.dvc`, `.gitignore` & `.dvc/config` (if there are any additions of the remote links) to the repository. The git commit message/hash will be the basis to access the data version.
-
-## Retrieve Data from S3
-
-We can pull from specific dvc folders by using `dvc pull -r <remote name> <foldername>.dvc`
-
-## Full Code Example
+To assign a default remote, add a `-d` option
 
 ```bash
-# add remote link
-dvc remote add rubbishbin s3://images/rubbishbin
+dvc remote add -d tp2 s3://rre/data/tp2
+```
 
-# assume folder called rubbishbin is added with data inside
-# store data version to S3
-dvc add rubbishbin
-dvc push -r rubbishbin rubbishbin.dvc
+The updated config will be
 
-# git commit
-git add rubbishbin.dvc .dvc/config .gitignore
-git commit -m "Add init rubbishbin dataset"
+```bash
+[core]
+    remote = tp2
+['remote "tp1"']
+    url = s3://rre/data/tp1
+['remote "tp2"']
+    url = s3://rre/data/tp2
+```
+
+Commit the config file to your git repo
+
+```bash
+git add .dvc/
+git commit -m "Add dvc config"
 git push
+```
 
-# pull data
-dvc pull -r rubbishbin rubbishbin.dvc
+## Store Data Version
+
+DVC manages data versioning using two ways
+
+ 1. Publishing a data version to a remote (i.e. S3) using *DVC commands*
+ 2. Committing the data version’s hash key to a remote git repository using *Git commands*
+
+<figure>
+  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/dvc-store1.png?raw=true" style="width:100%" />
+  <figcaption></figcaption>
+</figure>
+
+<figure>
+  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/dvc-store2.png?raw=true" style="width:100%" />
+  <figcaption></figcaption>
+</figure>
+
+### Committing a Data Version
+
+ * Place your first version of your data to a directory, e.g., /data
+ * Add this data version to staging
+
+```bash
+dvc add <data-directory>/
+```
+
+ * A file `<data-directory>.dvc` is created, containing the hash key of this data version
+ * Push the data version to remote
+
+```bash
+# if you have set a default remote
+# and only one <data-directory>.dvc file in directory
+dvc push
+
+# more specific command
+dvc push -r <remotelink-name> <data-directory>.dvc
+```
+
+### Committing a Data Version Hash
+
+ * We need to commit the <data-directory>.dvc file to git so that we can retrieve the hash key for the data version based on the git commit message, or any tags
+
+```bash
+git add <data-directory>.dvc
+git commit -m "data version 1"
+git push
+```
+
+## Pull Data Version
+
+To extract a data version, we need to
+
+ 1. pull the appropriate `<data-directory>.dvc` which contains the data version hash, using `git`
+ 2. pull the data version from S3, using `dvc`
+
+<figure>
+  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/dvc-pull1.png?raw=true" style="width:100%" />
+  <figcaption></figcaption>
+</figure>
+
+<figure>
+  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/dvc-pull2.png?raw=true" style="width:100%" />
+  <figcaption></figcaption>
+</figure>
+
+```bash
+# pull current data version hash of <data-directory>.dvc 
+git pull
+
+# pull previous data version hash of <data-directory>.dvc
+git checkout <commit-hash>
+
+# pull the data version
+dvc pull
+# or more specific
+dvc pull -r <remotelink-name> <data-directory>.dvc
+```
+
+## Read Data Version
+
+The python API allows you to read **single files (only)** directly from the DVC remote. This enables you to easily integrate DVC to your data/training pipeline script.
+
+See this [link](https://dvc.org/doc/api-reference/read) for full list of arguments.
+
+```python
+import pickle
+import dvc.api
+
+text_file = dvc.api.read(path="<path-to-file-relative-to-repo-root>")
+
+pickle_file = dvc.api.read(path="<path-to-file-relative-to-repo-root>", model="rb")
+pickle_file = pickle.loads(pickle_file)
 ```
