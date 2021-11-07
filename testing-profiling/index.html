@@ -9,19 +9,19 @@
       
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.1.0">
     
     
       
-        <title>AI Engineer Guide</title>
+        <title>Profiling - AI Engineer Guide</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.33e2939f.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.33e2939f.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.ef6f36e2.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ef6f36e2.min.css">
         
       
     
@@ -53,7 +53,7 @@
     <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="purple" data-md-color-accent="purple">
   
     
-    <script>function __prefix(e){return new URL(".",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
     
       <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
     
@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#so-you-wana-be-an-ai-engineer" class="md-skip">
+        <a href="#profiling" class="md-skip">
           Skip to content
         </a>
       
@@ -74,7 +74,7 @@
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="AI Engineer Guide" class="md-header__button md-logo" aria-label="AI Engineer Guide" data-md-component="logo">
+    <a href=".." title="AI Engineer Guide" class="md-header__button md-logo" aria-label="AI Engineer Guide" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -93,7 +93,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Introduction
+              Profiling
             
           </span>
         </div>
@@ -185,7 +185,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="AI Engineer Guide" class="md-nav__button md-logo" aria-label="AI Engineer Guide" data-md-component="logo">
+    <a href=".." title="AI Engineer Guide" class="md-nav__button md-logo" aria-label="AI Engineer Guide" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -215,20 +215,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-        
-      
-      
-      <a href="." class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
         Introduction
       </a>
-      
     </li>
   
 
@@ -241,7 +232,7 @@
   
   
     <li class="md-nav__item">
-      <a href="cicd/" class="md-nav__link">
+      <a href="../cicd/" class="md-nav__link">
         CI/CD
       </a>
     </li>
@@ -256,7 +247,7 @@
   
   
     <li class="md-nav__item">
-      <a href="mlops/" class="md-nav__link">
+      <a href="../mlops/" class="md-nav__link">
         MLOps
       </a>
     </li>
@@ -271,7 +262,7 @@
   
   
     <li class="md-nav__item">
-      <a href="virtual_env/" class="md-nav__link">
+      <a href="../virtual_env/" class="md-nav__link">
         Virtual Environment
       </a>
     </li>
@@ -286,7 +277,7 @@
   
   
     <li class="md-nav__item">
-      <a href="code-standards/" class="md-nav__link">
+      <a href="../code-standards/" class="md-nav__link">
         Code Standards
       </a>
     </li>
@@ -301,7 +292,7 @@
   
   
     <li class="md-nav__item">
-      <a href="git/" class="md-nav__link">
+      <a href="../git/" class="md-nav__link">
         Code Version Control
       </a>
     </li>
@@ -316,7 +307,7 @@
   
   
     <li class="md-nav__item">
-      <a href="dvc/" class="md-nav__link">
+      <a href="../dvc/" class="md-nav__link">
         Data Version Control
       </a>
     </li>
@@ -331,7 +322,7 @@
   
   
     <li class="md-nav__item">
-      <a href="mlflow/" class="md-nav__link">
+      <a href="../mlflow/" class="md-nav__link">
         Model Version Control
       </a>
     </li>
@@ -346,7 +337,7 @@
   
   
     <li class="md-nav__item">
-      <a href="gpu/" class="md-nav__link">
+      <a href="../gpu/" class="md-nav__link">
         Using GPU
       </a>
     </li>
@@ -361,7 +352,7 @@
   
   
     <li class="md-nav__item">
-      <a href="security/" class="md-nav__link">
+      <a href="../security/" class="md-nav__link">
         Security
       </a>
     </li>
@@ -397,7 +388,7 @@
   
   
     <li class="md-nav__item">
-      <a href="opt-model/" class="md-nav__link">
+      <a href="../opt-model/" class="md-nav__link">
         Model
       </a>
     </li>
@@ -409,7 +400,7 @@
   
   
     <li class="md-nav__item">
-      <a href="opt-data/" class="md-nav__link">
+      <a href="../opt-data/" class="md-nav__link">
         Data
       </a>
     </li>
@@ -421,7 +412,7 @@
   
   
     <li class="md-nav__item">
-      <a href="opt-para-concurr/" class="md-nav__link">
+      <a href="../opt-para-concurr/" class="md-nav__link">
         Concurrency & Parallelism
       </a>
     </li>
@@ -433,7 +424,7 @@
   
   
     <li class="md-nav__item">
-      <a href="opt-spark/" class="md-nav__link">
+      <a href="../opt-spark/" class="md-nav__link">
         Spark
       </a>
     </li>
@@ -475,7 +466,7 @@
   
   
     <li class="md-nav__item">
-      <a href="flask/" class="md-nav__link">
+      <a href="../flask/" class="md-nav__link">
         Flask
       </a>
     </li>
@@ -487,7 +478,7 @@
   
   
     <li class="md-nav__item">
-      <a href="fastapi/" class="md-nav__link">
+      <a href="../fastapi/" class="md-nav__link">
         FastAPI
       </a>
     </li>
@@ -499,7 +490,7 @@
   
   
     <li class="md-nav__item">
-      <a href="tf-serving/" class="md-nav__link">
+      <a href="../tf-serving/" class="md-nav__link">
         TF Serving
       </a>
     </li>
@@ -520,7 +511,7 @@
   
   
     <li class="md-nav__item">
-      <a href="docker/" class="md-nav__link">
+      <a href="../docker/" class="md-nav__link">
         Docker
       </a>
     </li>
@@ -533,12 +524,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_14" type="checkbox" id="__nav_14" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_14" type="checkbox" id="__nav_14" checked>
       
       <label class="md-nav__link" for="__nav_14">
         Testing
@@ -556,7 +549,7 @@
   
   
     <li class="md-nav__item">
-      <a href="testing-pytest/" class="md-nav__link">
+      <a href="../testing-pytest/" class="md-nav__link">
         Overview & Pytest
       </a>
     </li>
@@ -568,7 +561,7 @@
   
   
     <li class="md-nav__item">
-      <a href="testing-schema/" class="md-nav__link">
+      <a href="../testing-schema/" class="md-nav__link">
         Schema Testing
       </a>
     </li>
@@ -580,7 +573,7 @@
   
   
     <li class="md-nav__item">
-      <a href="testing2/" class="md-nav__link">
+      <a href="../testing2/" class="md-nav__link">
         ML Testing
       </a>
     </li>
@@ -592,7 +585,7 @@
   
   
     <li class="md-nav__item">
-      <a href="testing-api/" class="md-nav__link">
+      <a href="../testing-api/" class="md-nav__link">
         API Testing
       </a>
     </li>
@@ -602,11 +595,56 @@
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="testing-profiling/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Profiling
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Profiling
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#latency-profiler" class="md-nav__link">
+    Latency Profiler
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#memory-profiler" class="md-nav__link">
+    Memory Profiler
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -625,7 +663,7 @@
   
   
     <li class="md-nav__item">
-      <a href="serverless/" class="md-nav__link">
+      <a href="../serverless/" class="md-nav__link">
         Serverless
       </a>
     </li>
@@ -640,7 +678,7 @@
   
   
     <li class="md-nav__item">
-      <a href="demo/" class="md-nav__link">
+      <a href="../demo/" class="md-nav__link">
         Demo Site
       </a>
     </li>
@@ -655,7 +693,7 @@
   
   
     <li class="md-nav__item">
-      <a href="monitoring/" class="md-nav__link">
+      <a href="../monitoring/" class="md-nav__link">
         Monitoring
       </a>
     </li>
@@ -680,6 +718,28 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#latency-profiler" class="md-nav__link">
+    Latency Profiler
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#memory-profiler" class="md-nav__link">
+    Memory Profiler
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -690,43 +750,60 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/index.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/testing-profiling.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="so-you-wana-be-an-ai-engineer">So You Wana Be an AI Engineer?</h1>
-<p>Ok, I think most people do not aspire to be an AI Engineer.</p>
-<hr>
+                <h1 id="profiling">Profiling</h1>
+<p>After detecting potential issues, we will need to profile the code to see how to can resolve or improve on the issue. </p>
+<p><a href="https://jakevdp.github.io/PythonDataScienceHandbook/01.07-timing-and-profiling.html">Jake VanderPlas</a> provides an excellent description on how to do it using magic commands in jupyter notebooks.</p>
+<h2 id="latency-profiler">Latency Profiler</h2>
+<p>If the latency is not up to par, we can profile our code to identify bottlenecks in the latency line by line. This is done using the library <a href="https://github.com/rkern/line_profiler">line-profiler</a>. To install, <code>pip install line_profiler</code></p>
+<p>To use the library, we first add the decorator <code>@profile</code> to the functions or methods you want to analyse.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@profile</span>
+<span class="k">def</span> <span class="nf">zvalue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+    <span class="n">vec</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">length</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 
-<p>Being an <strong>AI Scientist</strong> is sexier &amp; is always at the front &amp; center of bosses, consistently serenaded with smooches for executing seemingly difficult, but yet training the latest SOTA neural network architecture using transfer learning. But who cares, the model works, the attention &amp; prestige is nice.</p>
-<hr>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+    <span class="n">df_filtered</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;SKU&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="p">[</span><span class="n">item</span><span class="p">])]</span>
 
-<p><strong>AI Engineers</strong> though, are the unsung heros. They understand modelling, they understand software engineering, and heck, they know how to do almost anything! Database, web development, cloud engineering, testing, deployment, and certainly how to do transfer learning too. <img alt="😉" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/1f609.svg" title=":wink:" /> </p>
-<p>Jokes aside, it is important to note that a mature ML system may contain only 5% of ML code, highlighting the need for a diversified skillset.</p>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_filtered</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">z_value</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">loc</span> <span class="o">=</span> <span class="p">[</span><span class="n">length</span> <span class="o">+</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">df_filtered</span><span class="o">.</span><span class="n">lag</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">df_filtered</span><span class="o">.</span><span class="n">quantity</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">))):</span>
+            <span class="n">vec</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">z_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rolling_zscore</span><span class="p">(</span><span class="n">vec</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">vec</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:],</span> <span class="n">decay</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">decay</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">z_value</span>
+</code></pre></div>
+<p>Then we create the report by using the <code>kernprof -l</code> command; a <code>.lprof</code> report is generated. Following which, we view the report with the <code>python -m line_profiler</code> command.</p>
+<div class="highlight"><pre><span></span><code>kernprof -l &lt;script_name&gt;.py
+python -m line_profiler &lt;script_name&gt;.py.lprof
+</code></pre></div>
 <figure>
-  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/technical_debt.png?raw=true" />
-  <figcaption>The Hidden Debt in Machine Learning Systems.<a href="https://wiki.esipfed.org/w/images/5/5f/NIPS-5656-hidden-technical-debt-in-machine-learning-systems.pdf"> Source</a></figcaption>
+  <img src="https://raw.githubusercontent.com/mapattacker/ai-engineer/master/images/line-profiler.png" style="width:100%" />
+  <figcaption>Profile Result</figcaption>
 </figure>
 
-<p>The AI engineer will also need to be familiar with the processes of the ML life cycle, and what to do within and between each process. </p>
-<figure>
-  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/cd4ml-end-to-end.png?raw=true" />
-  <figcaption>Machine Learning Life Cycle.<a href="https://martinfowler.com/articles/cd4ml.html/"> Source</a></figcaption>
-</figure>
-
-<p>Besides their full stack technical capabilities, good AI Engineers also possess certain critical attributes.</p>
-<ul>
-<li>An incredible intolerance for slobby work</li>
-<li>Great organizational abilities</li>
-<li>A demand for reproducible work with strong documentation</li>
-<li>A strong focus on the security and reliability and know how to balance both</li>
-</ul>
-<p>Such a wide range of expertise is difficult to find, so a company who values AI Engineers will not devalue them in terms of compensation.</p>
-<hr>
-
-<p>Still not convinced? Well, I would say that I have seen a number of AI Scientists starting to learn more engineering aspects of AI. Heck, even they secretly aspire to be an AI Engineer, though they still want to wear their fancy scientists' hats. <img alt="😀" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/1f600.svg" title=":grinning:" /></p>
-<p>Now that I'm done with the rambling, if you are ready to hop on the bandwagon, let's get started.</p>
+<h2 id="memory-profiler">Memory Profiler</h2>
+<p>Another libray that works similarly but for memory is <a href="https://github.com/pythonprofilers/memory_profiler">memory_profiler</a>. Same as before, we just need to add <code>@profile</code> at the function or method, followed by the command <code>python -m memory_profiler &lt;script&gt;.py</code></p>
+<p>This will generate a report in the terminal as shown. For variables that consume a lot of memory, but are not required downstream, we can delete it via <code>del &lt;variable-name&gt;</code>.</p>
+<div class="highlight"><pre><span></span><code>Line <span class="c1">#    Mem usage    Increment  Occurences   Line Contents</span>
+<span class="o">============================================================</span>
+    <span class="m">12</span>   <span class="m">76</span>.180 MiB   <span class="m">76</span>.180 MiB           <span class="m">1</span>   @profile
+    <span class="m">13</span>                                         def load_model<span class="o">(</span>config<span class="o">)</span>:
+    <span class="m">14</span>   <span class="m">76</span>.180 MiB    <span class="m">0</span>.000 MiB           <span class="m">1</span>       <span class="nv">api_model_name</span> <span class="o">=</span> os.path.join<span class="o">(</span>config.modeldir, config.model_name<span class="o">)</span>
+    <span class="m">15</span>
+    <span class="m">16</span>  <span class="m">230</span>.598 MiB  <span class="m">154</span>.418 MiB           <span class="m">1</span>       <span class="nv">model</span> <span class="o">=</span> pickle.load<span class="o">(</span>open<span class="o">(</span>api_model_name, <span class="s2">&quot;rb&quot;</span><span class="o">))</span>
+    <span class="m">17</span>  <span class="m">230</span>.598 MiB    <span class="m">0</span>.000 MiB           <span class="m">1</span>       <span class="k">if</span> not isinstance<span class="o">(</span>model, dict<span class="o">)</span>:
+    <span class="m">18</span>                                                 raise ValueError<span class="o">(</span><span class="s2">&quot;WARNING: this pickle file at {} is not a dict&quot;</span>.format<span class="o">(</span>api_model_name<span class="o">))</span>
+    <span class="m">19</span>
+    <span class="m">20</span>  <span class="m">319</span>.242 MiB   <span class="m">88</span>.645 MiB           <span class="m">1</span>       <span class="nv">predictor</span> <span class="o">=</span> Predict<span class="o">(</span>config.PARAMS<span class="o">[</span><span class="m">0</span>:5<span class="o">]</span>, config.l0, api_model_name<span class="o">)</span>
+    <span class="m">21</span>  <span class="m">319</span>.242 MiB    <span class="m">0</span>.000 MiB           <span class="m">1</span>       <span class="k">return</span> predictor
+</code></pre></div>
                 
               
               
@@ -745,14 +822,28 @@
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
+        <a href="../testing-api/" class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              API Testing
+            </div>
+          </div>
+        </a>
       
-        <a href="cicd/" class="md-footer__link md-footer__link--next" rel="next">
+      
+        <a href="../serverless/" class="md-footer__link md-footer__link--next" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              CI/CD
+              Serverless
             </div>
           </div>
           <div class="md-footer__button md-icon">
@@ -781,10 +872,10 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": ".", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.d892486b.min.js"></script>
+      <script src="../assets/javascripts/bundle.d892486b.min.js"></script>
       
     
   </body>
