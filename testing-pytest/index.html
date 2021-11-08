@@ -595,6 +595,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#importing-function-to-test-scripts" class="md-nav__link">
+    Importing Function to Test Scripts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ini-file" class="md-nav__link">
     INI File
   </a>
@@ -636,6 +643,13 @@
   
     <nav class="md-nav" aria-label="Mocking">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#patch" class="md-nav__link">
+    Patch
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#mock-function-without-return" class="md-nav__link">
@@ -829,6 +843,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#importing-function-to-test-scripts" class="md-nav__link">
+    Importing Function to Test Scripts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ini-file" class="md-nav__link">
     INI File
   </a>
@@ -870,6 +891,13 @@
   
     <nav class="md-nav" aria-label="Mocking">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#patch" class="md-nav__link">
+    Patch
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#mock-function-without-return" class="md-nav__link">
@@ -1009,6 +1037,21 @@
 </table>
 <p>For the last command, we can mark each of our test functions, e.g. <code>pytest.mark.integration</code> so that we can call them later using <code>pytest -m integration</code>. To run other unmarked test, we use <code>pytest -m 'not integration'</code></p>
 <p>Note that <code>pytest</code> runs from the existing python library, and can ignore your virtual environment setup. As a result, you might face import errors even though the libraries are already installed in the virtual env. To ask it to run in the virtual env, use <code>python -m pytest</code>.</p>
+<h3 id="importing-function-to-test-scripts">Importing Function to Test Scripts</h3>
+<p>Our repository directory is usually partitioned as follows below, with the testing and source code directory in separate folders. </p>
+<div class="highlight"><pre><span></span><code>.
+├── project
+│   └── app.py
+└── test
+    └── unit_test
+        └── test_app.py
+</code></pre></div>
+<p>To launch pytest, we will need to launch from the root, so that the test script can access the app.py</p>
+<div class="highlight"><pre><span></span><code>pytest test/unit_test/test_app.py -v
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;project&quot;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">app</span> <span class="kn">import</span> <span class="n">function_a</span>
+</code></pre></div>
 <h3 id="ini-file">INI File</h3>
 <p>We can add more configurations to pytest through a <code>pytest.ini</code> file. The commands can also be placed in a <code>tox.ini</code> file if using tox to launch pytest.</p>
 <div class="highlight"><pre><span></span><code><span class="k">[pytest]</span>
@@ -1088,6 +1131,53 @@
 <h3 id="mocking">Mocking</h3>
 <p>Mocking is often used in unit tests where we can mock or "fake" a library, function, return value etc., as we only want to test the unit/function itself, not other related stuff that are integrated with it.</p>
 <p>In the first example, we want to test the first function <code>log_metrics</code>, however we do not want to use the library <code>bedrock_client</code> as this logs the metrics to a server. </p>
+<h4 id="patch">Patch</h4>
+<p>Using the in-built <code>unittest.mock.patch</code> we can easily mock functions and their return values.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># project/app.py</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+
+<span class="k">def</span> <span class="nf">api_run</span><span class="p">():</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">function_a</span><span class="p">():</span>
+    <span class="n">api_run_a</span><span class="p">()</span>
+    <span class="k">return</span> <span class="mi">1</span>
+
+
+<span class="k">def</span> <span class="nf">return_a_value</span><span class="p">():</span>
+    <span class="k">return</span> <span class="mi">1</span>
+
+<span class="k">def</span> <span class="nf">function_b</span><span class="p">():</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">return_a_value</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">y</span>
+</code></pre></div>
+<p>In this sample unittest script, the <code>api_call</code> has a latency of 2sec. After mocking it, we can see that the test runs instantly.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">unittest.mock</span> <span class="kn">import</span> <span class="n">patch</span><span class="p">,</span> <span class="n">Mock</span>
+
+<span class="kn">from</span> <span class="nn">project.app</span> <span class="kn">import</span> <span class="n">function_a</span><span class="p">,</span> <span class="n">function_b</span>
+
+
+<span class="k">def</span> <span class="nf">test_no_mock</span><span class="p">():</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">function_a</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="mi">1</span> <span class="o">==</span> <span class="n">ret</span>
+
+<span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;project.app.api_run&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_mock_func</span><span class="p">(</span><span class="n">mock_api_run</span><span class="p">):</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">function_a</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="mi">1</span> <span class="o">==</span> <span class="n">ret</span>
+
+<span class="k">def</span> <span class="nf">test_mock_func_no_deco</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">patch</span><span class="p">(</span><span class="s1">&#39;project.app.api_run&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">mock_api_run</span><span class="p">:</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">function_a</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="mi">1</span> <span class="o">==</span> <span class="n">ret</span>
+
+<span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;project.app.return_a_value&#39;</span><span class="p">,</span> <span class="n">return_value</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_mock_func_return</span><span class="p">(</span><span class="n">mock_return_a_value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;api_run_b will return 5 to function b&quot;&quot;&quot;</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">function_b</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="mi">5</span> <span class="o">==</span> <span class="n">ret</span>
+</code></pre></div>
 <h4 id="mock-function-without-return">Mock Function without Return</h4>
 <div class="highlight"><pre><span></span><code><span class="c1"># train_pipeline.py</span>
 <span class="k">def</span> <span class="nf">log_metrics</span><span class="p">(</span><span class="n">precision</span><span class="p">,</span> <span class="n">recall</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="s2">&quot;logs/results.json&quot;</span><span class="p">):</span>
