@@ -1041,10 +1041,11 @@
 <p>Our repository directory is usually partitioned as follows below, with the testing and source code directory in separate folders. </p>
 <div class="highlight"><pre><span></span><code>.
 ├── project
-│   └── app.py
-└── test
-    └── unit_test
-        └── test_app.py
+│   ├── app.py
+│   └── func.py
+└── tests
+    └── unit_tests
+        └── test_func.py
 </code></pre></div>
 <p>To launch pytest, we will need to launch from the root, so that the test script can access the app.py</p>
 <div class="highlight"><pre><span></span><code>pytest test/unit_test/test_app.py -v
@@ -1131,21 +1132,19 @@
 <span class="c1"># {&#39;a&#39;: &lt;class &#39;int&#39;&gt;, &#39;b&#39;: &lt;class &#39;float&#39;&gt;, &#39;return&#39;: &lt;class &#39;bool&#39;&gt;}</span>
 </code></pre></div>
 <h3 id="mocking">Mocking</h3>
-<p>Mocking is often used in unit tests where we can mock or "fake" a library, function, return value etc., as we only want to test the unit/function itself, not other related stuff that are integrated with it.</p>
-<p>In the first example, we want to test the first function <code>log_metrics</code>, however we do not want to use the library <code>bedrock_client</code> as this logs the metrics to a server. </p>
+<p>Mocking is often used in unit tests where we can mock or "fake" a library, function, return value etc., as we only want to test the unit/function itself, not other related stuff that are bundled with it.</p>
 <h4 id="patch">Patch</h4>
-<p>Using the in-built <code>unittest.mock.patch</code> we can easily mock functions and their return values.</p>
+<p>Using the in-built <code>unittest.mock.patch</code> we can easily mock functions and their return values. One useful note is that we need to patch <em>where the object/function is looked up</em> rather than <em>where it is defined</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># project/app.py</span>
 <span class="kn">import</span> <span class="nn">time</span>
 
-
 <span class="k">def</span> <span class="nf">api_run</span><span class="p">():</span>
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># project/func.py</span>
 <span class="k">def</span> <span class="nf">function_a</span><span class="p">():</span>
     <span class="n">api_run_a</span><span class="p">()</span>
     <span class="k">return</span> <span class="mi">1</span>
-
 
 <span class="k">def</span> <span class="nf">return_a_value</span><span class="p">():</span>
     <span class="k">return</span> <span class="mi">1</span>
@@ -1154,33 +1153,38 @@
     <span class="n">y</span> <span class="o">=</span> <span class="n">return_a_value</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">y</span>
 </code></pre></div>
-<p>In this sample unittest script, the <code>api_call</code> has a latency of 2sec. After mocking it, we can see that the test runs instantly.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">unittest.mock</span> <span class="kn">import</span> <span class="n">patch</span><span class="p">,</span> <span class="n">Mock</span>
+<p>In this sample unittest script, the <code>api_call</code> has a latency of 2 sec. After mocking it, we can see that the test runs instantly.</p>
+<p>We can also call patch without a decorator, in case we have other decorators that made the test function's arguments confusing.</p>
+<p>Last, we can also have a return value for the patched function.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">unittest.mock</span> <span class="kn">import</span> <span class="n">patch</span><span class="p">,</span> <span class="n">Mock</span>
 
-<span class="kn">from</span> <span class="nn">project.app</span> <span class="kn">import</span> <span class="n">function_a</span><span class="p">,</span> <span class="n">function_b</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;project&quot;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">func</span> <span class="kn">import</span> <span class="n">function_a</span><span class="p">,</span> <span class="n">function_b</span>
 
 
 <span class="k">def</span> <span class="nf">test_no_mock</span><span class="p">():</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="n">function_a</span><span class="p">()</span>
     <span class="k">assert</span> <span class="mi">1</span> <span class="o">==</span> <span class="n">ret</span>
 
-<span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;project.app.api_run&#39;</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;func.api_run&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_mock_func</span><span class="p">(</span><span class="n">mock_api_run</span><span class="p">):</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="n">function_a</span><span class="p">()</span>
     <span class="k">assert</span> <span class="mi">1</span> <span class="o">==</span> <span class="n">ret</span>
 
 <span class="k">def</span> <span class="nf">test_mock_func_no_deco</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">patch</span><span class="p">(</span><span class="s1">&#39;project.app.api_run&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">mock_api_run</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">patch</span><span class="p">(</span><span class="s1">&#39;func.api_run&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">mock_api_run</span><span class="p">:</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">function_a</span><span class="p">()</span>
     <span class="k">assert</span> <span class="mi">1</span> <span class="o">==</span> <span class="n">ret</span>
 
-<span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;project.app.return_a_value&#39;</span><span class="p">,</span> <span class="n">return_value</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;func.return_a_value&#39;</span><span class="p">,</span> <span class="n">return_value</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_mock_func_return</span><span class="p">(</span><span class="n">mock_return_a_value</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;api_run_b will return 5 to function b&quot;&quot;&quot;</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="n">function_b</span><span class="p">()</span>
     <span class="k">assert</span> <span class="mi">5</span> <span class="o">==</span> <span class="n">ret</span>
 </code></pre></div>
 <h4 id="mock-function-without-return">Mock Function without Return</h4>
+<p>In the example, we want to test the first function <code>log_metrics</code>, however we do not want to use the library <code>bedrock_client</code> as this logs the metrics to a server. </p>
 <div class="highlight"><pre><span></span><code><span class="c1"># train_pipeline.py</span>
 <span class="k">def</span> <span class="nf">log_metrics</span><span class="p">(</span><span class="n">precision</span><span class="p">,</span> <span class="n">recall</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="s2">&quot;logs/results.json&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Log metrics to bedrock &amp; results.json&quot;&quot;&quot;</span>
