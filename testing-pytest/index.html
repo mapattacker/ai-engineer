@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#testing" class="md-skip">
+        <a href="#pytest" class="md-skip">
           Skip to content
         </a>
       
@@ -580,63 +580,69 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#pytest" class="md-nav__link">
-    Pytest
-  </a>
-  
-    <nav class="md-nav" aria-label="Pytest">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#basics" class="md-nav__link">
-    Basics
+  <a href="#testing-overview" class="md-nav__link">
+    Testing Overview
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
+  <a href="#pytest-basics" class="md-nav__link">
+    Pytest Basics
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#directory-structure" class="md-nav__link">
+    Directory Structure
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#importing-function-to-test-scripts" class="md-nav__link">
     Importing Function to Test Scripts
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#ini-file" class="md-nav__link">
     INI File
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#class" class="md-nav__link">
     Class
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#fixtures" class="md-nav__link">
     Fixtures
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#parameterize" class="md-nav__link">
     Parameterize
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#function-annotation" class="md-nav__link">
     Function Annotation
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#mocking" class="md-nav__link">
     Mocking
   </a>
@@ -655,11 +661,6 @@
   <a href="#global-variables-functions" class="md-nav__link">
     Global Variables &amp; Functions
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -814,63 +815,69 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#pytest" class="md-nav__link">
-    Pytest
-  </a>
-  
-    <nav class="md-nav" aria-label="Pytest">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#basics" class="md-nav__link">
-    Basics
+  <a href="#testing-overview" class="md-nav__link">
+    Testing Overview
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
+  <a href="#pytest-basics" class="md-nav__link">
+    Pytest Basics
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#directory-structure" class="md-nav__link">
+    Directory Structure
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#importing-function-to-test-scripts" class="md-nav__link">
     Importing Function to Test Scripts
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#ini-file" class="md-nav__link">
     INI File
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#class" class="md-nav__link">
     Class
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#fixtures" class="md-nav__link">
     Fixtures
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#parameterize" class="md-nav__link">
     Parameterize
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#function-annotation" class="md-nav__link">
     Function Annotation
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#mocking" class="md-nav__link">
     Mocking
   </a>
@@ -889,11 +896,6 @@
   <a href="#global-variables-functions" class="md-nav__link">
     Global Variables &amp; Functions
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -933,7 +935,8 @@
                   </a>
                 
                 
-                <h1 id="testing">Testing</h1>
+                <h1 id="pytest">Pytest</h1>
+<h2 id="testing-overview">Testing Overview</h2>
 <p>Testing is an important aspect for any software system. The real value of testing occurs with system changes. Done correctly, each tests reduces uncertainty when analysing a change to the system</p>
 <p>A traditional testing pyramid from Google includes the type of tests as well as their quantity for each test as illustrated below.</p>
 <figure>
@@ -947,13 +950,9 @@
   <figcaption>Martin Fowler's test pyramid for ML.<a href="https://martinfowler.com/articles/cd4ml.html"> Source</a></figcaption>
 </figure>
 
-<p>Much of my knowledge in machine learning testing is through this udemy course called <a href="https://www.udemy.com/course/testing-and-monitoring-machine-learning-model-deployments/">Testing &amp; Monitoring Machine Learning Model Deployments</a>. I would highly recommend you to sign up for it.</p>
-<hr>
-
-<h2 id="pytest">Pytest</h2>
+<h2 id="pytest-basics">Pytest Basics</h2>
 <p><a href="https://docs.pytest.org/en/stable/">Pytest</a> is one of the python libraries used for automated testing your code. Refactoring &amp; improvements can thus be easier to validate, debug, and also included in your CI/CD pipeline. </p>
 <p>An good tutorial on using pytest can be found <a href="https://towardsdatascience.com/unit-testing-for-data-scientists-dc5e0cd397fb">here</a> </p>
-<h3 id="basics">Basics</h3>
 <p>A few basic conventions of pytest includes:</p>
 <ul>
 <li>Test scripts must start or end with the word <code>test</code>, e.g. <code>test_data.py</code></li>
@@ -1009,16 +1008,19 @@
 </table>
 <p>For the last command, we can mark each of our test functions, e.g. <code>pytest.mark.integration</code> so that we can call them later using <code>pytest -m integration</code>. To run other unmarked test, we use <code>pytest -m 'not integration'</code></p>
 <p>Note that <code>pytest</code> runs from the existing python library, and can ignore your virtual environment setup. As a result, you might face import errors even though the libraries are already installed in the virtual env. To ask it to run in the virtual env, use <code>python -m pytest</code>.</p>
-<h3 id="importing-function-to-test-scripts">Importing Function to Test Scripts</h3>
-<p>Our repository directory is usually partitioned as follows below, with the testing and source code directory in separate folders. </p>
+<h2 id="directory-structure">Directory Structure</h2>
+<p>Our repository directory is usually partitioned as follows below, with the testing and source code directory in separate folders. This is because the deployment project code is independent of the testing code.</p>
 <div class="highlight"><pre><span></span><code>.
 ├── project
 │   ├── app.py
 │   └── func.py
 └── tests
-    └── unit_tests
-        └── test_func.py
+    ├── unit_tests
+    │   └── test_func.py
+    └── integration_tests
+        └── test_docker_api.py
 </code></pre></div>
+<h2 id="importing-function-to-test-scripts">Importing Function to Test Scripts</h2>
 <p>To launch pytest, we will need to launch from the root, so that the test script can access the app.py</p>
 <div class="highlight"><pre><span></span><code>pytest test/unit_test/test_app.py -v
 </code></pre></div>
@@ -1027,7 +1029,7 @@
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;project&quot;</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">app</span> <span class="kn">import</span> <span class="n">function_a</span>
 </code></pre></div>
-<h3 id="ini-file">INI File</h3>
+<h2 id="ini-file">INI File</h2>
 <p>We can add more configurations to pytest through a <code>pytest.ini</code> file. The commands can also be placed in a <code>tox.ini</code> file if using tox to launch pytest.</p>
 <div class="highlight"><pre><span></span><code><span class="k">[pytest]</span>
 <span class="na">junit_family</span><span class="o">=</span><span class="s">xunit1</span>
@@ -1037,7 +1039,7 @@
 <span class="s">    ignore::UserWarning</span>
 <span class="s">    ignore::FutureWarning</span>
 </code></pre></div>
-<h3 id="class">Class</h3>
+<h2 id="class">Class</h2>
 <p>We can place our classes in classes to better organise them. Note that the class name must start with a <code>Test_*</code> for pytest to register, and each method name must have <code>test_</code>. Below is an example</p>
 <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Test_personalised</span><span class="p">:</span>
 
@@ -1055,7 +1057,7 @@
             <span class="n">msg</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">json</span><span class="p">())[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;msg&quot;</span><span class="p">]</span>
         <span class="k">assert</span> <span class="n">msg</span> <span class="o">==</span> <span class="s2">&quot;error msg 2&quot;</span>
 </code></pre></div>
-<h3 id="fixtures">Fixtures</h3>
+<h2 id="fixtures">Fixtures</h2>
 <p>When creating test scripts, we often need to run some common code before we create the test case itself. Instead of repeating the same code in every test, we create fixtures that establish a baseline code for our tests. Some common fixtures include data loaders, or initialize database connections.</p>
 <p>Fixtures are define in the file <code>conftest.py</code> so that tests from multiple test modules in the directory can access the fixture function.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># conftest.py</span>
@@ -1072,7 +1074,7 @@
     <span class="k">assert</span> <span class="n">subject</span> <span class="o">==</span> <span class="mi">16</span>
 </code></pre></div>
 <p>The test fixture have a scope argument, e.g. <code>@pytest.fixture(scope="session")</code> which set when the fixture will be destroyed. For example, the session scope is destroyed at the end of the test session (i.e. all the tests). By default, the scope is set to <code>function</code>, which mean the fixture is destroyed at the end of the test function when it was called.</p>
-<h3 id="parameterize">Parameterize</h3>
+<h2 id="parameterize">Parameterize</h2>
 <p>Parameterizing allows multiple inputs to be iterate over a test function. For the example below, there will be 3 tests being run.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pytest</span>
 
@@ -1095,7 +1097,7 @@
     <span class="n">detection_cnt</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">prediction</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">detection_cnt</span> <span class="o">==</span> <span class="n">expect</span>
 </code></pre></div>
-<h3 id="function-annotation">Function Annotation</h3>
+<h2 id="function-annotation">Function Annotation</h2>
 <p>While not a pytest functionality, <strong>Function Annotations</strong> are useful and easy to implement for checking the input and return types in pytest.</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="k">return</span> <span class="s2">&quot;something&quot;</span>
@@ -1103,9 +1105,9 @@
 <span class="n">foo</span><span class="o">.</span><span class="vm">__annotations__</span>
 <span class="c1"># {&#39;a&#39;: &lt;class &#39;int&#39;&gt;, &#39;b&#39;: &lt;class &#39;float&#39;&gt;, &#39;return&#39;: &lt;class &#39;bool&#39;&gt;}</span>
 </code></pre></div>
-<h3 id="mocking">Mocking</h3>
+<h2 id="mocking">Mocking</h2>
 <p>Mocking is often used in unit tests where we can mock or "fake" a library, function, return value etc., as we only want to test the unit/function itself, not other related stuff that are bundled with it.</p>
-<h4 id="patching">Patching</h4>
+<h3 id="patching">Patching</h3>
 <p>Using the in-built <code>unittest.mock.patch</code> we can easily mock functions and their return values. One useful note is that we need to patch <em>where the object/function is looked up</em> rather than <em>where it is defined</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># project/app.py</span>
 <span class="kn">import</span> <span class="nn">time</span>
@@ -1176,7 +1178,7 @@
     <span class="n">result</span> <span class="o">=</span> <span class="n">call_function</span><span class="p">()</span>
     <span class="k">assert</span> <span class="s2">&quot;new_variable_value&quot;</span> <span class="o">==</span> <span class="n">result</span>
 </code></pre></div>
-<h4 id="global-variables-functions">Global Variables &amp; Functions</h4>
+<h3 id="global-variables-functions">Global Variables &amp; Functions</h3>
 <p>Sometimes, we might need to have global variables or functions defined in a script. An example is shown below, whereby we are opening a model file that is not present in the repository.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># func.py</span>
 <span class="kn">import</span> <span class="nn">pickle</span>
