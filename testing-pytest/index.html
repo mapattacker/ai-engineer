@@ -1196,10 +1196,10 @@
     <span class="n">ret</span> <span class="o">=</span> <span class="n">function_a</span><span class="p">()</span>
     <span class="k">assert</span> <span class="mi">1</span> <span class="o">==</span> <span class="n">ret</span>
 </code></pre></div>
-<p>There are two ways to overcome this.</p>
-<ol>
+<p>There are two ways to overcome this:</p>
+<ul>
 <li>Use <code>if "pytest" not in sys.modules:</code></li>
-</ol>
+</ul>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
@@ -1211,9 +1211,9 @@
     <span class="c1"># do something</span>
     <span class="k">return</span> <span class="mi">1</span>
 </code></pre></div>
-<ol>
+<ul>
 <li>Place the global file calling under <code>if __name__ == "__main__"</code></li>
-</ol>
+</ul>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
