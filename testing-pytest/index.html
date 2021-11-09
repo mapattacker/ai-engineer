@@ -645,8 +645,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#patch" class="md-nav__link">
-    Patch
+  <a href="#patching" class="md-nav__link">
+    Patching
   </a>
   
 </li>
@@ -879,8 +879,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#patch" class="md-nav__link">
-    Patch
+  <a href="#patching" class="md-nav__link">
+    Patching
   </a>
   
 </li>
@@ -1105,7 +1105,7 @@
 </code></pre></div>
 <h3 id="mocking">Mocking</h3>
 <p>Mocking is often used in unit tests where we can mock or "fake" a library, function, return value etc., as we only want to test the unit/function itself, not other related stuff that are bundled with it.</p>
-<h4 id="patch">Patch</h4>
+<h4 id="patching">Patching</h4>
 <p>Using the in-built <code>unittest.mock.patch</code> we can easily mock functions and their return values. One useful note is that we need to patch <em>where the object/function is looked up</em> rather than <em>where it is defined</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># project/app.py</span>
 <span class="kn">import</span> <span class="nn">time</span>
@@ -1129,7 +1129,7 @@
 <p>We can also call patch without a decorator, in case we have other decorators that made the test function's arguments confusing.</p>
 <p>Last, we can also have a return value for the patched function.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">unittest.mock</span> <span class="kn">import</span> <span class="n">patch</span><span class="p">,</span> <span class="n">Mock</span>
+<span class="kn">from</span> <span class="nn">unittest.mock</span> <span class="kn">import</span> <span class="n">patch</span>
 
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;project&quot;</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">func</span> <span class="kn">import</span> <span class="n">function_a</span><span class="p">,</span> <span class="n">function_b</span>
@@ -1154,6 +1154,27 @@
     <span class="sd">&quot;&quot;&quot;api_run_b will return 5 to function b&quot;&quot;&quot;</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="n">function_b</span><span class="p">()</span>
     <span class="k">assert</span> <span class="mi">5</span> <span class="o">==</span> <span class="n">ret</span>
+</code></pre></div>
+<p>We can also stack the patches, but note that <strong>first argument in the test function correspondings to the last patch decorator</strong> given.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;app.load_model_item2vec_sku&quot;</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;app.query_sku&quot;</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;app.sort_by_cos_sim&quot;</span><span class="p">,</span> <span class="n">return_value</span><span class="o">=</span><span class="s2">&quot;abc&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_api</span><span class="p">(</span><span class="n">sort_by_cos_sim</span><span class="p">,</span> <span class="n">query_sku</span><span class="p">,</span> <span class="n">load_model_item2vec_sku</span><span class="p">):</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="n">sort_by_cos_sim</span><span class="o">.</span><span class="n">return_value</span>
+    <span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">test_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;/product-similarity&#39;</span><span class="p">,</span> 
+                        <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;resultSize&quot;</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="s2">&quot;sku&quot;</span><span class="p">:</span> <span class="s2">&quot;x&quot;</span><span class="p">})</span><span class="o">.</span><span class="n">json</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">==</span><span class="p">{</span><span class="s2">&quot;sku&quot;</span><span class="p">:</span> <span class="n">expected</span><span class="p">}</span>
+</code></pre></div>
+<p>To mock a variable in the function, we can use the same patch. We don't need to pass any arguments to the test function.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">unittest.mock</span> <span class="kn">import</span> <span class="n">patch</span>
+
+<span class="kn">from</span> <span class="nn">app</span> <span class="kn">import</span> <span class="n">function</span>
+
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;app.variable_name&quot;</span><span class="p">,</span> <span class="s2">&quot;new_variable_value&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_script</span><span class="p">():</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">call_function</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="s2">&quot;new_variable_value&quot;</span> <span class="o">==</span> <span class="n">result</span>
 </code></pre></div>
 <h4 id="without-mocking">Without Mocking</h4>
 <p>An alternative, to mocking within the testing script, is to add in an <code>if-else</code> condition with <code>if "pytest" in sys.modules:</code> within the operational script. This will check if pytest is imported in the environment, and if so, you can input a dummy value.</p>
