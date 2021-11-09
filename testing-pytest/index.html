@@ -652,8 +652,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#without-mocking" class="md-nav__link">
-    Without Mocking
+  <a href="#handling-global-variables-functions" class="md-nav__link">
+    Handling Global Variables &amp; Functions
   </a>
   
 </li>
@@ -886,8 +886,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#without-mocking" class="md-nav__link">
-    Without Mocking
+  <a href="#handling-global-variables-functions" class="md-nav__link">
+    Handling Global Variables &amp; Functions
   </a>
   
 </li>
@@ -1176,14 +1176,54 @@
     <span class="n">result</span> <span class="o">=</span> <span class="n">call_function</span><span class="p">()</span>
     <span class="k">assert</span> <span class="s2">&quot;new_variable_value&quot;</span> <span class="o">==</span> <span class="n">result</span>
 </code></pre></div>
-<h4 id="without-mocking">Without Mocking</h4>
-<p>An alternative, to mocking within the testing script, is to add in an <code>if-else</code> condition with <code>if "pytest" in sys.modules:</code> within the operational script. This will check if pytest is imported in the environment, and if so, you can input a dummy value.</p>
-<p>This is especially useful for scripts that lie outside any class or functions.</p>
-<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="s2">&quot;pytest&quot;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;return value&quot;</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="n">modelpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">modeldir</span><span class="p">,</span> <span class="n">convert_model_name</span><span class="p">)</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">load_model_item2vec_sku</span><span class="p">(</span><span class="n">modelpath</span><span class="p">)</span>
+<h4 id="handling-global-variables-functions">Handling Global Variables &amp; Functions</h4>
+<p>Sometimes, we might need to have global variables or functions defined in a script. An example is shown below, whereby we are opening a model file that is not present in the repository.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># func.py</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;model.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">function_a</span><span class="p">():</span>
+    <span class="c1"># do something</span>
+    <span class="k">return</span> <span class="mi">1</span>
+</code></pre></div>
+<p>Hence, if we use the test script below, a <code>FileNotFoundError: [Errno 2] No such file or directory: 'model.pkl'.</code> will be prompted.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># test_func.py</span>
+<span class="kn">from</span> <span class="nn">func</span> <span class="kn">import</span> <span class="n">function_a</span>
+
+<span class="k">def</span> <span class="nf">test_function_a</span><span class="p">():</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">function_a</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="mi">1</span> <span class="o">==</span> <span class="n">ret</span>
+</code></pre></div>
+<p>There are two ways to overcome this.</p>
+<ol>
+<li>Use <code>if "pytest" not in sys.modules:</code></li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="k">if</span> <span class="s2">&quot;pytest&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;model.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">function_a</span><span class="p">():</span>
+    <span class="c1"># do something</span>
+    <span class="k">return</span> <span class="mi">1</span>
+</code></pre></div>
+<ol>
+<li>Place the global file calling under <code>if __name__ == "__main__"</code></li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="k">def</span> <span class="nf">function_a</span><span class="p">():</span>
+    <span class="c1"># do something</span>
+    <span class="k">return</span> <span class="mi">1</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;model.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 </code></pre></div>
 <hr>
 
