@@ -1190,7 +1190,7 @@
     <span class="c1"># do something</span>
     <span class="k">return</span> <span class="mi">1</span>
 </code></pre></div>
-<p>Hence, if we use the test script below, a <code>FileNotFoundError: [Errno 2] No such file or directory: 'model.pkl'.</code> will be prompted.</p>
+<p>Hence, if we use the test script below, a <code>FileNotFoundError: [Errno 2] No such file or directory: 'model.pkl'.</code> will be prompted. We cannot mock the global functions (or variables); they will only be mocked if they are called within the function, in this case <code>function_a</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># test_func.py</span>
 <span class="kn">from</span> <span class="nn">func</span> <span class="kn">import</span> <span class="n">function_a</span>
 
@@ -1198,7 +1198,7 @@
     <span class="n">ret</span> <span class="o">=</span> <span class="n">function_a</span><span class="p">()</span>
     <span class="k">assert</span> <span class="mi">1</span> <span class="o">==</span> <span class="n">ret</span>
 </code></pre></div>
-<p>There are two ways to overcome this:</p>
+<p>There are a few ways to overcome this:</p>
 <ul>
 <li>Use <code>if "pytest" not in sys.modules:</code></li>
 </ul>
@@ -1216,7 +1216,7 @@
 <ul>
 <li>Place the global file calling under <code>if __name__ == "__main__"</code></li>
 </ul>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pickle</span>
+<p><div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="k">def</span> <span class="nf">function_a</span><span class="p">():</span>
@@ -1226,6 +1226,40 @@
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;model.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</code></pre></div>
+* Have a <code>prod</code> (and <code>dev</code>) and <code>test</code> config variables, the latter which includes the path to a dummy test model.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ------ in terminal ------</span>
+<span class="n">export</span> <span class="n">ENV</span><span class="o">=</span><span class="n">test</span>
+
+<span class="c1"># ------ in config.py ------</span>
+<span class="n">conf</span> <span class="o">=</span> \
+<span class="p">{</span><span class="s2">&quot;ENV&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="p">{</span><span class="s2">&quot;PROD&quot;</span><span class="p">:{</span>
+        <span class="s2">&quot;MODEL_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;model.pkl&quot;</span>
+    <span class="p">}},</span>
+    <span class="p">{</span><span class="s2">&quot;TEST&quot;</span><span class="p">:{</span>
+        <span class="s2">&quot;MODEL_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;../tests/unit_tests/data/model.pkl&quot;</span>
+    <span class="p">}}</span>
+<span class="p">}}</span>
+
+<span class="c1"># ------ func.py ------</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">config</span>
+
+
+<span class="n">env</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;ENV&quot;</span><span class="p">]</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">env</span><span class="p">:</span> <span class="c1"># if $ENV not given, set to PROD</span>
+    <span class="n">env</span> <span class="o">=</span> <span class="s2">&quot;PROD&quot;</span>
+<span class="n">conf</span> <span class="o">=</span> <span class="n">conf</span><span class="p">[</span><span class="n">env</span><span class="p">]</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="s2">&quot;MODEL_PATH&quot;</span><span class="p">],</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">function_a</span><span class="p">():</span>
+    <span class="c1"># do something</span>
+    <span class="k">return</span> <span class="mi">1</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;ENV&quot;</span><span class="p">]</span>
 </code></pre></div>
 <hr>
 
