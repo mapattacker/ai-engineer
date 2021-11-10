@@ -1263,7 +1263,8 @@
     <span class="n">env</span> <span class="o">=</span> <span class="s2">&quot;PROD&quot;</span>
 <span class="n">conf</span> <span class="o">=</span> <span class="n">conf</span><span class="p">[</span><span class="n">env</span><span class="p">]</span>
 
-<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="s2">&quot;MODEL_PATH&quot;</span><span class="p">],</span> <span class="n">conf</span><span class="p">[</span><span class="s2">&quot;MODEL_NAME&quot;</span><span class="p">]),</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<span class="n">model_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="s2">&quot;MODEL_PATH&quot;</span><span class="p">],</span> <span class="n">conf</span><span class="p">[</span><span class="s2">&quot;MODEL_NAME&quot;</span><span class="p">])</span>
+<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">function_a</span><span class="p">():</span>
