@@ -1190,7 +1190,7 @@
     <span class="c1"># do something</span>
     <span class="k">return</span> <span class="mi">1</span>
 </code></pre></div>
-<p>Hence, if we use the test script below, a <code>FileNotFoundError: [Errno 2] No such file or directory: 'model.pkl'.</code> will be prompted. We cannot mock the global functions (or variables); they will only be mocked if they are called within the function, in this case <code>function_a</code>.</p>
+<p>Hence, if we use the test script below, a <code>FileNotFoundError: [Errno 2] No such file or directory: 'model.pkl'.</code> will be prompted. We <strong>cannot mock the global functions (or variables)</strong>; they will only be mocked if they are called within the function/method tested, in this case is <code>function_a</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># test_func.py</span>
 <span class="kn">from</span> <span class="nn">func</span> <span class="kn">import</span> <span class="n">function_a</span>
 
