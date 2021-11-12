@@ -638,6 +638,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#security-patches" class="md-nav__link">
+    Security Patches
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#optimize-image-size" class="md-nav__link">
     Optimize Image Size
   </a>
@@ -938,6 +945,13 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-patches" class="md-nav__link">
+    Security Patches
+  </a>
   
 </li>
       
@@ -1272,6 +1286,11 @@ docker network ls
 </code></pre></div>
 <p>Alternatively, we can launch the containers together using docker-compose, and they will automatically be in the same network.</p>
 <p>For sending REST-APIs between docker containers in the same network, the IP address will be <code>http://host.docker.internal</code> for Mac &amp; Windows, and <code>http://172.17.0.1</code> for Linux.</p>
+<h2 id="security-patches">Security Patches</h2>
+<p>We can improve our container security by running the os updates. More information is described <a href="https://pythonspeed.com/articles/security-updates-in-docker/">here</a>.</p>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span> <span class="s">debian:buster</span>
+<span class="k">RUN</span> apt-get update <span class="o">&amp;&amp;</span> apt-get -y upgrade
+</code></pre></div>
 <h2 id="optimize-image-size">Optimize Image Size</h2>
 <p>There are various ways to reduce the image size being built.</p>
 <h3 id="slim-build">Slim Build</h3>
