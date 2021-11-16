@@ -263,7 +263,7 @@
   
     <li class="md-nav__item">
       <a href="../git/" class="md-nav__link">
-        Git
+        GIT
       </a>
     </li>
   
@@ -840,7 +840,9 @@ sudo apt remove --autoremove nvidia-*
 <p>First we setup the correct CUDA PPA on your system. </p>
 <div class="highlight"><pre><span></span><code>sudo apt update
 
-sudo add-apt-repository ppa:graphics-driverssudo apt-key adv --fetch-keys  http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pubsudo bash -c <span class="s1">&#39;echo &quot;deb http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /&quot; &gt; /etc/apt/sources.list.d/cuda.list&#39;</span>
+sudo add-apt-repository ppa:graphics-drivers
+
+sudo apt-key adv --fetch-keys  http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pubsudo bash -c <span class="s1">&#39;echo &quot;deb http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /&quot; &gt; /etc/apt/sources.list.d/cuda.list&#39;</span>
 
 sudo bash -c <span class="s1">&#39;echo &quot;deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /&quot; &gt; /etc/apt/sources.list.d/cuda_learn.list&#39;</span>
 </code></pre></div>
