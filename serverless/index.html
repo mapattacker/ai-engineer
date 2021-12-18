@@ -621,6 +621,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#api-gateway" class="md-nav__link">
+    API Gateway
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -916,6 +923,13 @@
           <li class="md-nav__item">
   <a href="#large-libraries" class="md-nav__link">
     Large Libraries
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-gateway" class="md-nav__link">
+    API Gateway
   </a>
   
 </li>
@@ -1267,14 +1281,20 @@ npm install --save-dev serverless-wsgi serverless-python-requirements
   <span class="nt">app</span><span class="p">:</span>
     <span class="nt">handler</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">wsgi_handler.handler</span>
     <span class="nt">events</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="nt">http</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ANY /</span>
-      <span class="p p-Indicator">-</span> <span class="nt">http</span><span class="p">:</span> <span class="s">&#39;ANY</span><span class="nv"> </span><span class="s">{proxy+}&#39;</span>
+      <span class="p p-Indicator">-</span> <span class="nt">http</span><span class="p">:</span> 
+          <span class="nt">method</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ANY</span>
+          <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/</span>
+      <span class="p p-Indicator">-</span> <span class="nt">http</span><span class="p">:</span>
+          <span class="nt">method</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ANY</span>
+          <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/{proxy+}</span>
 </code></pre></div>
 <h3 id="warm-start">Warm Start</h3>
 <p>Your lambda if not used for awhile, will need a delay to startup again. This is known as a cold start. To prevent this, we can create a schedule event to invoke the lambda (default 5mins) to keep it warm. Refer to this <a href="https://www.serverless.com/blog/keep-your-lambdas-warm/">post</a> on how to do it.</p>
 <h3 id="large-libraries">Large Libraries</h3>
 <p>Some libraries are huge and can exceed lambda's 50MB zip file upload. We can choose to zip the libraries using the <code>serverless-python-requirements</code> plugin, though there is an existing <a href="https://github.com/serverless/serverless-python-requirements/issues/533">bug</a> that is at this point of time not resolved.</p>
 <p>Another option is to upload the library(ies) as lambda layer(s), and attach it to your lambda function. See this guide for more <a href="https://www.serverless.com/framework/docs/providers/aws/guide/layers">details</a>.</p>
+<h3 id="api-gateway">API Gateway</h3>
+<p>We can also add specific API Gateway configurations like API keys and usage plans. See this guide for more <a href="https://www.serverless.com/framework/docs/providers/aws/events/apigateway">details</a>.</p>
                 
               
               
