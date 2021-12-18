@@ -601,8 +601,22 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#serverless-file" class="md-nav__link">
-    Serverless File
+  <a href="#serverless-file-for-flask" class="md-nav__link">
+    Serverless File for Flask
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#warm-start" class="md-nav__link">
+    Warm Start
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#large-libraries" class="md-nav__link">
+    Large Libraries
   </a>
   
 </li>
@@ -886,8 +900,22 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#serverless-file" class="md-nav__link">
-    Serverless File
+  <a href="#serverless-file-for-flask" class="md-nav__link">
+    Serverless File for Flask
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#warm-start" class="md-nav__link">
+    Warm Start
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#large-libraries" class="md-nav__link">
+    Large Libraries
   </a>
   
 </li>
@@ -1178,8 +1206,9 @@ nvm install node
 node --version
 npm --version
 
-<span class="c1"># install serverless</span>
+<span class="c1"># install serverless, or specific a version</span>
 npm install -g serverless
+npm install -g serverless@~2.39.x
 
 <span class="c1"># test serverless installation</span>
 serverless -h
@@ -1200,42 +1229,52 @@ npm init
 npm install --save-dev serverless-wsgi serverless-python-requirements
 </code></pre></div>
 <h3 id="basics">Basics</h3>
+<p>Before we start with anything, we need to create a python virtual environment. For that, refer to <a href="https://mapattacker.github.io/ai-engineer/virtual_env/">this</a>.</p>
 <p>We can add a template <code>serverless.yml</code> by using the following command. This will create a template with detailed description on how to write your serverless configuration.</p>
 <div class="highlight"><pre><span></span><code>sls create --template aws-python3 --name hello-service
 </code></pre></div>
 <p>To deploy your lambda, we just type:</p>
 <div class="highlight"><pre><span></span><code>sls deploy
 </code></pre></div>
-<p>Under the hood, a cloudformation template is created, and uploaded to an S3 bucket. If the bucket is not defined in the <code>serverless.yml</code>, and IAM permission allows, a new bucket will be created. The lambda function is then created via cloudformation.</p>
+<p>A <code>.serverless</code> folder is created, and within it, cloudformation templates are created, with the a zip file of the lambda function, and uploaded to an S3 bucket. If the bucket is not defined in the <code>serverless.yml</code>, and IAM permission allows, a new bucket will be created. The lambda function is then created via cloudformation.</p>
 <p>To delete the stack, we can just use <code>sls remove</code>.</p>
-<h3 id="serverless-file">Serverless File</h3>
+<h3 id="serverless-file-for-flask">Serverless File for Flask</h3>
 <div class="highlight"><pre><span></span><code><span class="c1"># serverless.yml</span>
-<span class="nt">service</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">serverless-flask</span>
+<span class="nt">service</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sls-flask</span>
 
 <span class="nt">plugins</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">serverless-python-requirements</span>
   <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">serverless-wsgi</span>
 
+<span class="c1"># configs for plugins</span>
 <span class="nt">custom</span><span class="p">:</span>
   <span class="nt">wsgi</span><span class="p">:</span>
     <span class="nt">app</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">app.app</span>
     <span class="nt">packRequirements</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
   <span class="nt">pythonRequirements</span><span class="p">:</span>
     <span class="nt">dockerizePip</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">non-linux</span>
+    <span class="nt">zip</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span> <span class="c1"># if libs too large, in this case, sklearn</span>
 
 <span class="nt">provider</span><span class="p">:</span>
   <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">aws</span>
-  <span class="nt">runtime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">python3.6</span>
+  <span class="nt">runtime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">python3.8</span>
   <span class="nt">stage</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">dev</span>
-  <span class="nt">region</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+  <span class="nt">region</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ap-southeast-1</span>
+  <span class="nt">deploymentBucket</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">python-serverless-deployment-s3</span>
+  <span class="nt">lambdaHashingVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">20201221</span>
 
 <span class="nt">functions</span><span class="p">:</span>
   <span class="nt">app</span><span class="p">:</span>
-    <span class="nt">handler</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">wsgi.handler</span>
+    <span class="nt">handler</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">wsgi_handler.handler</span>
     <span class="nt">events</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="nt">http</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ANY /</span>
       <span class="p p-Indicator">-</span> <span class="nt">http</span><span class="p">:</span> <span class="s">&#39;ANY</span><span class="nv"> </span><span class="s">{proxy+}&#39;</span>
 </code></pre></div>
+<h3 id="warm-start">Warm Start</h3>
+<p>Your lambda if not used for awhile, will need a delay to startup again. This is known as a cold start. To prevent this, we can create a schedule event to invoke the lambda (default 5mins) to keep it warm. Refer to this <a href="https://www.serverless.com/blog/keep-your-lambdas-warm/">post</a> on how to do it.</p>
+<h3 id="large-libraries">Large Libraries</h3>
+<p>Some libraries are huge and can exceed lambda's 50MB zip file upload. We can choose to zip the libraries using the <code>serverless-python-requirements</code> plugin, though there is an existing <a href="https://github.com/serverless/serverless-python-requirements/issues/533">bug</a> that is at this point of time not resolved.</p>
+<p>Another option is to upload the library(ies) as lambda layer(s), and attach it to your lambda function. See this guide for more <a href="https://www.serverless.com/framework/docs/providers/aws/guide/layers">details</a>.</p>
                 
               
               
