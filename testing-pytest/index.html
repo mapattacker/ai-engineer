@@ -1052,7 +1052,8 @@
 <span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span><span class="p">,</span> <span class="n">find_packages</span>
 <span class="n">setup</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;project&quot;</span><span class="p">,</span> <span class="n">packages</span><span class="o">=</span><span class="n">find_packages</span><span class="p">())</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>
+<div class="highlight"><pre><span></span><code><span class="c1"># test_app.py</span>
+<span class="kn">from</span> <span class="nn">project.app</span> <span class="kn">import</span> <span class="n">function_a</span>
 </code></pre></div>
 <h2 id="ini-file">INI File</h2>
 <p>We can add more configurations to pytest through a <code>pytest.ini</code> file. The commands can also be placed in a <code>tox.ini</code> file if using tox to launch pytest.</p>
