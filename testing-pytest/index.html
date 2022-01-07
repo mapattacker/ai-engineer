@@ -446,7 +446,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../flask/" class="md-nav__link">
+      <a href="../deploy-flask/" class="md-nav__link">
         Flask
       </a>
     </li>
@@ -458,7 +458,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../fastapi/" class="md-nav__link">
+      <a href="../deploy-fastapi/" class="md-nav__link">
         FastAPI
       </a>
     </li>
@@ -470,7 +470,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tf-serving/" class="md-nav__link">
+      <a href="../deploy-tf-serving.md" class="md-nav__link">
         TF Serving
       </a>
     </li>
@@ -482,8 +482,20 @@
   
   
     <li class="md-nav__item">
-      <a href="../serverless/" class="md-nav__link">
+      <a href="../deploy-serverless/" class="md-nav__link">
         Serverless
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deploy-terraform/" class="md-nav__link">
+        Terraform
       </a>
     </li>
   
@@ -1034,6 +1046,13 @@
 <span class="n">THIS_DIR</span> <span class="o">=</span> <span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
 <span class="n">PROJ_DIR</span> <span class="o">=</span> <span class="n">normpath</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">THIS_DIR</span><span class="p">,</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;project&#39;</span><span class="p">))</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PROJ_DIR</span><span class="p">)</span>
+</code></pre></div>
+<p>We can also create <code>setup.py</code> at the root, and <code>pip install --editable .</code>. This will create a folder <code>project.egg.info</code> like all the libraries installed using pip, and make all imports under the project folder to be imported anywhere from the root. </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># setup.py</span>
+<span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span><span class="p">,</span> <span class="n">find_packages</span>
+<span class="n">setup</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;project&quot;</span><span class="p">,</span> <span class="n">packages</span><span class="o">=</span><span class="n">find_packages</span><span class="p">())</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>
 </code></pre></div>
 <h2 id="ini-file">INI File</h2>
 <p>We can add more configurations to pytest through a <code>pytest.ini</code> file. The commands can also be placed in a <code>tox.ini</code> file if using tox to launch pytest.</p>

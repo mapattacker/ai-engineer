@@ -14,7 +14,7 @@
     
     
       
-        <title>Machine Learning Life Cycle - AI Engineer Guide</title>
+        <title>FastAPI - AI Engineer Guide</title>
       
     
     
@@ -65,7 +65,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#machine-learning-life-cycle" class="md-skip">
+        <a href="#fastapi" class="md-skip">
           Skip to content
         </a>
       
@@ -95,7 +95,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Machine Learning Life Cycle
+              FastAPI
             
           </span>
         </div>
@@ -423,12 +423,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_10" type="checkbox" id="__nav_10" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_10" type="checkbox" id="__nav_10" checked>
       
       <label class="md-nav__link" for="__nav_10">
         Deployment
@@ -456,11 +458,65 @@
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../deploy-fastapi/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          FastAPI
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         FastAPI
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#uvicorn" class="md-nav__link">
+    Uvicorn
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request-response-schema" class="md-nav__link">
+    Request-Response Schema
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-api" class="md-nav__link">
+    Open-API
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -676,6 +732,35 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#uvicorn" class="md-nav__link">
+    Uvicorn
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request-response-schema" class="md-nav__link">
+    Request-Response Schema
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-api" class="md-nav__link">
+    Open-API
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -686,26 +771,115 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/ml-process.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/deploy-fastapi.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="machine-learning-life-cycle">Machine Learning Life Cycle</h1>
-<p>Andrew Ng used another similar flow to describe the process, and explained it quite succinctly using an example speech recognition project.</p>
-<figure>
-  <img src="https://raw.githubusercontent.com/mapattacker/ai-engineer/master/images/ml-process-coursera.png" style="width:90%" />
-  <figcaption>Machine Learning Life Cycle</figcaption>
-</figure>
+                <h1 id="fastapi">FastAPI</h1>
+<p><a href="https://fastapi.tiangolo.com">FastAPI</a> is one of the next generation python web framework that uses ASGI (asynchronous server gateway interface) instead of the traditional WSGI. It also includes a number of useful functions to make API creations easier.</p>
+<h2 id="uvicorn">Uvicorn</h2>
+<p>FastAPI uses Uvicorn as its ASGI. We can configure its settings as described <a href="https://www.uvicorn.org/settings/">here</a>. We can also specify it in the fastapi python app script, or at the terminal when we launch uvicorn.</p>
+<p>For the former, with the below specification, we can just execute python app.py to start the application.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># app.py</span>
+<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span>
+<span class="kn">import</span> <span class="nn">uvicorn</span>
 
-<p>Scoping
- * Decide to work on a speech recognition for voice search
- * Key metrics: accuracy, latency, throughput
- * Estimate resources &amp; timeline</p>
-<p>Data
- * Is data labelled consistently?
- * How much silence before and after each clip?
- * How to perform volume normalization</p>
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">uvicorn</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;app:app&#39;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
+</code></pre></div>
+<p>If we run from the terminal, with the app residing in example.py.</p>
+<div class="highlight"><pre><span></span><code>uvicorn example:app --host<span class="o">=</span><span class="s1">&#39;0.0.0.0&#39;</span> --port<span class="o">=</span><span class="m">5000</span>
+</code></pre></div>
+<p>The documentation recommends that we use gunicorn which have richer features to better control over the workers processes.</p>
+<div class="highlight"><pre><span></span><code>gunicorn app:app --bind <span class="m">0</span>.0.0.0:5000 -w <span class="m">1</span> --log-level debug -k uvicorn.workers.UvicornWorker
+</code></pre></div>
+<hr>
+
+<h2 id="request-response-schema">Request-Response Schema</h2>
+<p>FastAPI uses the pydantic library to define the schema of the request &amp; response APIs. This allows the auto generation in the OpenAPI documentations, and for the former, for validating the schema when a request is received.</p>
+<p>For example, given the json:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+    <span class="nt">&quot;boundingPoly&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;normalizedVertices&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                <span class="nt">&quot;x&quot;</span><span class="p">:</span> <span class="mf">0.406767</span><span class="p">,</span>
+                <span class="nt">&quot;y&quot;</span><span class="p">:</span> <span class="mf">0.874573</span><span class="p">,</span>
+                <span class="nt">&quot;width&quot;</span><span class="p">:</span> <span class="mf">0.357321</span><span class="p">,</span>
+                <span class="nt">&quot;height&quot;</span><span class="p">:</span> <span class="mf">0.452179</span><span class="p">,</span>
+                <span class="nt">&quot;score&quot;</span><span class="p">:</span> <span class="mf">0.972167</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                <span class="nt">&quot;x&quot;</span><span class="p">:</span> <span class="mf">0.56781</span><span class="p">,</span>
+                <span class="nt">&quot;y&quot;</span><span class="p">:</span> <span class="mf">0.874173</span><span class="p">,</span>
+                <span class="nt">&quot;width&quot;</span><span class="p">:</span> <span class="mf">0.457373</span><span class="p">,</span>
+                <span class="nt">&quot;height&quot;</span><span class="p">:</span> <span class="mf">0.452121</span><span class="p">,</span>
+                <span class="nt">&quot;score&quot;</span><span class="p">:</span> <span class="mf">0.982109</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">},</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Cat&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>We can define in pydantic as below, using multiple basemodels for each level in the JSON.</p>
+<ul>
+<li>If there are no values input like <code>y: float</code>, it will listed as a required field</li>
+<li>If we add a value like <code>y: float = 0.8369</code>, it will be an optional field, with the value also listed as a default and example value</li>
+<li>If we add a value like <code>x: float = Field(..., example=0.82379)</code>, it will be a required field, and also listed as an example value</li>
+</ul>
+<p>More attributes can be added in <code>Field()</code>, that will be populated in OpenAPI docs.</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">_normalizedVertices</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">example</span><span class="o">=</span><span class="mf">0.82379</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;X-coordinates&quot;</span><span class="p">))</span>
+    <span class="n">y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.8369</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">score</span><span class="p">:</span> <span class="nb">float</span>
+
+<span class="k">class</span> <span class="nc">_boundingPoly</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">normalizedVertices</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_normalizedVertices</span><span class="p">]</span>
+
+<span class="k">class</span> <span class="nc">ResponseSchema</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">boundingPoly</span><span class="p">:</span> <span class="n">_boundingPoly</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Human&quot;</span>
+</code></pre></div>
+<p>We do the same for the request schema and place them in the routing function.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;/api&#39;</span><span class="p">,</span> <span class="n">response_model</span> <span class="o">=</span> <span class="n">ResponseSchema</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">human_detection</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">RequestSchema</span><span class="p">):</span>
+
+    <span class="n">JScontent</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+    <span class="n">encodedImage</span> <span class="o">=</span> <span class="n">JScontent</span><span class="p">[</span><span class="s1">&#39;requests&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;image&#39;</span><span class="p">][</span><span class="s1">&#39;content&#39;</span><span class="p">]</span>
+    <span class="n">npArr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">encodedImage</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+    <span class="n">imgArr</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imdecode</span><span class="p">(</span><span class="n">npArr</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_ANYCOLOR</span><span class="p">)</span>
+    <span class="n">pred_output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">imgArr</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pred_output</span>
+</code></pre></div>
+<hr>
+
+<h2 id="open-api">Open-API</h2>
+<p>OpenAPI documentations of Swagger UI or Redoc are automatically generated. You can access it at the endpoints of <code>/docs</code> and <code>/redoc</code>.</p>
+<p>First, the title, description and versions can be specified from the initialisation of fastapi. The request-response pydantic schema and examples will be added after its inclusion in a POST/GET request routing function.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Human Detection API&quot;</span><span class="p">,</span>
+              <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Submit Image to Return Detected Humans in Bounding Boxes&quot;</span><span class="p">,</span>
+              <span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">)</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;/api&#39;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span> <span class="n">RESPONSE_SCHEMA</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">human_detection</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">REQUEST_SCHEMA</span><span class="p">):</span>
+    <span class="n">do</span> <span class="n">something</span>
+    <span class="k">return</span> <span class="n">another_thing</span>
+</code></pre></div>
                 
               
               
@@ -721,6 +895,41 @@
       
         
 <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../deploy-flask/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Flask" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Flask
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../deploy-serverless/" class="md-footer__link md-footer__link--next" aria-label="Next: Serverless" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Serverless
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
