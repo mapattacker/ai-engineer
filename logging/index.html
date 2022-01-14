@@ -14,7 +14,7 @@
     
     
       
-        <title>Model Version Control - AI Engineer Guide</title>
+        <title>Logging - AI Engineer Guide</title>
       
     
     
@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#model-version" class="md-skip">
+        <a href="#logging" class="md-skip">
           Skip to content
         </a>
       
@@ -93,7 +93,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Model Version Control
+              Logging
             
           </span>
         </div>
@@ -290,69 +290,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Model Version Control
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../mlflow/" class="md-nav__link">
         Model Version Control
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#mlflow" class="md-nav__link">
-    MLFlow
-  </a>
-  
-    <nav class="md-nav" aria-label="MLFlow">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#python-code" class="md-nav__link">
-    Python Code
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#mlflow-ui" class="md-nav__link">
-    MLFlow UI
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -471,11 +413,69 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../logging/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Logging
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Logging
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basic-log" class="md-nav__link">
+    Basic Log
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rotating-log" class="md-nav__link">
+    Rotating Log
+  </a>
+  
+    <nav class="md-nav" aria-label="Rotating Log">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#other-handlers" class="md-nav__link">
+    Other handlers
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -745,23 +745,23 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#mlflow" class="md-nav__link">
-    MLFlow
-  </a>
-  
-    <nav class="md-nav" aria-label="MLFlow">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#python-code" class="md-nav__link">
-    Python Code
+  <a href="#basic-log" class="md-nav__link">
+    Basic Log
   </a>
   
 </li>
+      
+        <li class="md-nav__item">
+  <a href="#rotating-log" class="md-nav__link">
+    Rotating Log
+  </a>
+  
+    <nav class="md-nav" aria-label="Rotating Log">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#mlflow-ui" class="md-nav__link">
-    MLFlow UI
+  <a href="#other-handlers" class="md-nav__link">
+    Other handlers
   </a>
   
 </li>
@@ -783,186 +783,71 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/mlflow.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/mapattacker/ai-engineer/edit/master/docs/logging.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="model-version">Model Version</h1>
-<p>The process of model development usually involves various iterations. This can be due to changes in the data, model type, and model hyperparameters, all of which can influence the final evaluation metrics selected.</p>
-<p>Therefore, we need a system to track each of the model version we trained, as well as log all the different information we used for each training cycle.</p>
-<p>Together with model deployment &amp; monitoring tools, this comprises of the entire ML lifecycle, also known as MLOps.</p>
-<h2 id="mlflow">MLFlow</h2>
-<p>There are a number of different model version platforms, like <a href="https://aws.amazon.com/sagemaker/">AWS Sagemaker</a>, and <a href="https://dvc.org/doc/start/data-pipelines">DVC Pipelines</a> + <a href="https://cml.dev/">CML</a>. However, one of most popular open-source platform is <a href="https://mlflow.org/">MLFlow</a>, which we will demostrate here.</p>
-<p>To start, we install MLFlow with <code>pip install mlflow</code>, and to launch the user interface, <code>mlflow ui</code>. </p>
-<p>For a more verbose specification, to indicate the database, artifacts folder and the server ip (and port) we can do as below.</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span> &lt;project-directory&gt;
+                <h1 id="logging">Logging</h1>
+<p>Flask, FastAPI, gunicorn, and even docker have some form of logging, or integrate the python logging library within them. This page specfically discusses about just the python default logging library.</p>
+<h2 id="basic-log">Basic Log</h2>
+<p>Below describes a simple logging assignment with basic config.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">logging</span>
 
-mlflow server <span class="se">\</span>
-    --backend-store-uri sqlite:///mlflow.db <span class="se">\</span>
-    --default-artifact-root ./artifacts <span class="se">\</span>
-    --host <span class="m">0</span>.0.0.0 -p <span class="m">5000</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+    <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;model.log&#39;</span><span class="p">,</span> <span class="n">filemode</span> <span class="o">=</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span>
+    <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">,</span>
+    <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1">.</span><span class="si">%(msecs)03d</span><span class="s1"> </span><span class="si">%(levelname)s</span><span class="s1"> </span><span class="si">%(module)s</span><span class="s1"> - </span><span class="si">%(funcName)s</span><span class="s1">: </span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="n">datefmt</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span>
+
+<span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;A Debug Logging Message&quot;</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;A Info Logging Message&quot;</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;A Warning Logging Message&quot;</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;An Error Logging Message&quot;</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;A Critical Logging Message&quot;</span><span class="p">)</span>
 </code></pre></div>
-<h3 id="python-code">Python Code</h3>
-<p>The mlflow tracking and model APIs are very easy to use. It involves the following.</p>
-<p><strong>Starting</strong></p>
-<table>
-<thead>
-<tr>
-<th>CMD</th>
-<th>Desc</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>mlflow.set_tracking_uri("http://127.0.0.1:5000")</code></td>
-<td>point to mlflow server</td>
-</tr>
-<tr>
-<td><code>mlflow.set_experiment("iris")</code></td>
-<td>create experiment if not exist</td>
-</tr>
-<tr>
-<td><code>mlflow.start_run(run_name="test run")</code></td>
-<td>give a name for each run (optional)</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Logging Params, Metrics, Artifacts</strong></p>
-<table>
-<thead>
-<tr>
-<th>CMD</th>
-<th>Desc</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>log_param("n_estimators", n_estimators)</code></td>
-<td>log some parameter</td>
-</tr>
-<tr>
-<td><code>log_metric("f1", f1)</code></td>
-<td>log evaluation metric</td>
-</tr>
-<tr>
-<td><code>log_artifacts("logs")</code></td>
-<td>log any files</td>
-</tr>
-</tbody>
-</table>
-<p>Note that we can also (log metrics based on epochs)[https://www.mlflow.org/docs/latest/tracking.html#performance-tracking-with-metrics] of a training so that we can plot the loss over each epoch. This is done by including the step argument in <code>mlflow.log_metrics(key="loss", value=loss, step=epoch)</code>.</p>
-<p><strong>Logging Model</strong></p>
-<p>We also also auto-save the model using the model "flavor" API. The model signature, which is the input and output names and format, can also be recorded. All these information will also be stored under artifacts.</p>
-<div class="highlight"><pre><span></span><code><span class="n">signature</span> <span class="o">=</span> <span class="n">infer_signature</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_predict</span><span class="p">)</span>
-<span class="n">mlflow</span><span class="o">.</span><span class="n">sklearn</span><span class="o">.</span><span class="n">log_model</span><span class="p">(</span>
-    <span class="n">sk_model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
-    <span class="n">artifact_path</span><span class="o">=</span><span class="s2">&quot;artifacts&quot;</span><span class="p">,</span>
-    <span class="n">registered_model_name</span><span class="o">=</span><span class="s2">&quot;iris-randomforest-classifier&quot;</span><span class="p">,</span>
-    <span class="n">signature</span><span class="o">=</span><span class="n">signature</span>
-<span class="p">)</span>
+<p>Logging comes with different levels, indicating their severity. This is what can be seen from the log file using the above example.</p>
+<div class="highlight"><pre><span></span><code>2021-10-11 14:32:33.445 DEBUG logging_test - main: A Debug Logging Message
+22021-10-11 14:32:33.445 INFO logging_test - main: A Info Logging Message
+32021-10-11 14:32:33.445 WARNING logging_test - main: A Warning Logging Message
+42021-10-11 14:32:33.445 ERROR logging_test - main: An Error Logging Message
+52021-10-11 14:32:33.445 CRITICAL logging_test - main: A Critical Logging Message
 </code></pre></div>
-<p><strong>Code</strong></p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">statistics</span> <span class="kn">import</span> <span class="n">mean</span>
-
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">mlflow</span>
-<span class="kn">import</span> <span class="nn">mlflow.sklearn</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">mlflow</span> <span class="kn">import</span> <span class="n">log_artifacts</span><span class="p">,</span> <span class="n">log_metric</span><span class="p">,</span> <span class="n">log_param</span>
-<span class="kn">from</span> <span class="nn">mlflow.models.signature</span> <span class="kn">import</span> <span class="n">infer_signature</span>
-<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_iris</span>
-<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
-<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="p">(</span><span class="n">f1_score</span><span class="p">,</span> <span class="n">plot_confusion_matrix</span><span class="p">,</span>
-                             <span class="n">precision_score</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<h2 id="rotating-log">Rotating Log</h2>
+<p>The limitation of the basic log configuration is that it cannot set a hard limit on the size of logs being collected, and can overload the server's harddisk over time.</p>
+<p>We can use the <code>RotatingFileHandler</code> in this case.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">logging.handlers</span> <span class="kn">import</span> <span class="n">RotatingFileHandler</span>
 
 
-
-<span class="n">iris</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">()</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">iris</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">iris</span><span class="p">[</span><span class="s2">&quot;feature_names&quot;</span><span class="p">])</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span>
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
-    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span>
+<span class="n">rfh</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">handlers</span><span class="o">.</span><span class="n">RotatingFileHandler</span><span class="p">(</span>
+    <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;response.log&#39;</span><span class="p">,</span> <span class="c1">#path &amp; name of logfile</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">,</span>
+    <span class="n">maxBytes</span><span class="o">=</span><span class="mi">100</span><span class="o">*</span><span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span><span class="p">,</span> <span class="c1">#100mb limit for each file</span>
+    <span class="n">backupCount</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="c1">#max of 4 files to be stored, therefore 400mb of logs will be saved</span>
+    <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">delay</span><span class="o">=</span><span class="mi">0</span>
 <span class="p">)</span>
 
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+    <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">,</span>
+    <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%(asctime)s</span><span class="s2"> </span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="n">datefmt</span><span class="o">=</span><span class="s2">&quot;%y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">,</span>
+    <span class="n">handlers</span><span class="o">=</span><span class="p">[</span><span class="n">rfh</span><span class="p">]</span>
+<span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">n_estimators</span><span class="p">):</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="n">n_estimators</span><span class="p">)</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">model</span>
-
-
-<span class="k">def</span> <span class="nf">evaluation</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">y_predict</span><span class="p">):</span>
-    <span class="n">f1</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_predict</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">))</span>
-    <span class="n">precision</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_predict</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">))</span>
-    <span class="n">recall</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_predict</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">))</span>
-    <span class="n">confusion</span> <span class="o">=</span> <span class="n">plot_confusion_matrix</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Blues</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;logs/confusion_metrics.png&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">acc</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span> <span class="n">recall</span><span class="p">,</span> <span class="n">confusion</span>
-
-
-<span class="k">def</span> <span class="nf">mlflow_logs</span><span class="p">(</span><span class="n">n_estimators</span><span class="p">,</span> <span class="n">acc</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span> <span class="n">recall</span><span class="p">):</span>
-    <span class="n">log_param</span><span class="p">(</span><span class="s2">&quot;n_estimators&quot;</span><span class="p">,</span> <span class="n">n_estimators</span><span class="p">)</span>
-    <span class="n">log_metric</span><span class="p">(</span><span class="s2">&quot;f1&quot;</span><span class="p">,</span> <span class="n">f1</span><span class="p">)</span>
-    <span class="n">log_metric</span><span class="p">(</span><span class="s2">&quot;precision&quot;</span><span class="p">,</span> <span class="n">precision</span><span class="p">)</span>
-    <span class="n">log_metric</span><span class="p">(</span><span class="s2">&quot;recall&quot;</span><span class="p">,</span> <span class="n">recall</span><span class="p">)</span>
-    <span class="n">log_artifacts</span><span class="p">(</span><span class="s2">&quot;logs&quot;</span><span class="p">)</span>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="c1"># start mlflow</span>
-    <span class="n">mlflow</span><span class="o">.</span><span class="n">set_tracking_uri</span><span class="p">(</span><span class="s2">&quot;http://127.0.0.1:5000&quot;</span><span class="p">)</span>
-    <span class="n">mlflow</span><span class="o">.</span><span class="n">set_experiment</span><span class="p">(</span><span class="s2">&quot;iris&quot;</span><span class="p">)</span>
-    <span class="n">mlflow</span><span class="o">.</span><span class="n">start_run</span><span class="p">(</span><span class="n">run_name</span><span class="o">=</span><span class="s2">&quot;test run&quot;</span><span class="p">)</span>
-    <span class="n">n_estimators</span> <span class="o">=</span> <span class="mi">99</span>
-
-    <span class="c1"># train, predict, evaluate</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">n_estimators</span><span class="p">)</span>
-    <span class="n">y_predict</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-    <span class="n">acc</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span> <span class="n">recall</span><span class="p">,</span> <span class="n">confusion</span> <span class="o">=</span> <span class="n">evaluation</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">y_predict</span><span class="p">)</span>
-
-    <span class="c1"># mlflow logging</span>
-    <span class="n">mlflow_logs</span><span class="p">(</span><span class="n">n_estimators</span><span class="p">,</span> <span class="n">acc</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span> <span class="n">recall</span><span class="p">)</span>
-    <span class="n">signature</span> <span class="o">=</span> <span class="n">infer_signature</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_predict</span><span class="p">)</span>
-    <span class="n">mlflow</span><span class="o">.</span><span class="n">sklearn</span><span class="o">.</span><span class="n">log_model</span><span class="p">(</span>
-        <span class="n">sk_model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
-        <span class="n">artifact_path</span><span class="o">=</span><span class="s2">&quot;artifacts&quot;</span><span class="p">,</span>
-        <span class="n">registered_model_name</span><span class="o">=</span><span class="s2">&quot;iris-randomforest-classifier&quot;</span><span class="p">,</span>
-        <span class="n">signature</span><span class="o">=</span><span class="n">signature</span>
-    <span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;main&#39;</span><span class="p">)</span>
 </code></pre></div>
-<h3 id="mlflow-ui">MLFlow UI</h3>
-<p>This is the interface seen when MLFlow launches.</p>
-<figure>
-  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/mlflow-main.png?raw=true" />
-  <figcaption>Main UI</a></figcaption>
-</figure>
-
-<p>Clicking on a specific run leads to its details.</p>
-<figure>
-  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/mlflow-run.png?raw=true" />
-  <figcaption>Run Details</a></figcaption>
-</figure>
-
-<p>And any artifacts stored. This can include any file, including images.</p>
-<figure>
-  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/mlflow-artifacts.png?raw=true" />
-  <figcaption>Artifacts</a></figcaption>
-</figure>
-
-<p>Or the model.</p>
-<figure>
-  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/mlflow-model.png?raw=true" />
-  <figcaption>Model artifact & signature</a></figcaption>
-</figure>
-
-<p>If we registered the model, it will be recorded in the model registry.</p>
-<figure>
-  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/mlflow-modelregistry.png?raw=true" />
-  <figcaption>Model registry</a></figcaption>
-</figure>
+<p>We can see that multiple log files with <code>response.log*</code> will be saved, each with a maximum of 100Mb.</p>
+<div class="highlight"><pre><span></span><code>.
+├── <span class="o">[</span>  <span class="m">18</span><span class="o">]</span>  requirements.txt
+├── <span class="o">[</span> 95M<span class="o">]</span>  response.log
+├── <span class="o">[</span>100M<span class="o">]</span>  response.log.1
+├── <span class="o">[</span>100M<span class="o">]</span>  response.log.2
+└── <span class="o">[</span><span class="m">1</span>.0K<span class="o">]</span>  rotatinglogger.py
+</code></pre></div>
+<h3 id="other-handlers">Other handlers</h3>
+<p>There are many other <a href="(https://docs.python.org/3/library/logging.handlers.html)">handlers</a> for specific use-cases.</p>
                 
               
               
@@ -981,7 +866,7 @@ mlflow server <span class="se">\</span>
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
-        <a href="../dvc/" class="md-footer__link md-footer__link--prev" rel="prev">
+        <a href="../opt-spark/" class="md-footer__link md-footer__link--prev" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -990,19 +875,19 @@ mlflow server <span class="se">\</span>
               <span class="md-footer__direction">
                 Previous
               </span>
-              DVC
+              Spark
             </div>
           </div>
         </a>
       
       
-        <a href="../gpu/" class="md-footer__link md-footer__link--next" rel="next">
+        <a href="../deploy-flask/" class="md-footer__link md-footer__link--next" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Using GPU
+              Flask
             </div>
           </div>
           <div class="md-footer__button md-icon">
