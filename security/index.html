@@ -381,6 +381,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#iac-scan" class="md-nav__link">
+    IaC Scan
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pre-commit" class="md-nav__link">
     Pre-Commit
   </a>
@@ -788,6 +795,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#iac-scan" class="md-nav__link">
+    IaC Scan
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pre-commit" class="md-nav__link">
     Pre-Commit
   </a>
@@ -918,6 +932,8 @@ bandit --format json --recursive ../<span class="nv">$module</span> --output ban
 
 <h2 id="license-scan">License Scan</h2>
 <p>Even if we are using open-sourced libraries, we must be aware of the licensing of each library, especially if we are using them for commercial purposes. There are various scanners out there that can help us to compile the license and if you are able to use or modify them freely.</p>
+<h2 id="iac-scan">IaC Scan</h2>
+<p>Infrastructure as Code (IaC) Scanning scans your IaC configuration files for known vulnerabilities. <a href="https://kics.io">Kics</a>, an open-source library, supports scanning of configuration files for Terraform, Ansible, Docker, AWS CloudFormation, Kubernetes, etc.</p>
 <h2 id="pre-commit">Pre-Commit</h2>
 <p>Pre-commit is a git hook that you preconfig to run certain scripts, in this case, the above ones before committing to git. This prevents the hassle of committing sensitive info, or avoid the hassle of cleaning up the git history later.</p>
 <p>A useful compilation is done by <a href="https://www.laac.dev/blog/automating-convention-linting-formatting-python/">laac.dev</a>.</p>

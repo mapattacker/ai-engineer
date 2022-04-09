@@ -635,6 +635,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ports" class="md-nav__link">
+    Ports
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#network" class="md-nav__link">
     Network
   </a>
@@ -690,6 +697,13 @@
         <li class="md-nav__item">
   <a href="#docker-dashboard" class="md-nav__link">
     Docker Dashboard
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#blue-green-deployment" class="md-nav__link">
+    Blue-Green Deployment
   </a>
   
 </li>
@@ -946,6 +960,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ports" class="md-nav__link">
+    Ports
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#network" class="md-nav__link">
     Network
   </a>
@@ -1001,6 +1022,13 @@
         <li class="md-nav__item">
   <a href="#docker-dashboard" class="md-nav__link">
     Docker Dashboard
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#blue-green-deployment" class="md-nav__link">
+    Blue-Green Deployment
   </a>
   
 </li>
@@ -1284,6 +1312,14 @@ sudo docker system prune
 </tr>
 </tbody>
 </table>
+<h3 id="ports">Ports</h3>
+<p>Arguably one of the more confusing commands. Docker port commands involve two types</p>
+<ul>
+<li>Expose: opening a port in a container to communicate with other containers</li>
+<li>Bind: linking a port in a container to communicate with the host</li>
+</ul>
+<p>Each container is a separate environment on its own, so you can have multiple containers having the same port.</p>
+<p>The same cannot be said for the latter. Since you can only bind to one specific host port, else you will receive an error of duplicate ports.</p>
 <h3 id="network">Network</h3>
 <p>For different containers to communicate to each other, we need to set a fixed network as the IP will change with each instance. We can do so by creating a network and setting it in when the container is launched.</p>
 <div class="highlight"><pre><span></span><code>docker network create &lt;name&gt;
@@ -1440,6 +1476,86 @@ sudo docker run -d -p <span class="m">8000</span>:8000 -p <span class="m">9000</
   <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/portainer4.png?raw=true" />
   <figcaption></a></figcaption>
 </figure>
+
+<h2 id="blue-green-deployment">Blue-Green Deployment</h2>
+<p>Normal docker or docker-compose deployments requires downtime during redeployment, using <code>docker &lt;container&gt; stop/start</code> or <code>docker &lt;container&gt; restart</code> commands.</p>
+<p>To achieve a zero-downtime deployment, we can use a neat trick with nginx reload functionality, together with docker-compose scale bumping of versions. The basics of nginx can be understood here, while the blue-green deployment is given in these two articles [<a href="https://www.tines.com/blog/simple-zero-downtime-deploys-with-nginx-and-docker-compose">1</a>, <a href="https://www.maptiler.com/news/2016/08/blue-green-deployment-with-docker-and/">2</a>].</p>
+<p>This is the <code>docker-compose</code> file which contains the api service, as well as nginx. They are tied to the same network, so that they can communicate with each other. Note that the network is not really required to explictly defined, as by default if they are launched together in a compose file, they will be within the same network.</p>
+<p>An essential part of this file is that we must not define the container name of the api service.</p>
+<div class="highlight"><pre><span></span><code>version: &quot;3.2&quot;
+services:
+  api:
+    build:
+      context: .
+    networks:
+      - bluegreen
+  nginx:
+    image: nginx
+    container_name: nginx
+    volumes:
+      - ./nginx-conf.d:/etc/nginx/conf.d
+    ports:
+      - 8080:80
+    networks:
+      - bluegreen
+    depends_on:
+      - api
+
+networks:
+  bluegreen:
+   name: bluegreen
+</code></pre></div>
+<p>This is the nginx config file which is stored at the root location of <code>nginx-conf.d/bluegreen.conf</code>. The most important thing of this file is that the proxy link to the api service is using the service name itself.</p>
+<div class="highlight"><pre><span></span><code>server {
+    listen 80;
+    location / {
+            proxy_pass http://api:5000;
+    }
+}
+</code></pre></div>
+<p>This is the bash script for redeployment. In essence, it will first build/pull the first image into docker. Then, it will run another new container of the api service, with the service name being bumped to a new version.</p>
+<p>Nginx will then reload to start routing to the new container. After the old container is destroyed, nginx will reload again to stop routing to the old container.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># define container service to redeploy</span>
+<span class="nv">service_name</span><span class="o">=</span>api
+<span class="nv">service_port</span><span class="o">=</span><span class="m">5000</span>
+
+
+<span class="c1"># either build new image or pull image</span>
+docker-compose build <span class="nv">$service_name</span>
+<span class="c1"># docker-compose pull $service_name</span>
+
+
+reload_nginx<span class="o">()</span> <span class="o">{</span>  
+  docker <span class="nb">exec</span> nginx /usr/sbin/nginx -s reload  
+<span class="o">}</span>
+
+zero_downtime_deploy<span class="o">()</span> <span class="o">{</span>  
+
+  <span class="nv">old_container_id</span><span class="o">=</span><span class="k">$(</span>docker ps -f <span class="nv">name</span><span class="o">=</span><span class="nv">$service_name</span> -q <span class="p">|</span> tail -n1<span class="k">)</span>
+
+  <span class="c1"># bring a new container online, running new code  </span>
+  <span class="c1"># (nginx continues routing to the old container only)  </span>
+  docker-compose up -d --no-deps --scale <span class="nv">$service_name</span><span class="o">=</span><span class="m">2</span> --no-recreate <span class="nv">$service_name</span>
+
+  <span class="c1"># wait for new container to be available  </span>
+  <span class="nv">new_container_id</span><span class="o">=</span><span class="k">$(</span>docker ps -f <span class="nv">name</span><span class="o">=</span><span class="nv">$service_name</span> -q <span class="p">|</span> head -n1<span class="k">)</span>
+
+  <span class="c1"># start routing requests to the new container (as well as the old)  </span>
+  reload_nginx
+
+  <span class="c1"># take the old container offline  </span>
+  docker stop <span class="nv">$old_container_id</span>
+  docker rm <span class="nv">$old_container_id</span>
+
+  docker-compose up -d --no-deps --scale <span class="nv">$service_name</span><span class="o">=</span><span class="m">1</span> --no-recreate <span class="nv">$service_name</span>
+
+  <span class="c1"># stop routing requests to the old container  </span>
+  reload_nginx  
+<span class="o">}</span>
+
+zero_downtime_deploy
+</code></pre></div>
+<p>Quite a ingenious way to achieve a zero-downtime deployment I must say.</p>
                 
               
               
