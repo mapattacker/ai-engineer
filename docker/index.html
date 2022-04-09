@@ -1478,7 +1478,7 @@ sudo docker run -d -p <span class="m">8000</span>:8000 -p <span class="m">9000</
 </figure>
 
 <h2 id="blue-green-deployment">Blue-Green Deployment</h2>
-<p>Normal docker or docker-compose deployments requires downtime during redeployment, using <code>docker &lt;container&gt; stop/start</code> or <code>docker &lt;container&gt; restart</code> commands.</p>
+<p>Normal docker or docker-compose deployments requires downtime during redeployment, using <code>docker stop/start &lt;container&gt;</code> or <code>docker restart &lt;container&gt;</code> commands.</p>
 <p>To achieve a zero-downtime deployment, we can use a neat trick with nginx reload functionality, together with docker-compose scale bumping of versions. The basics of nginx can be understood here, while the blue-green deployment is given in these two articles [<a href="https://www.tines.com/blog/simple-zero-downtime-deploys-with-nginx-and-docker-compose">1</a>, <a href="https://www.maptiler.com/news/2016/08/blue-green-deployment-with-docker-and/">2</a>].</p>
 <p>This is the <code>docker-compose</code> file which contains the api service, as well as nginx. They are tied to the same network, so that they can communicate with each other. Note that the network is not really required to explictly defined, as by default if they are launched together in a compose file, they will be within the same network.</p>
 <p>An essential part of this file is that we must not define the container name of the api service.</p>
