@@ -1415,7 +1415,7 @@ docker network ls
 <h2 id="docker-compose">Docker-Compose</h2>
 <p>When we need to manage multiple containers, it will be easier to set the build &amp; run configurations using Docker-Compose, in a ymal file called <code>docker-compose.yml</code>. We need to install it first using <code>sudo apt  install docker-compose</code>.</p>
 <p>The official Docker blog <a href="https://www.docker.com/blog/containerized-python-development-part-2/">post</a> gives a good introduction on this. </p>
-<div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.2&quot;</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.5&quot;</span><span class="w"></span>
 <span class="nt">services</span><span class="p">:</span><span class="w"></span>
 <span class="w">    </span><span class="nt">facedetection</span><span class="p">:</span><span class="w"></span>
 <span class="w">        </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span>
@@ -1456,6 +1456,49 @@ docker network ls
 <span class="w">                        </span><span class="s">&quot;psn&quot;:&quot;http://172.17.0.1:5004/product-personalised&quot;}&#39;</span><span class="w"></span>
 <span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;resultSize=10&#39;</span><span class="w"></span>
 <span class="w">        </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span><span class="w"></span>
+</code></pre></div>
+<p>We can simplify repeated code using anchors, but each anchor must have the prefix of <code>x-</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.5&quot;</span><span class="w"></span>
+
+<span class="nt">x-common</span><span class="p">:</span><span class="w"> </span><span class="nl">&amp;common</span><span class="w"></span>
+<span class="w">  </span><span class="nt">logging</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">options</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="nt">max-size</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10m&quot;</span><span class="w"></span>
+<span class="w">          </span><span class="nt">max-file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;5&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span><span class="w"></span>
+
+<span class="nt">services</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">facedetection</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span>
+<span class="w">            </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./project</span><span class="w"></span>
+<span class="w">            </span><span class="nt">dockerfile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Dockerfile-api</span><span class="w"></span>
+<span class="w">        </span><span class="c1"># if Dockerfile name is not changed, can just use below</span><span class="w"></span>
+<span class="w">        </span><span class="c1"># build: ./project</span><span class="w"></span>
+<span class="w">        </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">facedetection</span><span class="w"></span>
+<span class="w">        </span><span class="nt">ports</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5001:5000</span><span class="w"></span>
+<span class="w">        </span><span class="nt">deploy</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="nt">resources</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="nt">limits</span><span class="p">:</span><span class="w"></span>
+<span class="w">              </span><span class="nt">cpus</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;0.001&#39;</span><span class="w"></span>
+<span class="w">              </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50M</span><span class="w"></span>
+<span class="w">        </span><span class="nt">volumes</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bind</span><span class="w"></span>
+<span class="w">              </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/Users/jake/Desktop/source</span><span class="w"></span>
+<span class="w">              </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/model</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&lt;&lt;</span><span class="p">:</span><span class="w"> </span><span class="nv">*common</span><span class="w"></span>
+<span class="w">    </span><span class="nt">maskdetection</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./maskdetection</span><span class="w"></span>
+<span class="w">        </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">maskdetection</span><span class="w"></span>
+<span class="w">        </span><span class="nt">ports</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5001:5000</span><span class="w"></span>
+<span class="w">        </span><span class="nt">environment</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;api_url={&quot;asc&quot;:&quot;http://172.17.0.1:5001/product-association&quot;,</span><span class="w"></span>
+<span class="w">                        </span><span class="s">&quot;sml&quot;:&quot;http://172.17.0.1:5002/product-similarity&quot;,</span><span class="w"></span>
+<span class="w">                        </span><span class="s">&quot;trd&quot;:&quot;http://172.17.0.1:5003/product-trending&quot;,</span><span class="w"></span>
+<span class="w">                        </span><span class="s">&quot;psn&quot;:&quot;http://172.17.0.1:5004/product-personalised&quot;}&#39;</span><span class="w"></span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;resultSize=10&#39;</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&lt;&lt;</span><span class="p">:</span><span class="w"> </span><span class="nv">*common</span><span class="w"></span>
 </code></pre></div>
 <p>The commands follows docker commands closely, with some of the more important ones as follows.</p>
 <table>
