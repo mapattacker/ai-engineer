@@ -1325,6 +1325,9 @@ sudo docker container prune
 sudo docker volume prune
 sudo docker network prune
 sudo docker system prune
+
+<span class="c1"># force, without the need to reply to yes|no</span>
+sudo docker system prune -f
 </code></pre></div>
 <h3 id="debug">Debug</h3>
 <p>We can check the console logs of the Flask app by opening up docker logs in live mode using <code>-f</code>. The logs are stored in <code>/var/lib/docker/containers/[container-id]/[container-id]-json</code>.</p>
