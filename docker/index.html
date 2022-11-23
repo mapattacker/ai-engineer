@@ -596,6 +596,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#basics" class="md-nav__link">
     Basics
   </a>
@@ -735,6 +742,13 @@
         <li class="md-nav__item">
   <a href="#linting" class="md-nav__link">
     Linting
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#buildx" class="md-nav__link">
+    Buildx
   </a>
   
 </li>
@@ -929,6 +943,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#basics" class="md-nav__link">
     Basics
   </a>
@@ -1073,6 +1094,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#buildx" class="md-nav__link">
+    Buildx
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#docker-compose" class="md-nav__link">
     Docker-Compose
   </a>
@@ -1121,6 +1149,32 @@
 <li>alpine installations will need <code>apk</code>, while debian uses <code>apt</code></li>
 <li>Docker is not the only container service available, but the most widely used</li>
 </ul>
+<h2 id="installation">Installation</h2>
+<p>You may visit Docker's official website for installation in various OS and architectures. Below is for ubuntu.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Uninstall old versions</span>
+sudo apt-get remove docker docker-engine docker.io containerd runc
+
+sudo apt-get update
+
+sudo apt-get install <span class="se">\</span>
+    ca-certificates <span class="se">\</span>
+    curl <span class="se">\</span>
+    gnupg <span class="se">\</span>
+    lsb-release
+
+<span class="c1"># Add Docker’s official GPG key:</span>
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg <span class="p">|</span> sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+<span class="c1"># set up the repository:</span>
+<span class="nb">echo</span> <span class="se">\</span>
+  <span class="s2">&quot;deb [arch=</span><span class="k">$(</span>dpkg --print-architecture<span class="k">)</span><span class="s2"> signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \</span>
+<span class="s2">  </span><span class="k">$(</span>lsb_release -cs<span class="k">)</span><span class="s2"> stable&quot;</span> <span class="p">|</span> sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
+
+<span class="c1"># Install latest Docker Engine</span>
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+</code></pre></div>
 <h2 id="basics">Basics</h2>
 <p>There are various <code>nouns</code> that are important in the Docker world.</p>
 <table>
@@ -1434,6 +1488,15 @@ Dockerfile:10 DL3013 warning: Pin versions <span class="k">in</span> pip. Instea
 Dockerfile:10 DL3042 warning: Avoid use of cache directory with pip. Use <span class="sb">`</span>pip install --no-cache-dir &lt;package&gt;<span class="sb">`</span>
 Dockerfile:11 DL3059 info: Multiple consecutive <span class="sb">`</span>RUN<span class="sb">`</span> instructions. Consider consolidation.
 Dockerfile:18 DL3009 info: Delete the apt-get lists after installing something
+</code></pre></div>
+<h2 id="buildx">Buildx</h2>
+<p>Docker introduced a new cli feature called <code>buildx</code> that makes it possible and  easy to build and publish Docker images that work on multiple CPU architectures. This is very important due to the prominence of Apple M1 (ARM64), where you need to build to x64 (amd64); as well as build ARM images to leverage cheaper ARM cloud instances (can be up to 30% cheaper than x64).</p>
+<p>You can see the various supported architectures below.</p>
+<div class="highlight"><pre><span></span><code>docker buildx ls
+<span class="c1"># linux/amd64, linux/riscv64, linux/ppc64le, linux/s390x, linux/386, linux/arm/v7, linux/arm/v6</span>
+</code></pre></div>
+<p>To do that, we can use the <code>buildx build --platform linux/&lt;architecture&gt;</code> command.</p>
+<div class="highlight"><pre><span></span><code>docker buildx build --platform linux/amd64 -t sassy19a/dummy-flask .
 </code></pre></div>
 <h2 id="docker-compose">Docker-Compose</h2>
 <p>When we need to manage multiple containers, it will be easier to set the build &amp; run configurations using Docker-Compose, in a ymal file called <code>docker-compose.yml</code>. We need to install it first using <code>sudo apt  install docker-compose</code>.</p>
