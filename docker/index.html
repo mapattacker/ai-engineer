@@ -1496,7 +1496,7 @@ Dockerfile:18 DL3009 info: Delete the apt-get lists after installing something
 <span class="c1"># linux/amd64, linux/riscv64, linux/ppc64le, linux/s390x, </span>
 <span class="c1"># linux/386, linux/arm/v7, linux/arm/v6</span>
 </code></pre></div>
-<p>To do that, we can use the <code>buildx build --platform linux/&lt;architecture&gt;</code> command.</p>
+<p>To do that, we can use the <code>buildx build --platform linux/&lt;architecture&gt;</code> command. For ARM, we can omit the version by using <code>linux/arm</code>.</p>
 <div class="highlight"><pre><span></span><code>docker buildx build --platform linux/amd64 -t sassy19a/dummy-flask .
 </code></pre></div>
 <p>In <code>docker-compose</code> this can be done by specifying the <code>platform</code> key. </p>
