@@ -1498,6 +1498,15 @@ Dockerfile:18 DL3009 info: Delete the apt-get lists after installing something
 <p>To do that, we can use the <code>buildx build --platform linux/&lt;architecture&gt;</code> command.</p>
 <div class="highlight"><pre><span></span><code>docker buildx build --platform linux/amd64 -t sassy19a/dummy-flask .
 </code></pre></div>
+<p>In <code>docker-compose</code> this can be done by specifying the <code>platform</code> key. </p>
+<div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;2.4&#39;</span><span class="w"></span>
+
+<span class="nt">services</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">testbuild</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.../testbuild</span><span class="w"></span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">testbuild</span><span class="w"></span>
+<span class="w">    </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">linux/arm64/v8</span><span class="w"></span>
+</code></pre></div>
 <h2 id="docker-compose">Docker-Compose</h2>
 <p>When we need to manage multiple containers, it will be easier to set the build &amp; run configurations using Docker-Compose, in a ymal file called <code>docker-compose.yml</code>. We need to install it first using <code>sudo apt  install docker-compose</code>.</p>
 <p>The official Docker blog <a href="https://www.docker.com/blog/containerized-python-development-part-2/">post</a> gives a good introduction on this. </p>
