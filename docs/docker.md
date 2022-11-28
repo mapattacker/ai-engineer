@@ -8,6 +8,36 @@ Some facts:
  * alpine installations will need `apk`, while debian uses `apt`
  * Docker is not the only container service available, but the most widely used
 
+## Installation
+
+You may visit Docker's official website for installation in various OS and architectures. Below is for ubuntu.
+
+```bash
+# Uninstall old versions
+sudo apt-get remove docker docker-engine docker.io containerd runc
+
+sudo apt-get update
+
+sudo apt-get install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+
+# Add Docker’s official GPG key:
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+# set up the repository:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# Install latest Docker Engine
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+```
+
 ## Basics
 
 There are various `nouns` that are important in the Docker world.
@@ -42,7 +72,7 @@ The `Dockerfile` is the essence of Docker, where it contains instructions on how
 Each line in the Dockerfile is cached in memory by sequence, so that a rebuilding of image will not need to start from the beginning but the last line where there are changes. Therefore it is always important to always (copy and) install the dependencies first before copying over the rest of the source codes, as shown below.
 
 ```Dockerfile
-FROM python:3.7
+FROM python:3.7-slim
 
 RUN apt-get update
 RUN apt-get install ffmpeg libsm6 libxext6 -y
@@ -186,6 +216,9 @@ sudo docker container prune
 sudo docker volume prune
 sudo docker network prune
 sudo docker system prune
+
+# force, without the need to reply to yes|no
+sudo docker system prune -f
 ```
 
 ### Debug
@@ -233,6 +266,18 @@ docker run \
 | `docker rm volume` | delete volume |
 
 
+### Ports
+
+Arguably one of the more confusing commands. Docker port commands involve two types
+
+ - Expose: opening a port in a container to communicate with other containers
+ - Bind: linking a port in a container to communicate with the host
+
+Each container is a separate environment on its own, so you can have multiple containers having the same port.
+
+The same cannot be said for the latter. Since you can only bind to one specific host port, else you will receive an error of duplicate ports.
+
+
 ### Network
 
 For different containers to communicate to each other, we need to set a fixed network as the IP will change with each instance. We can do so by creating a network and setting it in when the container is launched.
@@ -250,14 +295,127 @@ Alternatively, we can launch the containers together using docker-compose, and t
 
 For sending REST-APIs between docker containers in the same network, the IP address will be `http://host.docker.internal` for Mac & Windows, and `http://172.17.0.1` for Linux.
 
+## Security Patches
+
+We can improve our container security by running the os updates. More information is described [here](https://pythonspeed.com/articles/security-updates-in-docker/).
+
+```Dockerfile
+FROM debian:buster
+RUN apt-get update && apt-get -y upgrade
+```
+
+## Optimize Image Size
+
+There are various ways to reduce the image size being built.
+
+### Slim Build
+
+For python base image, we have many options to choose the python various and build type. As a rule-of-thumb, we can use the slim build as defined below. It has a lot less libraries, and can reduce the image by more than 500Mb. Most of the time the container can run well, though some libraries like opencv can only work with the full image.
+
+Note that the alpine build is the smallest, but more often then not, you will find that a lot of python library dependencies does not work well here. 
+
+```Dockerfile
+FROM python:3.8-slim
+```
+
+### Disable Cache
+
+By default, all the python libraries installed are cached. This refers to installation files(.whl, etc) or source files (.tar.gz, etc) to avoid re-download when not expired. However, this is usually not required when building your image.
+
+```Dockerfile
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+```
+
+Below shows the image size being reduced. The bottom most is the full python image, with cache. The middle is the python slim image, with cache. The top most is the python slim image with no cache.
+
+<figure>
+  <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/dockersize-optimization.PNG?raw=true" />
+  <figcaption></a></figcaption>
+</figure>
+
+## Multi-Stage
+
+We can split the Dockerfile building by defining various stages. This is very useful when we want to build to a certain stage; for e.g., for testing we only need the dependencies, and we can use the command `docker build --target <stage-name> -t <image-name> .`
+
+
+```Dockerfile
+FROM python:3.9-slim AS build
+
+# os patches
+RUN apt-get update && apt-get -y upgrade \
+    # for gh-actions path-filter
+    && apt-get -y install git \
+    && rm -rf /var/lib/apt/lists/*
+
+FROM build AS install
+
+# install python requirements
+COPY requirements-test.txt .
+RUN pip3 install --no-cache-dir --upgrade pip \
+    && pip3 install --no-cache-dir -r requirements-test.txt
+```
+
+A second benefit is to reduce the image size, and improving security by ditching unwanted programs or libraries from former stages.
+
+
+## Linting
+
+Linters are very useful to ensure that your image build is well optimized. One of the more popular linters is called [hadolint](https://github.com/hadolint/hadolint). Below is an example output after scanning using the command `hadolint <Dockerfile-name>`.
+
+```bash
+Dockerfile:4 DL3009 info: Delete the apt-get lists after installing something
+Dockerfile:5 DL3008 warning: Pin versions in apt get install. Instead of `apt-get install <package>` use `apt-get install <package>=<version>`
+Dockerfile:5 DL3015 info: Avoid additional packages by specifying `--no-install-recommends`
+Dockerfile:5 DL3059 info: Multiple consecutive `RUN` instructions. Consider consolidation.
+Dockerfile:6 DL3059 info: Multiple consecutive `RUN` instructions. Consider consolidation.
+Dockerfile:6 DL3015 info: Avoid additional packages by specifying `--no-install-recommends`
+Dockerfile:6 DL3008 warning: Pin versions in apt get install. Instead of `apt-get install <package>` use `apt-get install <package>=<version>`
+Dockerfile:9 DL3045 warning: `COPY` to a relative destination without `WORKDIR` set.
+Dockerfile:10 DL3013 warning: Pin versions in pip. Instead of `pip install <package>` use `pip install <package>==<version>` or `pip install --requirement <requirements file>`
+Dockerfile:10 DL3042 warning: Avoid use of cache directory with pip. Use `pip install --no-cache-dir <package>`
+Dockerfile:11 DL3059 info: Multiple consecutive `RUN` instructions. Consider consolidation.
+Dockerfile:18 DL3009 info: Delete the apt-get lists after installing something
+```
+
+## Buildx
+
+Docker introduced a new cli feature called `buildx` that makes it possible and  easy to build and publish Docker images that work on multiple CPU architectures. This is very important due to the prominence of Apple M1 (ARM64), where you need to build to x64 (amd64); as well as build ARM images to leverage cheaper ARM cloud instances (can be up to 30% cheaper than x64).
+
+You can see the various supported architectures below.
+
+```bash
+docker buildx ls
+# linux/amd64, linux/riscv64, linux/ppc64le, linux/s390x, 
+# linux/386, linux/arm64/v8, linux/arm/v7, linux/arm/v6
+```
+
+To do that, we can use the `buildx build --platform linux/<architecture>` command. For ARM, we can omit the version by using `linux/arm64`.
+
+```bash
+docker buildx build --platform linux/amd64 -t sassy19a/dummy-flask .
+```
+
+In `docker-compose` this can be done by specifying the `platform` key. 
+
+```yaml
+version: '2.4'
+
+services:
+  testbuild:
+    build: .../testbuild
+    image: testbuild
+    platform: linux/arm64/v8
+```
+
 ## Docker-Compose
 
 When we need to manage multiple containers, it will be easier to set the build & run configurations using Docker-Compose, in a ymal file called `docker-compose.yml`. We need to install it first using `sudo apt  install docker-compose`.
 
 The official Docker blog [post](https://www.docker.com/blog/containerized-python-development-part-2/) gives a good introduction on this. 
 
-```yml
-version: "3.2"
+```yaml
+version: "3.5"
 services:
     facedetection:
         build: 
@@ -299,6 +457,55 @@ services:
             - 'resultSize=10'
         restart: unless-stopped
 ```
+
+We can simplify repeated code using anchors, but each anchor must have the prefix of `x-`.
+
+
+```yaml
+version: "3.5"
+
+x-common: &common
+  logging:
+      options:
+          max-size: "10m"
+          max-file: "5"
+  restart: unless-stopped
+
+services:
+    facedetection:
+        build: 
+            context: ./project
+            dockerfile: Dockerfile-api
+        # if Dockerfile name is not changed, can just use below
+        # build: ./project
+        container_name: facedetection
+        ports:
+            - 5001:5000
+        deploy:
+          resources:
+            limits:
+              cpus: '0.001'
+              memory: 50M
+        volumes:
+            - type: bind
+              source: /Users/jake/Desktop/source
+              target: /model
+        <<: *common
+    maskdetection:
+        build: ./maskdetection
+        container_name: maskdetection
+        ports:
+            - 5001:5000
+        environment:
+            - 'api_url={"asc":"http://172.17.0.1:5001/product-association",
+                        "sml":"http://172.17.0.1:5002/product-similarity",
+                        "trd":"http://172.17.0.1:5003/product-trending",
+                        "psn":"http://172.17.0.1:5004/product-personalised"}'
+            - 'resultSize=10'
+        <<: *common
+```
+
+
 
 The commands follows docker commands closely, with some of the more important ones as follows.
 
@@ -356,3 +563,100 @@ We can even go into the container, by clicking the console link.
   <img src="https://github.com/mapattacker/ai-engineer/blob/master/images/portainer4.png?raw=true" />
   <figcaption></a></figcaption>
 </figure>
+
+
+## Blue-Green Deployment
+
+Normal docker or docker-compose deployments requires downtime during redeployment, using `docker stop/start <container>` or `docker restart <container>` commands.
+
+To achieve a zero-downtime deployment, we can use a neat trick with nginx reload functionality, together with docker-compose scale bumping of versions. The details of this blue-green deployment are well explained in these two articles [[1](https://www.tines.com/blog/simple-zero-downtime-deploys-with-nginx-and-docker-compose), [2](https://dev.to/wassimbj/deploy-your-docker-containers-with-zero-downtime-o3f)].
+
+
+This is the `docker-compose` file which contains the api service, as well as nginx. They are tied to the same network, so that they can communicate with each other. Note that the network is not really required to explictly defined, as by default if they are launched together in a compose file, they will be within the same network.
+
+An essential part of this file is that we must not define the container name of the api service.
+
+```yaml
+version: "3.2"
+services:
+  api:
+    build:
+      context: .
+    networks:
+      - bluegreen
+  nginx:
+    image: nginx
+    container_name: nginx
+    volumes:
+      - ./nginx-conf.d:/etc/nginx/conf.d
+    ports:
+      - 8080:80
+    networks:
+      - bluegreen
+    depends_on:
+      - api
+
+networks:
+  bluegreen:
+   name: bluegreen
+```
+
+This is the nginx config file which is stored at the root location of `nginx-conf.d/bluegreen.conf`. The most important thing of this file is that the proxy link to the api service is using the service name itself.
+
+```
+server {
+    listen 80;
+    location / {
+            proxy_pass http://api:5000;
+    }
+}
+
+```
+
+This is the bash script for redeployment. In essence, it will first build/pull the first image into docker. Then, it will run another new container of the api service, with the service name being bumped to a new version.
+
+Nginx will then reload to start routing to the new container. After the old container is destroyed, nginx will reload again to stop routing to the old container.
+
+```bash
+# define container service to redeploy
+service_name=api
+service_port=5000
+
+
+# either build new image or pull image
+docker-compose build $service_name
+# docker-compose pull $service_name
+
+
+reload_nginx() {  
+  docker exec nginx /usr/sbin/nginx -s reload  
+}
+
+zero_downtime_deploy() {  
+  
+  old_container_id=$(docker ps -f name=$service_name -q | tail -n1)
+
+  # bring a new container online, running new code  
+  # (nginx continues routing to the old container only)  
+  docker-compose up -d --no-deps --scale $service_name=2 --no-recreate $service_name
+
+  # wait for new container to be available  
+  new_container_id=$(docker ps -f name=$service_name -q | head -n1)
+
+  # start routing requests to the new container (as well as the old)  
+  reload_nginx
+
+  # take the old container offline  
+  docker stop $old_container_id
+  docker rm $old_container_id
+
+  docker-compose up -d --no-deps --scale $service_name=1 --no-recreate $service_name
+
+  # stop routing requests to the old container  
+  reload_nginx  
+}
+
+zero_downtime_deploy
+```
+
+Quite a ingenious way to achieve a zero-downtime deployment I must say.
