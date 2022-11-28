@@ -740,6 +740,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#multi-stage" class="md-nav__link">
+    Multi-Stage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#linting" class="md-nav__link">
     Linting
   </a>
@@ -1083,6 +1090,13 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multi-stage" class="md-nav__link">
+    Multi-Stage
+  </a>
   
 </li>
       
@@ -1474,6 +1488,24 @@ docker network ls
   <figcaption></a></figcaption>
 </figure>
 
+<h2 id="multi-stage">Multi-Stage</h2>
+<p>We can split the Dockerfile building by defining various stages. This is very useful when we want to build to a certain stage; for e.g., for testing we only need the dependencies, and we can use the command <code>docker build --target &lt;stage-name&gt; -t &lt;image-name&gt; .</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">python:3.9-slim</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">build</span>
+
+<span class="c"># os patches</span>
+<span class="k">RUN</span><span class="w"> </span>apt-get update <span class="o">&amp;&amp;</span> apt-get -y upgrade <span class="se">\</span>
+    # <span class="k">for</span> gh-actions path-filter
+    <span class="o">&amp;&amp;</span> apt-get -y install git <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*
+
+<span class="k">FROM</span><span class="w"> </span><span class="s">build</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">install</span>
+
+<span class="c"># install python requirements</span>
+<span class="k">COPY</span><span class="w"> </span>requirements-test.txt .
+<span class="k">RUN</span><span class="w"> </span>pip3 install --no-cache-dir --upgrade pip <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> pip3 install --no-cache-dir -r requirements-test.txt
+</code></pre></div>
+<p>A second benefit is to reduce the image size, and improving security by ditching unwanted programs or libraries from former stages.</p>
 <h2 id="linting">Linting</h2>
 <p>Linters are very useful to ensure that your image build is well optimized. One of the more popular linters is called <a href="https://github.com/hadolint/hadolint">hadolint</a>. Below is an example output after scanning using the command <code>hadolint &lt;Dockerfile-name&gt;</code>.</p>
 <div class="highlight"><pre><span></span><code>Dockerfile:4 DL3009 info: Delete the apt-get lists after installing something
