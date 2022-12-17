@@ -1277,6 +1277,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 <span class="k">RUN</span><span class="w"> </span>apt-get update <span class="se">\</span>
     <span class="o">&amp;&amp;</span> apt-get install ffmpeg libsm6 libxext6 -y <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> apt-get -y upgrade <span class="se">\</span>
     <span class="o">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*
 
 <span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
@@ -1294,13 +1295,15 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 <span class="k">RUN</span><span class="w"> </span>apt-get update <span class="se">\</span>
     <span class="o">&amp;&amp;</span> apt-get install ffmpeg libsm6 libxext6 -y <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> apt-get -y upgrade <span class="se">\</span>
     <span class="o">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*
 
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
 <span class="k">COPY</span><span class="w"> </span>requirements-serve.txt .
 <span class="k">RUN</span><span class="w"> </span>pip3 install --no-cache-dir --upgrade pip~<span class="o">=</span><span class="m">22</span>.3.1 <span class="se">\</span>
     <span class="o">&amp;&amp;</span> pip install --no-cache-dir -r requirements-serve.txt
 
-<span class="k">COPY</span><span class="w"> </span>. .
+<span class="k">COPY</span><span class="w"> </span>. /app
 
 <span class="k">ENTRYPOINT</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">&quot;python&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;-u&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;serve_http.py&quot;</span><span class="w"> </span><span class="p">]</span>
 </code></pre></div>
