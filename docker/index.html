@@ -1275,9 +1275,8 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 <p>Each line in the Dockerfile is cached in memory by sequence, so that a rebuilding of image will not need to start from the beginning but the last line where there are changes. Therefore it is always important to always (copy and) install the dependencies first before copying over the rest of the source codes, as shown below.</p>
 <div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">python:3.7-slim</span>
 
-<span class="k">RUN</span><span class="w"> </span>apt-get update <span class="se">\</span>
+<span class="k">RUN</span><span class="w"> </span>apt-get update <span class="o">&amp;&amp;</span> apt-get -y upgrade <span class="se">\</span>
     <span class="o">&amp;&amp;</span> apt-get install ffmpeg libsm6 libxext6 -y <span class="se">\</span>
-    <span class="o">&amp;&amp;</span> apt-get -y upgrade <span class="se">\</span>
     <span class="o">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*
 
 <span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
@@ -1293,9 +1292,8 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 <p>If the host has Nvidia GPU, we should make use of it so that the inference time is much faster; x10 faster for this example. We will need to choose a base image that has CUDA &amp; CUDNN installed so that GPU can be utilised.</p>
 <div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">pytorch/pytorch:1.5.1-cuda10.1-cudnn7-devel</span>
 
-<span class="k">RUN</span><span class="w"> </span>apt-get update <span class="se">\</span>
+<span class="k">RUN</span><span class="w"> </span>apt-get update <span class="o">&amp;&amp;</span> apt-get -y upgrade <span class="se">\</span>
     <span class="o">&amp;&amp;</span> apt-get install ffmpeg libsm6 libxext6 -y <span class="se">\</span>
-    <span class="o">&amp;&amp;</span> apt-get -y upgrade <span class="se">\</span>
     <span class="o">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*
 
 <span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
