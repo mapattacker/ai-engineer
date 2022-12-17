@@ -1275,14 +1275,16 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 <p>Each line in the Dockerfile is cached in memory by sequence, so that a rebuilding of image will not need to start from the beginning but the last line where there are changes. Therefore it is always important to always (copy and) install the dependencies first before copying over the rest of the source codes, as shown below.</p>
 <div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">python:3.7-slim</span>
 
-<span class="k">RUN</span><span class="w"> </span>apt-get update
-<span class="k">RUN</span><span class="w"> </span>apt-get install ffmpeg libsm6 libxext6 -y
+<span class="k">RUN</span><span class="w"> </span>apt-get update <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> apt-get install ffmpeg libsm6 libxext6 -y <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*
 
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
 <span class="k">COPY</span><span class="w"> </span>requirements-serve.txt .
-<span class="k">RUN</span><span class="w"> </span>pip install --upgrade pip
-<span class="k">RUN</span><span class="w"> </span>pip install --no-cache-dir -r requirements-serve.txt
+<span class="k">RUN</span><span class="w"> </span>pip3 install --no-cache-dir --upgrade pip~<span class="o">=</span><span class="m">22</span>.3.1 <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> pip install --no-cache-dir -r requirements-serve.txt
 
-<span class="k">COPY</span><span class="w"> </span>. .
+<span class="k">COPY</span><span class="w"> </span>. /app
 
 <span class="k">ENTRYPOINT</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">&quot;python&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;-u&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;serve_http.py&quot;</span><span class="w"> </span><span class="p">]</span>
 </code></pre></div>
@@ -1290,12 +1292,13 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 <p>If the host has Nvidia GPU, we should make use of it so that the inference time is much faster; x10 faster for this example. We will need to choose a base image that has CUDA &amp; CUDNN installed so that GPU can be utilised.</p>
 <div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">pytorch/pytorch:1.5.1-cuda10.1-cudnn7-devel</span>
 
-<span class="k">RUN</span><span class="w"> </span>apt-get update
-<span class="k">RUN</span><span class="w"> </span>apt-get install ffmpeg libsm6 libxext6 -y
+<span class="k">RUN</span><span class="w"> </span>apt-get update <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> apt-get install ffmpeg libsm6 libxext6 -y <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*
 
 <span class="k">COPY</span><span class="w"> </span>requirements-serve.txt .
-<span class="k">RUN</span><span class="w"> </span>pip install --upgrade pip
-<span class="k">RUN</span><span class="w"> </span>pip install -r requirements-serve.txt
+<span class="k">RUN</span><span class="w"> </span>pip3 install --no-cache-dir --upgrade pip~<span class="o">=</span><span class="m">22</span>.3.1 <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> pip install --no-cache-dir -r requirements-serve.txt
 
 <span class="k">COPY</span><span class="w"> </span>. .
 
@@ -1355,7 +1358,7 @@ sudo docker build -t &lt;imagename&gt; . -f Dockerfile.cpu
 </tr>
 <tr>
 <td><code>-p 5000:5000</code></td>
-<td>Expose Flask port system-port:container-port</td>
+<td>OS system-port:container-port</td>
 </tr>
 <tr>
 <td><code>--log-opt max-size=5m --log-opt max-file=5</code></td>
