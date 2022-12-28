@@ -22,12 +22,10 @@ theme:
 
 nav:
     - Introduction: index.md
-    - CI/CD: cicd.md
-    - MLOps: mlops.md
     - Virtual Environment: virtual_env.md
     - Code Standards: code-standards.md
-    - Code Version Control: git.md
-    - Data Version Control: dvc.md
+    - GIT: git.md
+    - DVC: dvc.md
     - Model Version Control: mlflow.md
     - Using GPU: gpu.md
     - Security: security.md
@@ -36,19 +34,24 @@ nav:
         - Data: opt-data.md
         - Concurrency & Parallelism: opt-para-concurr.md
         - Spark: opt-spark.md
+    - Logging: logging.md
     - Deployment:
-        - Flask: flask.md
-        - FastAPI: fastapi.md
-        - TF Serving: tf-serving.md
+        - Flask: deploy-flask.md
+        - FastAPI: deploy-fastapi.md
+        - TF Serving: deploy-tf-serving.md
+        - Serverless: deploy-serverless.md
+        - Terraform: deploy-terraform.md
     - Docker: docker.md
     - Testing:
         - Overview & Pytest: testing-pytest.md
         - Schema Testing: testing-schema.md
-        - ML Testing: testing2.md
+        - ML Testing: testing-ml.md
         - API Testing: testing-api.md
-    - Serverless: serverless.md
+        - Profiling: testing-profiling.md
+    - CI/CD: cicd.md
+    # - MLOps: mlops.md
     - Demo Site: demo.md
-    - Monitoring: monitoring.md
+    # - Monitoring: monitoring.md
 
 repo_name: mapattacker/ai-engineer
 repo_url: https://github.com/mapattacker/ai-engineer
