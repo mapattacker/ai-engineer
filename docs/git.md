@@ -7,6 +7,13 @@ Git is the most popular source code version control system. Popular software dev
 
 <hr>
 
+## Access from Dev Env to Git Host
+
+ 1. In your terminal > `ssh-keygen`
+ 2. Accept all defaults
+ 3. Copy the public key `cat ~/.ssh/id_rsa.pub`
+ 4. Go to Github/Gitlab Settings > SSH Keys, and paste the keys here
+
 ## Remote URL
 
 When using the first git clone to pull the repository to your local machine, we need to specify to use https or ssh. To me it is better for the latter to avoid multiple logins whenever we want to push changes to the remote repository.
@@ -104,7 +111,7 @@ git reset HEAD <file.py>
 
 If we want to revert commits in the remote, we can use the following.
 
-```python
+```bash
 # git push -f origin <commit-hash>:<branch-name>
 git push -f origin 4a30214b819:master
 ```
@@ -124,10 +131,29 @@ We can add tags, usually for release versions, so that it is easy to revert back
 | CMD | Desc |
 |-|-|
 | `git tag -a v1.0.0 -m "1st prod version"` | tag in local |
+| `git tag -a v1.0.0 -m "1st msg" -m "2nd msg"` | tag multiple msgs in new lines |
 | `git push origin v1.0.0` | push to remote |
 | `git tag -d v1.0` | delete local tag ONLY |
 | `git push --delete origin v1.0.0` | delete remote tag ONLY |
 | `git tag` | list tags |
+
+## Remove last Commit
+
+At times, we want to remove the last commit from remote. Use the following to do a hard reset of the head and force push to the origin.
+
+```bash
+git reset --hard HEAD^
+git push origin -f
+```
+
+## Squash all Commits
+
+If, for whatever reason, we wish to squash all commits to the head commit, e.g. to clear all commits for a template repo. 
+
+```bash
+git reset $(git commit-tree HEAD^{tree} -m "squash all commits to head")
+git push --force
+```
 
 <hr>
 

@@ -74,14 +74,16 @@ Each line in the Dockerfile is cached in memory by sequence, so that a rebuildin
 ```Dockerfile
 FROM python:3.7-slim
 
-RUN apt-get update
-RUN apt-get install ffmpeg libsm6 libxext6 -y
+RUN apt-get update && apt-get -y upgrade \
+    && apt-get install ffmpeg libsm6 libxext6 -y \
+    && rm -rf /var/lib/apt/lists/*
 
+WORKDIR /app
 COPY requirements-serve.txt .
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir -r requirements-serve.txt
+RUN pip3 install --no-cache-dir --upgrade pip~=22.3.1 \
+    && pip install --no-cache-dir -r requirements-serve.txt
 
-COPY . .
+COPY . /app
 
 ENTRYPOINT [ "python", "-u", "serve_http.py" ]
 ```
@@ -93,14 +95,16 @@ If the host has Nvidia GPU, we should make use of it so that the inference time 
 ```Dockerfile
 FROM pytorch/pytorch:1.5.1-cuda10.1-cudnn7-devel
 
-RUN apt-get update
-RUN apt-get install ffmpeg libsm6 libxext6 -y
+RUN apt-get update && apt-get -y upgrade \
+    && apt-get install ffmpeg libsm6 libxext6 -y \
+    && rm -rf /var/lib/apt/lists/*
 
+WORKDIR /app
 COPY requirements-serve.txt .
-RUN pip install --upgrade pip
-RUN pip install -r requirements-serve.txt
+RUN pip3 install --no-cache-dir --upgrade pip~=22.3.1 \
+    && pip install --no-cache-dir -r requirements-serve.txt
 
-COPY . .
+COPY . /app
 
 ENTRYPOINT [ "python", "-u", "serve_http.py" ]
 ```
@@ -165,7 +169,7 @@ For an AI microservice in Docker, there are five main run commands to launch the
 | Cmd | Desc |
 |-|-|
 |  `-d` |  detached mode |
-|  `-p 5000:5000` |  Expose Flask port system-port:container-port |
+|  `-p 5000:5000` |  OS system-port:container-port |
 |  `--log-opt max-size=5m --log-opt max-file=5` |  limit the logs stored by Docker, by default it is unlimited |
 |  `--restart always` |  in case the server crash & restarts, the container will also restart |
 |  `--name <containername>` |  as a rule of thumb, always name the image & container |

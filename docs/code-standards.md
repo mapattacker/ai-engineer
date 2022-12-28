@@ -24,6 +24,10 @@ torch==1.5.0+cu101
 torchvision==0.6.0+cu101
 ```
 
+`pipreqs` also allow an option `--mode="compat"`, which enables patch version updates only. This is important as it allows bug fixes or security patches installed within the micro versions with little chance that the code will break since it is a micro update.
+
+A side note on semantic versioning. As defined by the [convention](https://semver.org/), it usually follows the version of Major.Minor.Patch; e.g. Flask==1.0.2, where the patch version is backward compatible. Python also have its own description in [PEP 440](https://www.python.org/dev/peps/pep-0440/), naming it as Major.Minor.Micro.
+
 ## DocStrings
 
 DocStrings should be present for every function & method of a class. For primary functions, ensure that it provides 1) Description of the function, 2) Argument name, data type, and description, 3) Return description & data type.
@@ -97,41 +101,3 @@ A wrapper of 3 libraries that **checks (but does not change)**, against python s
  * Installation: `pip install flake8`
  * Current Project: `flake8`
  * Single File (and all imported scripts): `flake8 my_file.py`
-
-<hr>
-
-## Pre-Commit
-
-Pre-commit is a git hook that you preconfig to run certain scripts, in this case, the above ones before committing to git. A useful compilation is done by [laac.dev](https://www.laac.dev/blog/automating-convention-linting-formatting-python/).
-
- * Installation: `pip install pre-commit`
- * create config file at root of project: `.pre-commit-config.yaml`
- * Installation (into git hook): `pre-commit install`
- * Uninstallation (from git hook): `pre-commit uninstall`
- * Add Files for Commit: `git add files.py`
- * Run Commit, and Precommit will autorun: `git commit -m 'something'`
- * Skip Hook: `SKIP=flake8 git commit -m "something"`
-
-Here is an example of the `.pre-commit-config.yaml`
-
-```yml
-default_language_version:
-  python: python3
-repos:
-  - repo: https://github.com/psf/black
-    rev: stable
-    hooks:
-      - id: black
-  - repo: https://gitlab.com/pycqa/flake8
-    rev: 3.8.3
-    hooks:
-      - id: flake8
-  - repo: https://github.com/PyCQA/bandit
-    rev: 1.6.2
-    hooks:
-      - id: bandit
-  - repo: https://github.com/timothycrosley/isort
-    rev: 4.3.21
-    hooks:
-      - id: isort
-```

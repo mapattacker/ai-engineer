@@ -1,6 +1,6 @@
 # Tensorflow Serving
 
-Tensorflow Serving, developed by Google, allows fast inference using gRPC (and also REST). It eliminates the need for web server, and talks directly to the model. Some of the other advantages, stated from the official [github](https://github.com/tensorflow/serving) site includes: 
+Tensorflow Serving, developed by Google, allows fast inference using gRPC (and also REST). It eliminates the need for a Flask web server, and talks directly to the model. Some of the other advantages, stated from the official [github](https://github.com/tensorflow/serving) site includes: 
 
  * Can serve multiple models, or multiple versions of the same model simultaneously
  * Exposes both gRPC as well as HTTP inference endpoints
@@ -47,9 +47,7 @@ Below is an example, where we link the model to the dockerised tensorflow-servin
 docker pull tensorflow/serving
 docker run -p 8500:8500 \
            -p 8501:8501 \
-           --mount type=bind,\
-           source=/path/to/model_folder/,\
-           target=/models/model_folder \
+           --mount type=bind,source=/path/to/model_folder/,target=/models/model_folder \
            -e MODEL_NAME=model_name \
            -t tensorflow/serving
            --name amazonreview
