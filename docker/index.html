@@ -1408,7 +1408,8 @@ sudo docker system prune -f
 </code></pre></div>
 <h3 id="debug">Debug</h3>
 <p>We can check the console logs of the Flask app by opening up docker logs in live mode using <code>-f</code>. The logs are stored in <code>/var/lib/docker/containers/[container-id]/[container-id]-json</code>.</p>
-<div class="highlight"><pre><span></span><code>sudo docker logs -f container_name
+<div class="highlight"><pre><span></span><code>sudo docker logs -f &lt;container_name&gt;
+sudo docker logs -f -tail <span class="m">20</span> &lt;container_name&gt;
 </code></pre></div>
 <p>At times, we might need to check what is inside the container.</p>
 <div class="highlight"><pre><span></span><code>sudo docker <span class="nb">exec</span> -it &lt;container name/id&gt; bash
