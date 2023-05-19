@@ -230,13 +230,28 @@ sudo docker system prune -f
 We can check the console logs of the Flask app by opening up docker logs in live mode using `-f`. The logs are stored in `/var/lib/docker/containers/[container-id]/[container-id]-json`.
 
 ```bash
-sudo docker logs -f container_name
+sudo docker logs <container_name> -f
+sudo docker logs <container_name> -f --tail 20
 ```
 
 At times, we might need to check what is inside the container.
 
 ```bash
 sudo docker exec -it <container name/id> bash
+```
+
+We can also run specific commands by defining a new entrypoint. the `--rm` will remove the container after command is completed.
+
+```bash
+docker run --rm --entrypoint=/bin/sh <image_name> -c "ls -la"
+```
+
+Sometimes, we might want to copy file(s) out to examine them. We can do so with the following commands.
+
+```bash
+docker cp <container_id>:/path/to/file /path/on/host
+docker cp <container_id>:/path/to/directory /path/on/host
+
 ```
 
 ### Storage
@@ -523,6 +538,8 @@ The commands follows docker commands closely, with some of the more important on
 | `docker-compose ps` | view containers' statuses |
 | `docker-compose stop` | stop containers |
 | `docker-compose start` | start containers |
+| `docker-compose down` | remove all containers |
+| `docker-compose down --rmi all --volumes` | remove all containers, images, and volumes |
 
 ## Docker Dashboard
 
