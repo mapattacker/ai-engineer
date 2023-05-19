@@ -1414,6 +1414,13 @@ sudo docker logs &lt;container_name&gt; -f --tail <span class="m">20</span>
 <p>At times, we might need to check what is inside the container.</p>
 <div class="highlight"><pre><span></span><code>sudo docker <span class="nb">exec</span> -it &lt;container name/id&gt; bash
 </code></pre></div>
+<p>We can also run specific commands by defining a new entrypoint. the <code>--rm</code> will remove the container after command is completed.</p>
+<div class="highlight"><pre><span></span><code>docker run --rm --entrypoint<span class="o">=</span>/bin/sh &lt;image_name&gt; -c <span class="s2">&quot;ls -la&quot;</span>
+</code></pre></div>
+<p>Sometimes, we might want to copy file(s) out to examine them. We can do so with the following commands.</p>
+<div class="highlight"><pre><span></span><code>docker cp &lt;container_id&gt;:/path/to/file /path/on/host
+docker cp &lt;container_id&gt;:/path/to/directory /path/on/host
+</code></pre></div>
 <h3 id="storage">Storage</h3>
 <p>By design, docker containers do not store persistent data. Thus, any data written in containers will not be available once the container is removed. There are three options to persist data, bind mount, volume, or tmpfs mount.</p>
 <p>More from <a href="https://4sysops.com/archives/introduction-to-docker-bind-mounts-and-volumes/">4sysops</a>, and <a href="https://docs.docker.com/storage/">docker</a></p>
