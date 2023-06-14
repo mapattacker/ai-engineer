@@ -1397,6 +1397,7 @@ sudo docker ps -a
 sudo docker rmi &lt;image-id/name&gt;
 </code></pre></div>
 <p>Each iteration of rebuilding and relaunching of containers will create a lot of intermediate images, and stopped containers. These can occupy a lot of space, so using <code>prune</code> can remove all these obsolete items at one go.</p>
+<p>There are nusances to prune specific types. For example, just doing <code>image prune</code>, the HDD will still eventually be overwhelmed as dirs in <code>/var/lib/docker/overlay2</code> will not be cleared.</p>
 <div class="highlight"><pre><span></span><code>sudo docker image prune
 sudo docker container prune
 sudo docker volume prune

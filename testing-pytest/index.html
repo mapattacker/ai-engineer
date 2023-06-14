@@ -1379,7 +1379,8 @@
 <span class="w">    </span><span class="na">pytest</span><span class="o">=</span><span class="s">=5.3.5</span><span class="w"></span>
 <span class="w">    </span><span class="na">pytest-cov</span><span class="o">=</span><span class="s">=2.10.1</span><span class="w"></span>
 <span class="w">    </span><span class="na">-r{toxinidir}/tests/unit_tests/requirements.txt</span><span class="w"></span>
-
+<span class="c1"># tox does not recognise env var, till u add it in</span><span class="w"></span>
+<span class="na">passenv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">YOUR_ENV_VAR</span><span class="w"></span>
 <span class="na">commands</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">pytest tests/unit_tests/ -v --cov=project --junitxml=report.xml</span><span class="w"></span>
 
 
