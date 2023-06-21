@@ -478,6 +478,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#tqdm" class="md-nav__link">
+    TQDM
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -910,6 +917,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#tqdm" class="md-nav__link">
+    TQDM
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1086,6 +1100,29 @@
 
 <span class="n">sum_all_x</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;threading&quot;</span><span class="p">)(</span>
     <span class="n">delayed</span><span class="p">(</span><span class="n">compute_x</span><span class="p">)(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">list_to_iterate</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="tqdm">TQDM</h3>
+<p>If we want to have a more informative runtime, we can use <code>tqdm</code> to execute.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
+
+<span class="n">job</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">threads</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;threading&quot;</span><span class="p">)(</span>
+                <span class="n">delayed</span><span class="p">(</span><span class="n">get_jobs</span><span class="p">)(</span><span class="n">p</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">project_id</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">mth</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">pipes</span><span class="p">))</span>
+</code></pre></div>
+<p>Another promising library is <code>pqdm</code> which wraps <code>tqdm</code> and <code>concurrent.futures</code> together.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># pip install pqdm</span>
+
+<span class="kn">from</span> <span class="nn">pqdm.processes</span> <span class="kn">import</span> <span class="n">pqdm</span>
+<span class="c1"># If you want threads instead:</span>
+<span class="c1"># from pqdm.threads import pqdm</span>
+
+<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="c1"># args = range(1,6) would also work</span>
+
+<span class="k">def</span> <span class="nf">square</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span><span class="o">*</span><span class="n">a</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pqdm</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">square</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="concurrent-futures">Concurrent Futures</h2>
 <p><code>concurrent.futures</code> is an in-built library that can easily run multi-processing or threading tasks.</p>
