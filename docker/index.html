@@ -694,6 +694,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#entrypoint-vs-cmd" class="md-nav__link">
+    ENTRYPOINT vs CMD
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#network" class="md-nav__link">
     Network
   </a>
@@ -1043,6 +1050,13 @@
           <li class="md-nav__item">
   <a href="#ports" class="md-nav__link">
     Ports
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entrypoint-vs-cmd" class="md-nav__link">
+    ENTRYPOINT vs CMD
   </a>
   
 </li>
@@ -1462,11 +1476,19 @@ docker cp &lt;container_id&gt;:/path/to/directory /path/on/host
 <h3 id="ports">Ports</h3>
 <p>Arguably one of the more confusing commands. Docker port commands involve two types</p>
 <ul>
-<li>Expose: opening a port in a container to communicate with other containers</li>
-<li>Bind: linking a port in a container to communicate with the host</li>
+<li><code>EXPOSE</code>: indicating in metadata that this port will be exposed, but it does not do anything. Almost like a form of documentation. It is good practise to add this, even though strictly speaking, it is not required for the application to work</li>
+<li><code>Bind</code>: Actual exposure of a port in a container to communicate with the host</li>
 </ul>
 <p>Each container is a separate environment on its own, so you can have multiple containers having the same port.</p>
 <p>The same cannot be said for the latter. Since you can only bind to one specific host port, else you will receive an error of duplicate ports.</p>
+<h3 id="entrypoint-vs-cmd">ENTRYPOINT vs CMD</h3>
+<p>Another confusing set of commands are <code>ENTRYPOINT</code> and <code>CMD</code>. The former is fixed, while <code>CMD</code> is like an argument which can be changed. An example is:</p>
+<div class="highlight"><pre><span></span><code><span class="k">ENTRYPOINT</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;sleep&quot;</span><span class="p">]</span>
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;300&quot;</span><span class="p">]</span>
+</code></pre></div>
+<p>Of course, if you do not require any flexible tweaking, putting the entire command in either of them is fine.</p>
+<div class="highlight"><pre><span></span><code><span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;sleep&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;300&quot;</span><span class="p">]</span>
+</code></pre></div>
 <h3 id="network">Network</h3>
 <p>For different containers to communicate to each other, we need to set a fixed network as the IP will change with each instance. We can do so by creating a network and setting it in when the container is launched.</p>
 <div class="highlight"><pre><span></span><code>docker network create &lt;name&gt;
